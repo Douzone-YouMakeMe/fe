@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 const NoHeader = () => {
   return (
     <>
-      header
+      no header
       <Route path="/user/login">login</Route>
       <Route path="/user/condition">condition</Route>
       <Route path="/user/signup">signup</Route>
