@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
   Row,
   Col,
-  Layout,
-  DatePicker,
   Input,
   Dropdown,
   Button,
@@ -13,88 +11,137 @@ import {
   Tooltip,
   Modal,
   List,
-  message,
 } from "antd";
 import { UserOutlined, AntDesignOutlined } from "@ant-design/icons";
 
 import TimeLine from "react-gantt-timeline";
-import RModal from "./component/RModal";
-import moment from "moment";
+
 import { generatorColor } from "../../util/GeneratorColor";
 
-const config = {
-  header: {
-    //Targert the time header containing the information month/day of the week, day and time.
-    top: {
-      //Tartget the month elements
-      style: { backgroundColor: "#333333" }, //The style applied to the month elements
-    },
-    middle: {
-      //Tartget elements displaying the day of week info
-      style: { backgroundColor: "chocolate" }, //The style applied to the day of week elements
-      selectedStyle: { backgroundColor: "#b13525" }, //The style applied to the day of week elements when is selected
-    },
-    bottom: {
-      style: { background: "grey", fontSize: 9 }, //the style tp be applied
-      selectedStyle: { backgroundColor: "#b13525", fontWeight: "bold" }, //the style tp be applied  when selected
-    },
-  },
-  taskList: {
-    //the right side task list
-    title: {
-      //The title od the task list
-      label: "projectName", //The caption to display as title
-      style: {
-        backgroundColor: "#333333",
-        borderBottom: "solid 1px silver",
-        color: "white",
-        textAlign: "center",
-      }, //The style to be applied to the title
-    },
-    task: {
-      style: { backgroundColor: "#fbf9f9" }, // the style to be applied
-    },
-    verticalSeparator: {
-      //the vertical seperator use to resize he width of the task list
-      style: { backgroundColor: "#333333" }, //the style
-      grip: {
-        //the four square grip inside the vertical separator
-        style: { backgroundColor: "#cfcfcd" }, //the style to be applied
-      },
-    },
-  },
-  dataViewPort: {
-    //The are where we display the task
-    rows: {
-      //the row constainting a task
-      style: {
-        backgroundColor: "#fbf9f9",
-        borderBottom: "solid 0.5px #cfcfcd",
-        height: "15vh",
-      },
-    },
-    task: {
-      showLabel: false, //If the task display the a lable
-      style: {
-        position: "absolute",
-        borderRadius: 14,
-        color: "white",
-        textAlign: "center",
-        backgroundColor: "grey",
-      },
-      selectedStyle: {}, //the style tp be applied  when selected
-    },
-  },
-  links: {
-    //The link between two task
-    color: "black",
-    selectedColor: "#ff00fa",
-  },
-};
-const { Header, Content, Footer } = Layout;
 const RoadMap = (props) => {
+  const config = {
+    header: {
+      //Targert the time header containing the information month/day of the week, day and time.
+      top: {
+        //Tartget the month elements
+        style: { backgroundColor: "#333333" }, //The style applied to the month elements
+      },
+      middle: {
+        //Tartget elements displaying the day of week info
+        style: { backgroundColor: "chocolate" }, //The style applied to the day of week elements
+        selectedStyle: { backgroundColor: "#b13525" }, //The style applied to the day of week elements when is selected
+      },
+      bottom: {
+        style: { background: "grey", fontSize: 9 }, //the style tp be applied
+        selectedStyle: { backgroundColor: "#b13525", fontWeight: "bold" }, //the style tp be applied  when selected
+      },
+    },
+    taskList: {
+      //the right side task list
+      title: {
+        //The title od the task list
+        label: "projectName", //The caption to display as title
+        style: {
+          backgroundColor: "#333333",
+          borderBottom: "solid 1px silver",
+          color: "white",
+          textAlign: "center",
+        }, //The style to be applied to the title
+      },
+      task: {
+        style: { backgroundColor: "#fbf9f9" }, // the style to be applied
+      },
+      verticalSeparator: {
+        //the vertical seperator use to resize he width of the task list
+        style: { backgroundColor: "#333333" }, //the style
+        grip: {
+          //the four square grip inside the vertical separator
+          style: { backgroundColor: "#cfcfcd" }, //the style to be applied
+        },
+      },
+    },
+    dataViewPort: {
+      //The are where we display the task
+      rows: {
+        //the row constainting a task
+        style: {
+          backgroundColor: "#fbf9f9",
+          borderBottom: "solid 0.5px #cfcfcd",
+          height: "15vh",
+        },
+      },
+      task: {
+        showLabel: false, //If the task display the a lable
+        style: {
+          position: "absolute",
+          borderRadius: 14,
+          color: "white",
+          textAlign: "center",
+          backgroundColor: "grey",
+        },
+        selectedStyle: {}, //the style tp be applied  when selected
+      },
+    },
+    links: {
+      //The link between two task
+      color: "black",
+      selectedColor: "#ff00fa",
+    },
+  };
+  const comment = [
+    {
+      id: 1,
+      key: 1,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 2,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 3,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 4,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 5,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 6,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 7,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+    {
+      id: 8,
+      name: "gyun",
+      email: "rbsghks01@gmail.com",
+      createdAt: "2020-06-20 06:03:00",
+    },
+  ];
   const [onModal, setOnModal] = useState(false);
   const [item, setItem] = useState(null);
+  // const [loading, setLoading] = useState(null);
   let d1 = new Date();
   let d2 = new Date();
   d2.setDate(d2.getDate() + 5);
@@ -129,17 +176,18 @@ const RoadMap = (props) => {
   const onSearch = (e) => {
     console.log(e);
   };
+
   return (
     <div className="app-container" style={{ width: "100vw", height: "80vh" }}>
-      <Row style={{ height: "10vh" }} align="middle">
-        <Col span={3}>
+      <Row style={{ height: "10vh", width: "100%" }} align="middle">
+        <Col xs={6} sm={12} md={12} lg={6}>
           <Input.Search
             placeholder="input search text"
             onSearch={onSearch}
-            style={{ width: 200 }}
+            style={{ width: "20vw" }}
           />
         </Col>
-        <Col span={2}>
+        <Col xs={6} sm={10} md={10} lg={2}>
           <Dropdown
             overlay={() => {
               return (
@@ -156,7 +204,7 @@ const RoadMap = (props) => {
             <Button>상태</Button>
           </Dropdown>
         </Col>
-        <Col span={3}>
+        <Col xs={12} sm={2} md={2}>
           <Dropdown
             overlay={() => {
               return (
@@ -226,8 +274,8 @@ const RoadMap = (props) => {
         // ></RModal>
 
         <Modal
-          style={{ left: "30vw", top: "30vh" }}
-          width={400}
+          style={{ left: "30vw", top: "10vh" }}
+          width={600}
           height={700}
           key={item.id}
           visible={onModal}
@@ -235,17 +283,15 @@ const RoadMap = (props) => {
             handleClose();
           }}
           footer={[
-            <Row justify="start">
+            <Row justify="start" style={{ width: "100%" }}>
               <Col span={2}>
                 <Avatar style={{ backgroundColor: generatorColor() }}>
                   3333333
                 </Avatar>
               </Col>
-
               <Col span={14}>
                 <Input style={{ marginLeft: "10px" }}></Input>
               </Col>
-
               <Col span={6}>
                 <Button>전송</Button>
               </Col>
@@ -297,17 +343,37 @@ const RoadMap = (props) => {
           </Row>
           <Row>
             <List
-              dataSource={this.state.data}
+              key={`list${item.id}`}
+              style={{ width: "100%", height: "50vh", overflowY: "scroll" }}
+              dataSource={comment}
               renderItem={(item) => (
-                <List.Item key={item.id}>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={<a href="https://ant.design">{item.name.last}</a>}
-                    description={item.email}
-                  />
-                  <div>Content</div>
+                <List.Item
+                  key={`listItems${item.id}`}
+                  style={{ width: "100%" }}
+                >
+                  <Row align="middle" style={{ width: "100%" }}>
+                    <Col span={4}>
+                      <Avatar style={{ backgroundColor: generatorColor() }}>
+                        {item.name}
+                      </Avatar>
+                    </Col>
+                    <Col span={20}>
+                      <Row style={{ width: "100%" }} align="bottom">
+                        <Col span={6}>
+                          <h6> {item.name}</h6>
+                        </Col>
+                        <Col span={18}>
+                          <h6 style={{ color: "lightgray" }}>{item.email}</h6>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col span={18}>Hello</Col>
+                        <Col span={6}>
+                          <p style={{ fontSize: "2px" }}>{item.createdAt}</p>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
                 </List.Item>
               )}
             ></List>

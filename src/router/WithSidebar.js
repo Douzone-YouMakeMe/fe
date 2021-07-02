@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { Route, Switch, Link } from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -11,7 +11,6 @@ import {
   Input,
   Divider,
   Card,
-  Button,
 } from "antd";
 import {
   MenuOutlined,
@@ -23,7 +22,8 @@ import {
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import RoadMap from "../components/RoadMap/RoadMap";
-const { Header, Content, Footer, Sider } = Layout;
+import DashBoard from "../components/DashBoard/DashBoard";
+const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 
 const users = [
@@ -90,7 +90,7 @@ const WithSidebar = () => {
   const [onModal, setOnModal] = useState(false);
   const [onSub, setOnSub] = useState(false);
   const [currUser, setCurrUser] = useState(null);
-  const onSearch = (e) => {};
+  const onSearch = () => {};
   const onCollapse = () => {
     setCollpased(!collapsed);
   };
@@ -100,9 +100,9 @@ const WithSidebar = () => {
   const handleSubClose = () => {
     setOnSub(!onSub);
   };
-  const handleClick = (e) => {
-    setOnModal(!onModal);
-  };
+  // const handleClick = () => {
+  //   setOnModal(!onModal);
+  // };
   const handleCurr = (user) => {
     console.log(user);
     setCurrUser(user);
@@ -164,19 +164,16 @@ const WithSidebar = () => {
           visible={collapsed}
           placement="left"
           closable={false}
-          onClose={onCollapse}
           bodyStyle={{ padding: 0 }}
           style={{
             marginTop: "10vh",
             marginBottom: "10vh",
-            width: "100%",
             padding: 0,
           }}
         >
           <Row stlye={{ padding: 0, width: "100%", height: "50%" }}>
             <Col span={24} justify="end">
               <Menu
-                onClick={handleClick}
                 style={{
                   margin: "0 0 0 0",
                   padding: "0 0 0 0",
@@ -194,7 +191,7 @@ const WithSidebar = () => {
                   icon={<MailOutlined />}
                   title="Navigation One"
                 >
-                  RoadMap
+                  <Link to={{ pathname: "/project/roadmap" }}>RoadMap</Link>
                 </Menu.Item>
                 <Menu.Item
                   style={{
@@ -206,8 +203,9 @@ const WithSidebar = () => {
                   icon={<AppstoreOutlined />}
                   title="Navigation Two"
                 >
-                  DashBoard
+                  <Link to={{ pathname: "/project/dashboard" }}>Dashboard</Link>
                 </Menu.Item>
+
                 <Menu.Item
                   style={{
                     margin: "0 0 0 0",
@@ -224,13 +222,21 @@ const WithSidebar = () => {
             </Col>
           </Row>
         </Drawer>
-        <Route
-          path="/project/roadmap"
-          render={(props) => {
-            // return <RoadMap {...props}></RoadMap>;
-            return <RoadMap {...props}></RoadMap>;
-          }}
-        ></Route>
+        <Switch>
+          <Route
+            path="/project/roadmap"
+            render={(props) => {
+              // return <RoadMap {...props}></RoadMap>;
+              return <RoadMap {...props}></RoadMap>;
+            }}
+          ></Route>
+          <Route
+            path="/project/dashboard"
+            render={(props) => {
+              return <DashBoard {...props}></DashBoard>;
+            }}
+          ></Route>
+        </Switch>
       </Content>
       <Footer style={{ height: "10vh" }}>1111</Footer>
       <Modal
@@ -253,10 +259,10 @@ const WithSidebar = () => {
         {users !== null &&
           users.map((value, key) => {
             return (
-              <div>
+              <div key={key}>
                 <Row
-                  align="middle"
                   key={key}
+                  align="middle"
                   style={{ height: "30px" }}
                   onClick={() => {
                     handleCurr(value);
@@ -279,7 +285,9 @@ const WithSidebar = () => {
             );
           })}
       </Modal>
+
       <Modal
+        key={`sub${1}`}
         style={{ right: "1vw" }}
         centered
         visible={onSub}
@@ -290,7 +298,7 @@ const WithSidebar = () => {
         modalRender={() => {
           return (
             <Card
-              key={currUser.id}
+              key={`curr${currUser.id}`}
               hoverable
               style={{ width: 240 }}
               cover={
