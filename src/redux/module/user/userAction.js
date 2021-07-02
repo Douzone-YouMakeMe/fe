@@ -1,20 +1,29 @@
 import Constant from "../../actionType";
 import { batch } from "react-redux";
 import { userAPI } from "../../../api";
+
 export const actionCreators = {
   login: (param) => async (dispatch) => {
-    batch(() => {
-      dispatch({
-        type: Constant.SIGN_IN,
-        payload: { user_id: "test", uesr_nm: "test" },
+    const res = await userAPI.login(param);
+    console.log(res);
+    if (res !== undefined) {
+      dispatch({ type: Constant.LOGIN_FAIL, isLogined: false });
+    } else {
+      const data = res.data[0];
+      localStorage.setItem("userInfo", data);
+      batch(() => {
+        dispatch({
+          type: Constant.LOGIN,
+          payload: { userInfo: data },
+        });
+        dispatch({
+          type: Constant.LOGIN_SUCCESS,
+          payload: {
+            isLogined: true,
+          },
+        });
       });
-      dispatch({
-        type: Constant.SUCCESS,
-        payload: {
-          isLogined: true,
-        },
-      });
-    });
+    }
   },
 };
 

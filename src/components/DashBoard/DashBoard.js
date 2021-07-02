@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Board from "react-trello";
-import produce from "immer";
+
+import { Card, Row, Modal, Col, Avatar, Input, Button } from "antd";
+
+import DModal from "./components/DModal";
+import LaneLayout from "./components/LaneLayout";
+import CusCard from "./components/CusCard";
 const data = {
   lanes: [
     {
@@ -42,16 +47,16 @@ const data = {
       ],
     },
     {
-      id: "END",
+      id: "DONE",
       title: "완료",
-      card: [],
+      cards: [],
     },
   ],
 };
 const DashBoard = (props) => {
-  const handleDragStart = (e, f) => {
-    console.log(e, f);
-  };
+  const [eventBus, setEventBus] = useState(null);
+  const [onModal, setOnModal] = useState(false);
+  let count = useRef(data.length);
   let queue = [];
   const handleDragEnd = (
     cardId,
@@ -60,31 +65,27 @@ const DashBoard = (props) => {
     position,
     cardDetails,
   ) => {
-    const targetIndex = data.lanes.findIndex((value) => {
-      return value.id === targetLaneId;
-    });
-
-    const currIndex = data.lanes.findIndex((value) => {
-      return value.id === sourceLaneId;
-    });
-    const currNext = data.lanes[currIndex].cards.filter((value) => {
-      return value.id === cardId;
-    });
-    const newCurr = {
-      id: cardDetails.id,
-      description: cardDetails.description,
-      state: cardDetails.state,
-      title: cardDetails.title,
-    };
-    
-    // if (queue.length === 0) {
-    //   cardDetails.push(newCurr);
-    // } else {
-    //   let idx=queue.findIndex((value)=>{return value.id===newCurr.id})
-    //   if(idx===-1){
-        
-    //   }
-    // }
+    if (sourceLaneId !== targetLaneId) {
+      const newCurr = {
+        id: cardDetails.id,
+        description: cardDetails.description,
+        state: targetLaneId,
+        title: cardDetails.title,
+      };
+      if (queue.length === 0) {
+        queue.push(newCurr);
+      } else {
+        let idx = queue.findIndex((value) => {
+          return value.id === newCurr.id;
+        });
+        if (idx === -1) {
+          queue.push(newCurr);
+        } else {
+          queue.splice(idx, 1, newCurr);
+        }
+      }
+      console.log(queue);
+    }
 
     // cardDetails.state = targetLaneId;
 
@@ -95,18 +96,93 @@ const DashBoard = (props) => {
 
     // setData(newData);
   };
-  const handleDataChange = (e) => {
-    console.log(data);
-  };
 
+  const handleClose = () => {
+    setOnModal(!onModal);
+  };
+  const handleSubmit = (e) => {
+    eventBus.publish({
+      type: "ADD_CARD",
+      laneId: e.state,
+      card: {
+        id: e.id,
+        name: e.name,
+        title: e.name,
+        tag: e.tag,
+        state: e.state,
+        endDate: e.endDate,
+        startDate: e.startDate,
+        description: e.description,
+      },
+    });
+    count.current++;
+  };
   return (
-    <Board
-      handleDragStart={handleDragStart}
-      handleDragEnd={handleDragEnd}
-      cardDraggable={true}
-      onDataChange={handleDataChange}
-      data={data}
-    ></Board>
+    <>
+      <Row
+        style={{ width: "100%", backgroundColor: "#F7F7FF" }}
+        justify="center"
+      >
+        <Button
+          style={{
+            zIndex: 999,
+            width: "30vw",
+            marginTop: "4vh",
+            marginBottom: "2vh",
+          }}
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          ADD
+        </Button>
+      </Row>
+      <Board
+        style={{
+          backgroundColor: "#F7F7FF",
+          textAlign: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+        laneStyle={{
+          minWidth: "300px",
+          width: "25vw",
+
+          margin: "10px",
+          textAlign: "center",
+          justifyContent: "center",
+          backgroundColor: "#ECECFF",
+          borderRadius: "10px",
+        }}
+        handleDragEnd={handleDragEnd}
+        cardDraggable={true}
+        data={data}
+        addCardLink={<button>New Card</button>}
+        eventBusHandle={(e) => setEventBus(e)}
+        components={{
+          Card: (props) => {
+            return (
+              <CusCard {...props} cnt={count} eventBus={eventBus}></CusCard>
+            );
+          },
+          LaneHeader: (props) => {
+            return (
+              <LaneLayout
+                style={{ width: "100%" }}
+                count={count}
+                {...props}
+              ></LaneLayout>
+            );
+          },
+        }}
+      ></Board>
+      <DModal
+        count={count}
+        visible={onModal}
+        handleSubmit={handleSubmit}
+        handleClose={handleClose}
+      ></DModal>
+    </>
   );
 };
 
