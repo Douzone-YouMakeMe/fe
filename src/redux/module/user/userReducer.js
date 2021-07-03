@@ -2,7 +2,7 @@ import Constant from '../../actionType';
 
 const initData = {
   isLogined: false,
-  userInfo: null,
+  userInfo: JSON.parse(localStorage.getItem('userInfo')),
   message: '',
 };
 const user = (state = initData, action) => {

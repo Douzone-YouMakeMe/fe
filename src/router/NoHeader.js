@@ -1,9 +1,9 @@
-import { Route } from 'react-router-dom'
-import LoginPresenter from '../components/Login/Login'
-import SignUp from '../components/SignUp/SignUp'
-import { Layout, Row, Col } from 'antd'
+import { Route } from 'react-router-dom';
+import LoginPresenter from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
+import { Layout, Row, Col } from 'antd';
 
-const { Header, Content, Footer } = Layout
+const { Header, Content, Footer } = Layout;
 const NoHeader = () => {
   return (
     <Layout>
@@ -13,18 +13,18 @@ const NoHeader = () => {
         <Route
           path="/user/login"
           render={(props) => {
-            return <LoginPresenter {...props}></LoginPresenter>
+            return <LoginPresenter {...props}></LoginPresenter>;
           }}
         ></Route>
         <Route
           path="/user/signup"
           render={(props) => {
-            return <SignUp {...props}></SignUp>
+            return <SignUp {...props}></SignUp>;
           }}
         ></Route>
       </Content>
       <Footer style={{ background: 'white' }}></Footer>
     </Layout>
-  )
-}
-export default NoHeader
+  );
+};
+export default NoHeader;

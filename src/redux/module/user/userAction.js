@@ -13,7 +13,8 @@ export const actionCreators = {
       });
     } else {
       const data = res.data[0];
-      localStorage.setItem('userInfo', data);
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      console.log(data);
       batch(() => {
         dispatch({
           type: Constant.LOGIN,

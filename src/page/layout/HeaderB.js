@@ -1,22 +1,24 @@
-import React from 'react'
-import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap'
-import ProfilePicAvater from '../../test_img/u_profile.jpg'
-import Logo from '../../test_img/ymm_logo.png'
-import {} from '../../css/Header.css'
+import React from 'react';
+import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
+import ProfilePicAvater from '../../test_img/u_profile.jpg';
+import Logo from '../../test_img/logoHeader.png';
+import {} from '../../css/Header.css';
 
 const profileImage = (
   <div>
     <img className="profile" src={ProfilePicAvater} alt="user pic" />
   </div>
-)
+);
 
 const logo = (
-  <>
-    <img src={Logo} alt="서비스 로고" style={{ maxWidth: '50vw' }} />
-  </>
-)
+  <img
+    src={Logo}
+    alt="서비스 로고"
+    style={{ height: '15vh', objectFit: 'cover' }}
+  />
+);
 
-function HeaderB() {
+function HeaderB(props) {
   return (
     <>
       <Navbar
@@ -26,7 +28,8 @@ function HeaderB() {
         style={{ height: '15vh', zIndex: 999 }}
       >
         <Container>
-          <Navbar.Brand href="#home"> {logo}</Navbar.Brand>
+          <div>{logo}</div>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             className="justify-content-end"
@@ -43,7 +46,9 @@ function HeaderB() {
                   background: '#dcdcdc',
                 }}
               >
-                <NavDropdown.Item href="#action/3.1">프로젝트</NavDropdown.Item>
+                <NavDropdown.Item href="/app/myproject">
+                  프로젝트
+                </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   프로필 설정
                 </NavDropdown.Item>
@@ -54,7 +59,7 @@ function HeaderB() {
         </Container>
       </Navbar>
     </>
-  )
+  );
 }
 
-export default HeaderB
+export default HeaderB;
