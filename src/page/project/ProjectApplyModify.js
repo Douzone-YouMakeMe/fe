@@ -76,7 +76,7 @@ function ProjectApply(props) {
   ]
   const [stateOptions, setStateValues] = useState(positionState)
 
-  console.log()
+  console.log(positionState.length)
 
   return (
     <div
@@ -121,8 +121,8 @@ function ProjectApply(props) {
           </Col>
           <Col span={16}>
             <Select
-              defaultValue="lucy"
-              style={{ width: 120 }}
+              defaultValue="지원직무"
+              style={{ width: 150 }}
               onChange={handleChange}
             >
               <Option value="백앤드">백앤드</Option>

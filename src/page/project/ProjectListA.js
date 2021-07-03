@@ -3,27 +3,27 @@
 작성자 : 조성규 
 화면설명: 프로젝트 리스트 (카드 그리드 )
 */
-import React from 'react'
-import { Route, Link } from 'react-router-dom'
-import Pimg from '../../test_img/card_test.png'
-import { Card, Row, Col, Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import React from 'react';
+import { Route, Link } from 'react-router-dom';
+import Pimg from '../../test_img/card_test.png';
+import { Card, Row, Col, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
-const { Meta } = Card
+const { Meta } = Card;
 
 function ProjectListA(props) {
-  console.log(props.match.params)
+  console.log(props.match.params);
 
   return (
-    <div>
-      <Row gutter={[80, 20]} justify="center" align="middle">
+    <div style={{ marginLeft: 118 }}>
+      <Row justify="start" gutter={[100, 40]}>
         {Array.from({ length: 6 }).map((_, idx) => (
           <Col>
             <Link to={{ pathname: `/detail/${idx}` }}>
               <Card
                 hoverable
                 style={{
-                  width: 300,
+                  width: 400,
                 }}
                 cover={
                   <img
@@ -58,7 +58,7 @@ function ProjectListA(props) {
         ))}
       </Row>
     </div>
-  )
+  );
 }
 
-export default ProjectListA
+export default ProjectListA;

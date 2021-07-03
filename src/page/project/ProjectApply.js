@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+import React, { Component } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import {
   Row,
   Col,
@@ -16,11 +16,11 @@ import {
   Typography,
   Upload,
   Space,
-} from 'antd'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
-const { Option } = Select
-const { TextArea } = Input
-const { Title, Text } = Typography
+} from 'antd';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+const { Option } = Select;
+const { TextArea } = Input;
+const { Title, Text } = Typography;
 
 const data = [
   {
@@ -34,10 +34,10 @@ const data = [
       },
     ],
   },
-]
+];
 
 function handleChange(value) {
-  console.log(`selected ${value}`)
+  console.log(`selected ${value}`);
 }
 // const layout = {
 //   labelCol: {
@@ -49,12 +49,12 @@ function handleChange(value) {
 // }
 
 function ProjectApply(props) {
-  const [value, setValue] = React.useState(1)
+  const [value, setValue] = React.useState(1);
 
   const onChange = (e) => {
-    console.log('radio checked', e.target.value)
-    setValue(e.target.value)
-  }
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
 
   return (
     <div
@@ -76,7 +76,9 @@ function ProjectApply(props) {
       <form>
         <Row gutter={[]}>
           <Col span={8}>
-            <Title level={5}>이름</Title>
+            <Title level={5} style={{ marginLeft: 100 }}>
+              이름
+            </Title>
           </Col>
           <Col span={16}>
             <Input style={{ width: 280 }} value="이름 값 당기기" />
@@ -158,9 +160,9 @@ function ProjectApply(props) {
         </Row>
       </form>
     </div>
-  )
+  );
 }
-export default ProjectApply
+export default ProjectApply;
 
 // <Row gutter={[100, 0]} align="middle" justify="center">
 //       <Col>
