@@ -45,7 +45,7 @@ const CRouter = (props) => {
       ></Route>
       <Route path="/member">member</Route>
       <Route
-        path="/project"
+        path="/project/:id"
         render={(props) => {
           return <WithSidebar {...props}></WithSidebar>;
         }}

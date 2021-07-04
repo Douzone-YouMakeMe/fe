@@ -12,14 +12,18 @@ const { Footer, Content } = Layout;
 const WithHeader = (props) => {
   return (
     <div>
-      <Layout Top-Bottom Layout>
+      <Layout
+        style={{ backgroundColor: 'white', width: '100%' }}
+        Top-Bottom
+        Layout
+      >
         <HeaderB {...props} />
         <Content
           style={{
             marginLeft: '7%',
             marginRight: '7%',
+            height: '80vh',
             background: 'white',
-            height: 'auto',
           }}
         >
           <Route

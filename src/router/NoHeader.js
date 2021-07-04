@@ -6,7 +6,7 @@ import { Layout, Row, Col } from 'antd';
 const { Header, Content, Footer } = Layout;
 const NoHeader = () => {
   return (
-    <Layout>
+    <Layout style={{ backgroundColor: 'white' }}>
       <Content
         style={{ backgroundColor: 'white', width: '100vw%', height: '100vh' }}
       >

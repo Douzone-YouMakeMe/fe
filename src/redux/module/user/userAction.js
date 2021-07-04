@@ -29,6 +29,10 @@ export const actionCreators = {
       });
     }
   },
+  logout: () => (dispatch) => {
+    localStorage.removeItem('userInfo');
+    dispatch({ type: Constant.LOGOUT, payload: null });
+  },
 };
 
 // const login = param => {

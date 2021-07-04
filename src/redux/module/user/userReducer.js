@@ -13,6 +13,8 @@ const user = (state = initData, action) => {
       return { ...state, isLogined: action.payload };
     case Constant.LOGIN_FAIL:
       return { ...state, ...action.payload };
+    case Constant.LOGOUT:
+      return { ...state, isLogined: false, userInfo: null };
     default:
       return state;
   }
