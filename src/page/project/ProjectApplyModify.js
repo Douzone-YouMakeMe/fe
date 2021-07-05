@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+import React, { useState, useEffect } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import {
   Row,
   Col,
@@ -16,12 +16,12 @@ import {
   Typography,
   Upload,
   Space,
-} from 'antd'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
-import moment from 'moment'
-const { Option } = Select
-const { TextArea } = Input
-const { Title, Text } = Typography
+} from 'antd';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import moment from 'moment';
+const { Option } = Select;
+const { TextArea } = Input;
+const { Title, Text } = Typography;
 
 const data = [
   {
@@ -35,10 +35,10 @@ const data = [
       },
     ],
   },
-]
+];
 
 function handleChange(value) {
-  console.log(`selected ${value}`)
+  console.log(`selected ${value}`);
 }
 // const layout = {
 //   labelCol: {
@@ -51,32 +51,34 @@ function handleChange(value) {
 
 function ProjectApply(props) {
   // usestate 는 배열 객체 안에 첫 번째 값이 변수의 이름 / 변수의 값을 변경해 주길 위한 함수 / usestate 안에 괄호는 초기 값
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(1);
 
-  const [date, setDate] = useState(moment())
+  const [date, setDate] = useState(moment());
   const onChange = (e) => {
-    console.log('radio checked', e.target.value)
-    setValue(e.target.value)
-  }
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
 
   // 첫번째 값은 수정된 객체 모먼트 객체 , 두번째 변경된 값이 string 타입으로 넘어 온다  /
   // 핸들러 함수
   const handleDate = (e1, e2) => {
-    console.log(e2)
+    console.log(e2);
     if (e2 !== '') {
-      setDate(moment(e2))
+      setDate(moment(e2));
     } else {
-      setDate(null)
+      setDate(null);
     }
-  }
+  };
 
   const positionState = [
     { id: 1, value: '백앤드' },
     { id: 2, value: '프로트엔드' },
-  ]
-  const [stateOptions, setStateValues] = useState(positionState)
+  ];
+  const [stateOptions, setStateValues] = useState(positionState);
 
-  console.log(positionState.length)
+  console.log(positionState.length);
+
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -181,6 +183,6 @@ function ProjectApply(props) {
         </Row>
       </form>
     </div>
-  )
+  );
 }
-export default ProjectApply
+export default ProjectApply;
