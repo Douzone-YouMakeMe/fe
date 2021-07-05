@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button } from 'antd';
+
+import { Button, Avatar } from 'antd';
 import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
 import ProfilePicAvater from '../../test_img/u_profile.jpg';
 import Logo from '../../test_img/logoHeader.png';
 import {} from '../../css/Header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators } from '../../redux/module/user/userAction';
+
 const profileImage = (
   <div>
     <img className="profile" src={ProfilePicAvater} alt="user pic" />
@@ -30,10 +32,9 @@ function HeaderB(props) {
   return (
     <>
       <Navbar
-        bg="light"
         expand="lg"
         variant="light"
-        style={{ height: '15vh', zIndex: 999 }}
+        style={{ height: '18vh', zIndex: 999, backgroundColor: '#FFFFFF' }}
       >
         <Container>
           <div>{logo}</div>
@@ -45,16 +46,25 @@ function HeaderB(props) {
                 id="basic-navbar-nav"
               >
                 <Nav className="me-auto">
-                  <Navbar.Text
-                    style={{ fontSize: '32px', background: '#dcdcdc' }}
+                  {/* <Navbar.Text
+                    style={{ fontSize: '32px', background: '#FFFFFF' }}
                   >
                     {user.userInfo.name}
+                  </Navbar.Text> */}
+                  <Navbar.Text
+                    style={{ fontSize: '32px', background: '#FFFFFF' }}
+                  >
+                    {user.userInfo.email}
                   </Navbar.Text>
                   <NavDropdown
-                    title={profileImage}
+                    title={
+                      <Avatar size={70} style={{ backgroundColor: 'red' }}>
+                        {user.userInfo.name}
+                      </Avatar>
+                    }
                     id="basic-nav-dropdown"
                     style={{
-                      background: '#dcdcdc',
+                      background: '#FFFFFF',
                     }}
                   >
                     <NavDropdown.Item href="/app/myproject">

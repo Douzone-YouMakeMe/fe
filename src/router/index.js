@@ -19,6 +19,7 @@ const CRouter = (props) => {
                 style={{
                   marginLeft: '7%',
                   marginRight: '7%',
+                  marginTop: '1%',
                   background: 'white',
                   height: 'auto',
                 }}

@@ -18,14 +18,7 @@ const WithHeader = (props) => {
         Layout
       >
         <HeaderB {...props} />
-        <Content
-          style={{
-            marginLeft: '7%',
-            marginRight: '7%',
-            height: '80vh',
-            background: 'white',
-          }}
-        >
+        <Content>
           <Route
             path="/app/apply/:id"
             render={(props) => {

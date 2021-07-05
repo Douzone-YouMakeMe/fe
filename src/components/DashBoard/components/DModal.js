@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Modal,
   Button,
@@ -8,15 +8,15 @@ import {
   DatePicker,
   Menu,
   Dropdown,
-} from "antd";
-import { generatorColor } from "../../../util/GeneratorColor";
+} from 'antd';
+import { generatorColor } from '../../../util/GeneratorColor';
 const DModal = (props) => {
-  const [current, setCurrent] = useState("WAITING");
+  const [current, setCurrent] = useState('WAITING');
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [tag, setTag] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [tag, setTag] = useState('');
   const handleClose = () => {
     props.handleClose();
   };
@@ -24,8 +24,8 @@ const DModal = (props) => {
     // console.log(start.format("YYYY-MM-DD"));
     props.handleSubmit({
       id: props.count.current,
-      startDate: start.format("YYYY-MM-DD"),
-      endDate: end.format("YYYY-MM-DD"),
+      startDate: start.format('YYYY-MM-DD'),
+      endDate: end.format('YYYY-MM-DD'),
       description,
       name,
       tag,
@@ -60,7 +60,7 @@ const DModal = (props) => {
       footer={[
         <Button
           onClick={handleSubmit}
-          style={{ width: "100px", background: "#69c0ff", color: "white" }}
+          style={{ width: '100px', background: '#69c0ff', color: 'white' }}
         >
           등록
         </Button>,
@@ -71,15 +71,15 @@ const DModal = (props) => {
           <h2>TeamName</h2>
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }}>
+      <Row style={{ height: '80%', marginBottom: '10px' }}>
         <Col span={4}>
           <div
             style={{
-              width: "80%",
-              height: "80%",
-              border: "0.1px solid lightgray",
+              width: '80%',
+              height: '80%',
+              border: '0.1px solid lightgray',
               backgroundColor: generatorColor(),
-              marginRight: "10px",
+              marginRight: '10px',
             }}
           ></div>
         </Col>
@@ -95,7 +95,7 @@ const DModal = (props) => {
           />
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }} align="middle">
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
         <Col sm={4}></Col>
         <Col sm={6} lg={6}>
           <h5>Description</h5>
@@ -109,7 +109,7 @@ const DModal = (props) => {
           ></Input>
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }} align="middle">
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
         <Col sm={4}></Col>
         <Col sm={6} lg={6}>
           <h5>state</h5>
@@ -121,7 +121,7 @@ const DModal = (props) => {
                 <Menu.Item
                   key="wating"
                   onClick={() => {
-                    setCurrent("WAITING");
+                    setCurrent('WAITING');
                   }}
                 >
                   waiting
@@ -129,7 +129,7 @@ const DModal = (props) => {
                 <Menu.Item
                   key="do"
                   onClick={() => {
-                    setCurrent("DO");
+                    setCurrent('DO');
                   }}
                 >
                   do
@@ -137,7 +137,7 @@ const DModal = (props) => {
                 <Menu.Item
                   key="done"
                   onClick={() => {
-                    setCurrent("DONE");
+                    setCurrent('DONE');
                   }}
                 >
                   done
@@ -149,7 +149,7 @@ const DModal = (props) => {
           </Dropdown>
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }} align="middle">
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
         <Col sm={4}></Col>
         <Col sm={6} lg={6}>
           <h5>startDate</h5>
@@ -162,7 +162,7 @@ const DModal = (props) => {
           ></DatePicker>
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }} align="middle">
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
         <Col sm={4}></Col>
         <Col sm={6} lg={6}>
           <h5>endDate</h5>
@@ -175,7 +175,7 @@ const DModal = (props) => {
           ></DatePicker>
         </Col>
       </Row>
-      <Row style={{ height: "80%", marginBottom: "10px" }} align="middle">
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
         <Col sm={4}></Col>
         <Col sm={6} lg={6}>
           <h5>#Tag</h5>
@@ -192,7 +192,7 @@ const menus = ({ current, setCurrent }) => (
     <Menu.Item
       key="wating"
       onClick={() => {
-        setCurrent("waiting");
+        setCurrent('waiting');
       }}
     >
       대기중
@@ -200,7 +200,7 @@ const menus = ({ current, setCurrent }) => (
     <Menu.Item
       key="do"
       onClick={() => {
-        setCurrent("do");
+        setCurrent('do');
       }}
     >
       할일
@@ -208,7 +208,7 @@ const menus = ({ current, setCurrent }) => (
     <Menu.Item
       key="done"
       onClick={() => {
-        setCurrent("done");
+        setCurrent('done');
       }}
     >
       완료

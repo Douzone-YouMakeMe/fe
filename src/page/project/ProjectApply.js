@@ -80,7 +80,9 @@ function ProjectApply(props) {
       <form>
         <Row gutter={[]}>
           <Col span={8}>
-            <Title level={5}>이름</Title>
+            <Title level={5} style={{ marginLeft: 100 }}>
+              이름
+            </Title>
           </Col>
           <Col span={16}>
             <Input style={{ width: 280 }} value="이름 값 당기기" />
