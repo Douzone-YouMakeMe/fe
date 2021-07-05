@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { serverUrl } from '../util';
 
-const memberAPI = {
-  getMembers: async (param) => {
-    let res;
+const workAPI = {
+  getWorkList: async (param) => {
+    let data = null;
     try {
-      res = await axios.get(`${serverUrl}/member/?projectId=${param}`, {
+      data = await axios.get(`${serverUrl}/work/from-project/${param}`, {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
@@ -13,9 +13,10 @@ const memberAPI = {
         },
       });
     } catch (e) {
+      console.log(e);
       return e.response;
     }
-    return res;
+    return data;
   },
 };
-export default memberAPI;
+export default workAPI;

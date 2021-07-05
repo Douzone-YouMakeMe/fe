@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../test_img/logoCenter.png';
 import { checkEmail } from '../../util/checkEmail';
 import { userAPI } from '../../api';
+import { generatorColor } from '../../util/GeneratorColor';
 const SignUp = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const SignUp = (props) => {
         email: id,
         password,
         name,
+        color: generatorColor(),
       };
       const res = await userAPI.signUp(parma);
       if (res.status === 409) {

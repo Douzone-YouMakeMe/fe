@@ -24,6 +24,7 @@ import RoadMap from '../components/RoadMap/RoadMap';
 import DashBoard from '../components/DashBoard/DashBoard';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../redux/module/project/projectAction';
+import { user } from '../redux/module';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 const users = [
@@ -81,20 +82,29 @@ const users = [
   },
 ];
 const WithSidebar = (props) => {
-  const state = useSelector((state) => state.project);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    handleInit();
-    return () => {};
-  }, []);
-  const handleInit = async () => {
-    dispatch(projectAction.getProjectMembers(props.match.params.id));
-    dispatch(projectAction.getCurrentProject(props.match.params.id));
-  };
   const [collapsed, setCollpased] = useState(false);
   const [onModal, setOnModal] = useState(false);
   const [onSub, setOnSub] = useState(false);
   const [currUser, setCurrUser] = useState(null);
+  const [menu, setMenu] = useState(1);
+  const project = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => {
+    return state.user;
+  });
+  useEffect(() => {
+    handleInit();
+
+    return () => {};
+  }, []);
+  useEffect(() => {
+    handleMenu();
+  }, [menu]);
+  const handleInit = async () => {
+    dispatch(projectAction.getProjectMembers(props.match.params.id));
+    dispatch(projectAction.getCurrentProject(props.match.params.id));
+  };
+
   const onSearch = () => {};
   const onCollapse = () => {
     setCollpased(!collapsed);
@@ -112,6 +122,18 @@ const WithSidebar = (props) => {
     setCurrUser(user);
     setOnSub(!onSub);
   };
+  const handleMenu = () => {
+    let handle = props.history.location.pathname.split('/')[3];
+    if (handle === 'roadmap') {
+      setMenu(1);
+    } else if (handle === 'dashboard') {
+      setMenu(2);
+    }
+  };
+  useEffect(() => {}, []);
+  if (project.currentProject === null) {
+    return <></>;
+  }
   return (
     <Layout>
       <Header
@@ -133,7 +155,9 @@ const WithSidebar = (props) => {
             />
           </Col>
           <Col xs={10} sm={14} md={16} lg={18}>
-            <h5 style={{ color: 'white', fontSize: '2vh' }}>ProjectName</h5>
+            <h5 style={{ color: 'white', fontSize: '2vh' }}>
+              {project.currentProject.name}
+            </h5>
           </Col>
 
           <Col xs={2} sm={1} md={1} lg={1}>
@@ -156,10 +180,14 @@ const WithSidebar = (props) => {
             />
           </Col>
           <Col xs={6} sm={4} md={4} lg={2}>
-            <h5 style={{ color: 'white', fontSize: '2vh' }}>username</h5>
+            <h5 style={{ color: 'white', fontSize: '2vh' }}>
+              {user.userInfo.name}
+            </h5>
           </Col>
           <Col xs={2} sm={2} md={1} lg={1}>
-            <Avatar size={30}></Avatar>
+            <Avatar style={{ backgroundColor: user.userInfo.color }} size={30}>
+              {user.userInfo.name}
+            </Avatar>
           </Col>
         </Row>
       </Header>
@@ -183,7 +211,8 @@ const WithSidebar = (props) => {
                   padding: '0 0 0 0',
                   width: '100%',
                 }}
-                defaultSelectedKeys={['1']}
+                onSelect={handleMenu}
+                selectedKeys={[menu]}
               >
                 <Menu.Item
                   style={{
@@ -240,14 +269,14 @@ const WithSidebar = (props) => {
         </Drawer>
         <Switch>
           <Route
-            path={`/project/${props.match.params.id}/roadmap`}
+            path={`/project/:id/roadmap`}
             render={(props) => {
               // return <RoadMap {...props}></RoadMap>;
               return <RoadMap {...props}></RoadMap>;
             }}
           ></Route>
           <Route
-            path={`/project/${props.match.params.id}/dashboard`}
+            path={`/project/:id/dashboard`}
             render={(props) => {
               return <DashBoard {...props}></DashBoard>;
             }}
@@ -272,8 +301,8 @@ const WithSidebar = (props) => {
           />
         </Row>
         <Divider></Divider>
-        {users !== null &&
-          users.map((value, key) => {
+        {project.memberList !== null &&
+          project.memberList.map((value, key) => {
             return (
               <div key={key}>
                 <Row
@@ -292,7 +321,9 @@ const WithSidebar = (props) => {
                     }}
                     span={2}
                   >
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></Avatar>
+                    <Avatar style={{ backgroundColor: value.color }}>
+                      {value.name}
+                    </Avatar>
                   </Col>
                   <Col span={20}>{value.name}</Col>
                 </Row>
@@ -327,16 +358,15 @@ const WithSidebar = (props) => {
                   }}
                 >
                   <Row style={{ marginLeft: 25 }}>
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></Avatar>
+                    <Avatar style={{ backgroundColor: currUser.color }}>
+                      {currUser.name}
+                    </Avatar>
                   </Row>
                   <Row style={{ marginLeft: 25, marginTop: '8px' }}>
                     {currUser.name}
                   </Row>
                   <Row style={{ marginLeft: 25, marginTop: '8px' }}>
-                    {currUser.state}
-                  </Row>
-                  <Row style={{ marginLeft: 25, marginTop: '8px' }}>
-                    {currUser.staetMessage}
+                    {currUser.status}
                   </Row>
                 </div>
               }
@@ -354,13 +384,13 @@ const WithSidebar = (props) => {
                     <hr style={{ width: '3vw' }}></hr>
                   </Col>
                 </Row>
-                <Row>
-                  <Col span={5}>Tel</Col>
-                  <Col>{currUser.tel}</Col>
-                </Row>
                 <Row align="middle">
                   <Col span={5}>Mail</Col>
                   <Col style={{ fontSize: '10px' }}>{currUser.email}</Col>
+                </Row>
+                <Row align="middle">
+                  <Col span={5}>Comments</Col>
+                  <Col style={{ fontSize: '10px' }}>{currUser.comments}</Col>
                 </Row>
                 <Row style={{ hieght: '30px' }}>
                   <Divider></Divider>

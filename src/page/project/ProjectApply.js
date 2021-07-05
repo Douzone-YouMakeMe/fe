@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+import React, { Component, useEffect } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import {
   Row,
   Col,
@@ -16,11 +16,13 @@ import {
   Typography,
   Upload,
   Space,
-} from 'antd'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
-const { Option } = Select
-const { TextArea } = Input
-const { Title, Text } = Typography
+} from 'antd';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+
+const { Option } = Select;
+const { TextArea } = Input;
+const { Title, Text } = Typography;
 
 const data = [
   {
@@ -34,10 +36,10 @@ const data = [
       },
     ],
   },
-]
+];
 
 function handleChange(value) {
-  console.log(`selected ${value}`)
+  console.log(`selected ${value}`);
 }
 // const layout = {
 //   labelCol: {
@@ -49,12 +51,14 @@ function handleChange(value) {
 // }
 
 function ProjectApply(props) {
-  const [value, setValue] = React.useState(1)
-
+  const [value, setValue] = React.useState(1);
+  const project = useSelector((state) => state.project);
+  const disaptch = useDispatch();
+  useEffect(() => {}, []);
   const onChange = (e) => {
-    console.log('radio checked', e.target.value)
-    setValue(e.target.value)
-  }
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
 
   return (
     <div
@@ -158,9 +162,9 @@ function ProjectApply(props) {
         </Row>
       </form>
     </div>
-  )
+  );
 }
-export default ProjectApply
+export default ProjectApply;
 
 // <Row gutter={[100, 0]} align="middle" justify="center">
 //       <Col>
