@@ -10,10 +10,14 @@ import Pimg from '../../test_img/card_test.png';
 //import { Card, Row, Col, Avatar } from 'antd';
 import { Avatar, Typography } from 'antd';
 import { Row, Col, Card } from 'react-bootstrap';
-import { UserOutlined } from '@ant-design/icons';
+//import { UserOutlined } from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators } from '../../redux/module/project/projectAction';
 
 //const { Meta } = Card;
 const { Text, Title } = Typography;
+// const user = useSelector((state) => state.project);
+// const dispatch = useDispatch();
 function ProjectListA(props) {
   return (
     <div>
