@@ -1,20 +1,20 @@
-import React from 'react'
-import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap'
-import ProfilePicAvater from '../../test_img/u_profile.jpg'
-import Logo from '../../test_img/ymm_logo.png'
-import {} from '../../css/Header.css'
+import React from 'react';
+import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
+import ProfilePicAvater from '../../test_img/u_profile.jpg';
+import Logo from '../../test_img/ymm_logo.png';
+import {} from '../../css/Header.css';
 
 const profileImage = (
   <div>
     <img className="profile" src={ProfilePicAvater} alt="user pic" />
   </div>
-)
+);
 
 const logo = (
   <>
     <img src={Logo} alt="서비스 로고" style={{ maxWidth: '50vw' }} />
   </>
-)
+);
 
 function HeaderB() {
   return (
@@ -54,7 +54,7 @@ function HeaderB() {
         </Container>
       </Navbar>
     </>
-  )
+  );
 }
 
-export default HeaderB
+export default HeaderB;
