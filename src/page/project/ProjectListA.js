@@ -4,37 +4,53 @@
 화면설명: 프로젝트 리스트 (카드 그리드 )
 부트 스트렙 적용
 */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Pimg from '../../test_img/card_test.png';
 //import { Card, Row, Col, Avatar } from 'antd';
 import { Avatar, Typography } from 'antd';
 import { Row, Col, Card } from 'react-bootstrap';
 //import { UserOutlined } from '@ant-design/icons';
-import { useSelector, useDispatch } from 'react-redux';
+import { s3Bucket } from '../../util';
 import { actionCreators } from '../../redux/module/project/projectAction';
+import { projectAPI } from '../../api';
 
 //const { Meta } = Card;
 const { Text, Title } = Typography;
-// const user = useSelector((state) => state.project);
-// const dispatch = useDispatch();
+
 function ProjectListA(props) {
+  //변수 // 변수 바꾸는 함수 // 초기 값
+  const [Plist, setPlist] = useState([]);
+
+  useEffect(() => {
+    handInit();
+    return () => {
+      //컨프너트 사라질 때 : 실행문
+    };
+  }, []);
+  // 리턴 된 값을 usestate 에 쓴다
+  const handInit = async () => {
+    const data = await projectAPI.getMainProject();
+    setPlist(data.data);
+    await console.log(data.data);
+  };
+
   return (
     <div>
       <Title style={{ marginLeft: '1%' }} level={2}>
         Project List
       </Title>
       <Row xs={1} md={3} className="g-1">
-        {Array.from({ length: 10 }).map((_, idx) => (
+        {Plist.map((value, key) => (
           <Col style={{ marginTop: '2%' }}>
             <Link
-              to={{ pathname: `/app/detail/${idx}` }}
+              to={{ pathname: `/app/detail/${value.id}` }}
               style={{ textDecoration: 'none' }}
             >
               <Card>
-                <Card.Img variant="top" src={Pimg} />
+                <Card.Img variant="top" src={`${s3Bucket}${value.thumbnail}`} />
                 <Card.Body>
-                  <Card.Title>Card title</Card.Title>
+                  <Card.Title>{value.name}</Card.Title>
                   <Card.Text>
                     <div
                       style={{
@@ -43,13 +59,7 @@ function ProjectListA(props) {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      This is a longer card with supporting text below as a
-                      natural lead-in to additional content. This content is a
-                      little bit longer. This is a longer card with supporting
-                      text below as a natural lead-in to additional content.
-                      This content is a little bit longer. This is a longer card
-                      with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.
+                      {value.description}
                     </div>
                   </Card.Text>
                 </Card.Body>

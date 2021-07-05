@@ -52,8 +52,8 @@ function handleChange(value) {
 
 function ProjectApply(props) {
   const [value, setValue] = React.useState(1);
-  const project = useSelector((state) => state.project);
-  const disaptch = useDispatch();
+  // const project = useSelector((state) => state.project);
+  // const disaptch = useDispatch();
   useEffect(() => {}, []);
   const onChange = (e) => {
     console.log('radio checked', e.target.value);

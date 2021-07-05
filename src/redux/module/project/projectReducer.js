@@ -7,6 +7,7 @@ const initData = {
   currentMember: null,
   message: '',
   currentComment: [],
+  count: 0,
 };
 
 const project = (state = initData, action) => {
@@ -23,6 +24,8 @@ const project = (state = initData, action) => {
       return { ...state, currentProject: { ...action.payload } };
     case Constant.SET_MESSAGE:
       return { ...state, message: action.payload };
+    case Constant.GET_COUNT:
+      return { ...state, count: action.payload };
     case Constant.SUCCESS_INSERT_COMMENT:
       return {
         ...state,
