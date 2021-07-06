@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
   Row,
@@ -17,154 +17,150 @@ import {
   Upload,
   Space,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { projectAction } from '../../redux/module/project/projectAction';
+import { projectAPI } from '../../api';
 
 const { Option } = Select;
 const { TextArea } = Input;
 const { Title, Text } = Typography;
 
-const data = [
-  {
-    projectName: '우리의 프로젝트 A',
-    duty: [
-      {
-        dutyName: '프론트 앤드',
-      },
-      {
-        dutyName: '백앤드',
-      },
-    ],
-  },
-];
-
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
-// const layout = {
-//   labelCol: {
-//     span: 10,
-//   },
-//   wrapperCol: {
-//     span: 5,
-//   },
-// }
 
 function ProjectApply(props) {
-  const [value, setValue] = React.useState(1);
-  // const project = useSelector((state) => state.project);
-  // const disaptch = useDispatch();
-  useEffect(() => {}, []);
-  const onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
+  const user = useSelector((state) => {
+    console.log(state);
+    return state.user;
+  });
+  const list = useSelector((state) => {
+    return state.project;
+  });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    initProjectApply();
+    return () => {};
+  }, []);
+  const initProjectApply = async () => {
+    await dispatch(projectAction.getProjectOne(props.match.params.id));
   };
 
-  return (
-    <div
-      style={{
-        alignItems: 'center',
-        marginLeft: 40,
-        marginRight: 40,
-        marginTop: 50,
-        marginBottom: 50,
-      }}
-    >
-      <Row justify="center">
-        <Title>$프로젝트이름 가져 오기</Title>
-      </Row>
-      <Row justify="center">
-        <Title level={3}>프로젝트 지원하기</Title>
-      </Row>
-      <hr></hr>
-      <form>
-        <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5} style={{ marginLeft: 100 }}>
-              이름
-            </Title>
-          </Col>
-          <Col span={16}>
-            <Input style={{ width: 280 }} value="이름 값 당기기" />
-          </Col>
+  const onChange = (e) => {
+    console.log('radio checked', e.target.value);
+  };
+  if (list.currentProject !== null) {
+    return (
+      <div
+        style={{
+          alignItems: 'center',
+          marginLeft: 40,
+          marginRight: 40,
+          marginTop: 50,
+          marginBottom: 50,
+        }}
+      >
+        <Row justify="center">
+          <Title>{list.currentProject.name}</Title>
         </Row>
-        <br></br>
-        <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5}>프로젝트 참여가능일</Title>
-          </Col>
-          <Col span={16}>
-            <DatePicker />
-          </Col>
+        <Row justify="center">
+          <Title level={3}>프로젝트 지원하기</Title>
         </Row>
-        <br></br>
-        <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5}>지원 직무</Title>
-          </Col>
-          <Col span={16}>
-            <Select
-              defaultValue="lucy"
-              style={{ width: 120 }}
-              onChange={handleChange}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-            </Select>
-          </Col>
-        </Row>
-        <br></br>
-        <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5}>포트폴리오</Title>
-          </Col>
-          <Col span={16}>
-            <Radio.Group onChange={onChange} value={value}>
-              <Space direction="vertical">
-                <Radio value={1}>
-                  <Input
-                    placeholder="url을 입력 해주세요 "
-                    style={{ width: 250, marginLeft: 10 }}
-                  />
-                </Radio>
-                <Radio value={2}>
-                  <Upload {...props}>
-                    <Button
+        <hr></hr>
+        <form>
+          <Row gutter={[]}>
+            <Col span={8}>
+              <Title level={5}>이름</Title>
+            </Col>
+            <Col span={16}>
+              <Input style={{ width: 280 }} value={user.userInfo.name} />
+            </Col>
+          </Row>
+          <br></br>
+          <Row gutter={[]}>
+            <Col span={8}>
+              <Title level={5}>프로젝트 참여가능일</Title>
+            </Col>
+            <Col span={16}>
+              <DatePicker />
+            </Col>
+          </Row>
+          <br></br>
+          <Row gutter={[]}>
+            <Col span={8}>
+              <Title level={5}>지원 직무</Title>
+            </Col>
+            <Col span={16}>
+              <Select
+                defaultValue="프론트"
+                style={{ width: 120 }}
+                onChange={handleChange}
+              >
+                <Option value="백앤드">Jack</Option>
+                <Option value="프론트앤드">Lucy</Option>
+              </Select>
+            </Col>
+          </Row>
+          <br></br>
+          <Row gutter={[]}>
+            <Col span={8}>
+              <Title level={5}>포트폴리오</Title>
+            </Col>
+            <Col span={16}>
+              <Radio.Group onChange={onChange}>
+                <Space direction="vertical">
+                  <Radio value={1}>
+                    <Input
+                      placeholder="url을 입력 해주세요 "
                       style={{ width: 250, marginLeft: 10 }}
-                      icon={<UploadOutlined />}
-                    >
-                      Click to Upload
-                    </Button>
-                  </Upload>
-                </Radio>
-              </Space>
-            </Radio.Group>
-          </Col>
-        </Row>
-        <br></br>
-        <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5}>하고싶은말</Title>
-          </Col>
-          <Col span={16}>
-            <TextArea rows={4} />
-          </Col>
-        </Row>
-        <br></br>
-        <br></br>
-        <Row gutter={[10, 10]} justify="center">
-          <Col>
-            <Button type="primary">지원하기</Button>
-          </Col>
-          <Col>
-            <Button type="primary" danger>
-              취소
-            </Button>
-          </Col>
-        </Row>
-      </form>
-    </div>
-  );
+                    />
+                  </Radio>
+                  <Radio value={2}>
+                    <Upload {...props}>
+                      <Button
+                        style={{ width: 250, marginLeft: 10 }}
+                        icon={<UploadOutlined />}
+                      >
+                        Click to Upload
+                      </Button>
+                    </Upload>
+                  </Radio>
+                </Space>
+              </Radio.Group>
+            </Col>
+          </Row>
+          <br></br>
+          <Row gutter={[]}>
+            <Col span={8}>
+              <Title level={5}>하고싶은말</Title>
+            </Col>
+            <Col span={16}>
+              <TextArea rows={4} />
+            </Col>
+          </Row>
+          <br></br>
+          <br></br>
+          <Row gutter={[10, 10]} justify="center">
+            <Col>
+              <Button type="primary">지원하기</Button>
+            </Col>
+            <Col>
+              <Link to={{ pathname: `/main` }}>
+                <Button type="primary" danger>
+                  취소
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </form>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
 export default ProjectApply;
 

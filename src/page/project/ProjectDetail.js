@@ -15,9 +15,11 @@ import { projectAPI } from '../../api';
 //GrView ,TiDocumentText
 const { Title, Text, Paragraph } = Typography;
 const html =
-  '<html lang=en dir=ltr>	<head><meta charset=utf-8><title>하이</title></head>	<body>살아있어 행복 해요</body></html>';
+  '<html lang=en dir=ltr>	<head><meta charset=utf-8><title>하이</title></head>	<body>살아있어 행복 해요 더 자세한 설명은  ck에디터 입력 내용 받아오기</body></html>';
 function ProjectDetail(props) {
+  console.log(props);
   const user = useSelector((state) => {
+    console.log(state);
     return state.user;
   });
   const list = useSelector((state) => {
@@ -31,6 +33,7 @@ function ProjectDetail(props) {
   const initProjectDetail = async () => {
     await dispatch(projectAction.getProjectOne(props.match.params.id));
     await dispatch(projectAction.getProjectCount(props.match.params.id));
+    await dispatch(projectAction.getProjectMembers(props.match.params.id));
   };
   if (list.currentProject !== null) {
     return (
@@ -54,7 +57,7 @@ function ProjectDetail(props) {
           </Col>
           <Col>
             <TiDocumentText />
-            <Text>&nbsp;&nbsp; 지원:{list.count}</Text>
+            <Text>&nbsp;&nbsp; 지원:{list.currentProject.total}</Text>
           </Col>
           <Col>
             <Text>created- {list.currentProject.createTime}</Text>
@@ -67,80 +70,19 @@ function ProjectDetail(props) {
         <hr></hr>
 
         <Title level={4}>Project Summary </Title>
-        <Paragraph>
-          우리 프로젝트는 applications development, many different design specs
-          and implementations would be involved, which might cause designers and
-          developers difficulties and duplication and reduce the efficiency of
-          development.
-        </Paragraph>
+        <Paragraph>{list.currentProject.description}</Paragraph>
         <Title level={4}>
-          프론트앤드 개발자 컨탠트 부분 ck에디터에서 받아오기
+          프론트앤드 개발자 컨탠트 부분 ck에디터에서 받아오기 받아오는 이름
+          contents
         </Title>
-        <Row>
-          <Title level={5}>우대사항 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
-        <Row>
-          <Title level={5}>자격요건 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
-        <br></br>
-        <Row>
-          <Title level={5}>개발스택 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
-        <br></br>
-        <Title level={4}>백앤드 개발자 </Title>
-        <Row>
-          <Title level={5}>우대사항 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
-        <Row>
-          <Title level={5}>자격요건 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
-        <br></br>
-        <Row>
-          <Title level={5}>개발스택 : </Title>
-          <Paragraph>
-            In the process of internal desktop applications development, many
-            different design specs and implementations would be involved, which
-            might cause designers and developers difficulties and duplication
-            and reduce the efficiency of development.
-          </Paragraph>
-        </Row>
+        <Row></Row>
 
         <hr></hr>
         <CardGroup>
           <Card border="dark">
-            <Card.Header>프로잭트 리더</Card.Header>
+            <Card.Header>리더 이름 :{list.currentProject.userId}</Card.Header>
             <Card.Body>
-              <Card.Title>리더 닉네임 또는 이름</Card.Title>
+              <Card.Title></Card.Title>
               <Card.Text>리더 정보</Card.Text>
             </Card.Body>
           </Card>
@@ -229,7 +171,7 @@ function ProjectDetail(props) {
         <br></br>
         <br></br>
         <Row justify="center">
-          <Link to="/apply/1">
+          <Link to={{ pathname: `/app/apply/${list.currentProject.id}` }}>
             <Button type="primary" shape="round">
               지원하기
             </Button>
