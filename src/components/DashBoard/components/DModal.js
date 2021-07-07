@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { generatorColor } from '../../../util/GeneratorColor';
 const DModal = (props) => {
-  const [current, setCurrent] = useState('WAITING');
+  const [current, setCurrent] = useState({ key: 'waited', value: '대기중' });
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [name, setName] = useState('');
@@ -22,14 +22,15 @@ const DModal = (props) => {
   };
   const handleSubmit = () => {
     // console.log(start.format("YYYY-MM-DD"));
+    console.log(props.count.current);
     props.handleSubmit({
       id: props.count.current,
       startDate: start.format('YYYY-MM-DD'),
       endDate: end.format('YYYY-MM-DD'),
       description,
       name,
-      tag,
-      state: current,
+      hashtag: tag,
+      status: current.key,
     });
     handleClose();
   };
@@ -59,6 +60,7 @@ const DModal = (props) => {
       }}
       footer={[
         <Button
+          key={'등록'}
           onClick={handleSubmit}
           style={{ width: '100px', background: '#69c0ff', color: 'white' }}
         >
@@ -116,36 +118,37 @@ const DModal = (props) => {
         </Col>
         <Col sm={12}>
           <Dropdown
+            key={`${current.value}`}
             overlay={
-              <Menu selectedKeys={[current]} name="state">
+              <Menu selectedKeys={[current.key]} name="state">
                 <Menu.Item
                   key="wating"
                   onClick={() => {
-                    setCurrent('WAITING');
+                    setCurrent({ key: 'waited', value: '대기중' });
                   }}
                 >
-                  waiting
+                  대기중
                 </Menu.Item>
                 <Menu.Item
-                  key="do"
+                  key="proceed"
                   onClick={() => {
-                    setCurrent('DO');
+                    setCurrent({ key: 'proceed', value: '진행중' });
                   }}
                 >
-                  do
+                  진행중
                 </Menu.Item>
                 <Menu.Item
-                  key="done"
+                  key="finished"
                   onClick={() => {
-                    setCurrent('DONE');
+                    setCurrent({ key: 'finished', value: '완료' });
                   }}
                 >
-                  done
+                  완료
                 </Menu.Item>
               </Menu>
             }
           >
-            <div>{current}</div>
+            <div key={`${current.value}${current.key}`}>{current.value}</div>
           </Dropdown>
         </Col>
       </Row>
@@ -187,32 +190,5 @@ const DModal = (props) => {
     </Modal>
   );
 };
-const menus = ({ current, setCurrent }) => (
-  <Menu selectedKeys={[current]}>
-    <Menu.Item
-      key="wating"
-      onClick={() => {
-        setCurrent('waiting');
-      }}
-    >
-      대기중
-    </Menu.Item>
-    <Menu.Item
-      key="do"
-      onClick={() => {
-        setCurrent('do');
-      }}
-    >
-      할일
-    </Menu.Item>
-    <Menu.Item
-      key="done"
-      onClick={() => {
-        setCurrent('done');
-      }}
-    >
-      완료
-    </Menu.Item>
-  </Menu>
-);
+
 export default DModal;

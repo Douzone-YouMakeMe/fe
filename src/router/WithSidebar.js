@@ -27,60 +27,7 @@ import { projectAction } from '../redux/module/project/projectAction';
 import { user } from '../redux/module';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
-const users = [
-  {
-    id: 1,
-    name: 'gyun',
-    projectId: 1,
-    icon: '',
-    email: 'rbsrbsrbs2222@gmail.com',
-    tel: '010-0000-0000',
-    state: 'good',
-    staetMessage: 'fxxk',
-    position: 'frontEnd',
-  },
-  {
-    id: 2,
-    name: 'hwan',
-    projectId: 1,
-    icon: '',
-    email: 'rbsrbsrbs2222@gmail.com',
-    tel: '010-0000-0000',
-    state: 'good',
-    staetMessage: 'fxxk',
-    position: 'backEnd',
-  },
-  {
-    id: 3,
-    name: 'hwan3',
-    projectId: 1,
-    icon: '',
-    email: 'rbsrbsrbs2222@gmail.com',
-    tel: '010-0000-0000',
-    state: 'good',
-    staetMessage: 'fxxk',
-  },
-  {
-    id: 4,
-    name: 'hwan4',
-    projectId: 1,
-    icon: '',
-    email: 'rbsrbsrbs2222@gmail.com',
-    tel: '010-0000-0000',
-    state: 'good',
-    staetMessage: 'fxxk',
-  },
-  {
-    id: 5,
-    name: 'hwan5',
-    projectId: 1,
-    icon: '',
-    email: 'rbsrbsrbs2222@gmail.com',
-    tel: '010-0000-0000',
-    state: 'good',
-    staetMessage: 'fxxk',
-  },
-];
+
 const WithSidebar = (props) => {
   const [collapsed, setCollpased] = useState(false);
   const [onModal, setOnModal] = useState(false);
@@ -159,7 +106,6 @@ const WithSidebar = (props) => {
               {project.currentProject.name}
             </h5>
           </Col>
-
           <Col xs={2} sm={1} md={1} lg={1}>
             <UserAddOutlined
               onClick={() => {
@@ -195,10 +141,13 @@ const WithSidebar = (props) => {
         <Drawer
           visible={collapsed}
           placement="left"
-          closable={false}
           bodyStyle={{ padding: 0 }}
+          onClose={() => {
+            setCollpased(!collapsed);
+          }}
           style={{
-            marginTop: '10vh',
+            width: '200px',
+            marginTop: '13vh',
             marginBottom: '10vh',
             padding: 0,
           }}
@@ -261,27 +210,36 @@ const WithSidebar = (props) => {
                   icon={<SettingOutlined />}
                   title="Navigation Three"
                 >
-                  CHAT
+                  <Link
+                    to={{ pathname: `/project/${props.match.params.id}/chat` }}
+                  >
+                    CHAT
+                  </Link>
                 </Menu.Item>
               </Menu>
             </Col>
           </Row>
         </Drawer>
-        <Switch>
-          <Route
-            path={`/project/:id/roadmap`}
-            render={(props) => {
-              // return <RoadMap {...props}></RoadMap>;
-              return <RoadMap {...props}></RoadMap>;
-            }}
-          ></Route>
-          <Route
-            path={`/project/:id/dashboard`}
-            render={(props) => {
-              return <DashBoard {...props}></DashBoard>;
-            }}
-          ></Route>
-        </Switch>
+
+        <Route
+          path={`/project/:id/roadmap`}
+          render={(props) => {
+            // return <RoadMap {...props}></RoadMap>;
+            return <RoadMap {...props}></RoadMap>;
+          }}
+        ></Route>
+        <Route
+          path={`/project/:id/dashboard`}
+          render={(props) => {
+            return <DashBoard {...props}></DashBoard>;
+          }}
+        ></Route>
+        <Route
+          path={`/project/:id/chat`}
+          render={(props) => {
+            return <div>3323</div>;
+          }}
+        ></Route>
       </Content>
       <Footer style={{ height: '10vh' }}>1111</Footer>
       <Modal

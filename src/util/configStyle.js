@@ -61,9 +61,4 @@ export const config = {
       selectedStyle: {}, //the style tp be applied  when selected
     },
   },
-  links: {
-    //The link between two task
-    color: 'black',
-    selectedColor: '#ff00fa',
-  },
 };
