@@ -12,7 +12,7 @@ import {
   Input,
   Button,
 } from 'antd';
-
+import moment from 'moment';
 import DModal from './components/DModal';
 import LaneLayout from './components/LaneLayout';
 import CusCard from './components/CusCard';
@@ -30,6 +30,9 @@ const DashBoard = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tag, setTag] = useState('');
+  const dispatch = useDispatch();
+  const project = useSelector((state) => state.project);
+  const workList = project.tempWorkList;
   const initLayout = {
     lanes: [
       {
@@ -41,48 +44,34 @@ const DashBoard = (props) => {
       { id: 'finished', title: '완료', cards: [] },
     ],
   };
-  const handleSubmit = () => {
-    dispatch({
-      type: Constant.ADD_TEMP,
-      payload: {
-        id: count.current,
-        startDate: start.format('YYYY-MM-DD'),
-        endDate: end.format('YYYY-MM-DD'),
-        description,
-        name,
-        hashtag: tag,
-        status: current.key,
-      },
-    });
-    count.current++;
+  const handleSubmit = (e) => {
+    let utcFormat = 'yyyy-MM-DD HH:mm:ss';
+    // let dateFormat1 = moment
+    //   .utc(startedTime, utcFormat)
+    //   .local()
+    //   .format(utcFormat);
+
+    const param = {
+      ...e,
+      startedAt: moment.utc(e.startedAt, utcFormat).local().format(utcFormat),
+      finishedAt: moment.utc(e.finishedAt, utcFormat).local().format(utcFormat),
+      memberId: project.currentMember.id,
+      projectId: project.currentProject.id,
+    };
+    // dispatch({
+    //   type: Constant.ADD_TEMP,
+    //   payload: param,
+    // });
+    dispatch(projectAction.addWorkList(param));
     handleClose();
   };
 
-  const handleStart = (m, s) => {
-    setStart(m);
-  };
-  const handleEnd = (m, s) => {
-    setEnd(m);
-  };
-  const handleName = ({ target }) => {
-    setName(target.value);
-  };
-  const handleDescription = ({ target }) => {
-    setDescription(target.value);
-  };
-  const handleTag = ({ target }) => {
-    setTag(target.value);
-  };
-  const dispatch = useDispatch();
-  const project = useSelector((state) => state.project);
-  const workList = project.tempWorkList;
   const handleInit = async () => {
     await dispatch(projectAction.getProjectWork(props.match.params.id));
   };
-  const leaveWork = async () => {
-    await dispatch({ type: Constant.LEAVE_WORK, payload: null });
-  };
+
   useEffect(() => {
+    props.closeCollapse();
     handleInit();
   }, []);
   useEffect(() => {
@@ -103,7 +92,6 @@ const DashBoard = (props) => {
         });
       });
     }
-    console.log(initLayout);
   };
   let count = useRef(10000);
   let queue = [];
@@ -137,6 +125,7 @@ const DashBoard = (props) => {
           queue.splice(idx, 1, newCurr);
         }
       }
+      console.log(newCurr);
       dispatch({
         type: Constant.UPDATE_TEMP,
         payload: { idx: index, value: newCurr },
@@ -151,7 +140,7 @@ const DashBoard = (props) => {
   };
 
   return (
-    <>
+    <div>
       <Row
         style={{ width: '100%', backgroundColor: '#F7F7FF' }}
         justify="center"
@@ -162,6 +151,7 @@ const DashBoard = (props) => {
             width: '30vw',
             marginTop: '4vh',
             marginBottom: '2vh',
+            margintRight: '1vw',
           }}
           onClick={() => {
             handleClose();
@@ -169,38 +159,42 @@ const DashBoard = (props) => {
         >
           ADD
         </Button>
+        <Button
+          style={{
+            zIndex: 999,
+            width: '30vw',
+            marginTop: '4vh',
+            marginBottom: '2vh',
+            marginLeft: '1vw',
+          }}
+        >
+          수정
+        </Button>
       </Row>
       <Board
-        outFocus={(e) => {
-          console.log(e);
-        }}
         style={{
+          minWidth: '300px',
           backgroundColor: '#F7F7FF',
           textAlign: 'center',
           justifyContent: 'center',
-          width: '100%',
+          width: '100vw',
+          overflow: 'wrap',
         }}
         laneStyle={{
           minWidth: '300px',
           width: '25vw',
-
           margin: '10px',
-          textAlign: 'center',
-          justifyContent: 'center',
           backgroundColor: '#ECECFF',
           borderRadius: '10px',
         }}
         onDataChange={(e) => {
-          console.log(e);
+          handleData();
         }}
         handleDragEnd={handleDragEnd}
         laneDraggable={false}
         cardDraggable={true}
         data={initLayout}
         eventBusHandle={(e) => setEventBus(e)}
-        onCardDelete={(e) => {
-          console.log('DELETE');
-        }}
         components={{
           Card: (props) => {
             return <CusCard {...props} eventBus={eventBus}></CusCard>;
@@ -217,154 +211,15 @@ const DashBoard = (props) => {
         }}
       ></Board>
 
-      {/* <DModal
+      <DModal
         count={count}
         visible={onModal}
         handleSubmit={handleSubmit}
         handleClose={handleClose}
-      ></DModal> */}
-      <Modal
-        width={800}
-        height={700}
-        visible={onModal}
-        afterClose={() => {
-          console.log('sss');
-          handleData();
-        }}
-        onCancel={() => {
-          handleClose();
-        }}
-        footer={[
-          <Button
-            key={'등록'}
-            onClick={handleSubmit}
-            style={{ width: '100px', background: '#69c0ff', color: 'white' }}
-          >
-            등록
-          </Button>,
-        ]}
-      >
-        <Row>
-          <Col>
-            <h2>TeamName</h2>
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }}>
-          <Col span={4}>
-            <div
-              style={{
-                width: '80%',
-                height: '80%',
-                border: '0.1px solid lightgray',
-                backgroundColor: generatorColor(),
-                marginRight: '10px',
-              }}
-            ></div>
-          </Col>
-          <Col sm={6} lg={6}>
-            <h5>WorkName</h5>
-          </Col>
-          <Col sm={12} lg={14}>
-            <Input
-              name="name"
-              value={name}
-              onChange={handleName}
-              placeholder="작업명을 적으세요"
-            />
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
-          <Col sm={4}></Col>
-          <Col sm={6} lg={6}>
-            <h5>Description</h5>
-          </Col>
-          <Col sm={12}>
-            <Input
-              value={description}
-              onChange={handleDescription}
-              name="description"
-              placeholder="작업설명 적으세요"
-            ></Input>
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
-          <Col sm={4}></Col>
-          <Col sm={6} lg={6}>
-            <h5>state</h5>
-          </Col>
-          <Col sm={12}>
-            <Dropdown
-              key={`${current.value}`}
-              overlay={
-                <Menu selectedKeys={[current.key]} name="state">
-                  <Menu.Item
-                    key="wating"
-                    onClick={() => {
-                      setCurrent({ key: 'waited', value: '대기중' });
-                    }}
-                  >
-                    대기중
-                  </Menu.Item>
-                  <Menu.Item
-                    key="proceed"
-                    onClick={() => {
-                      setCurrent({ key: 'proceed', value: '진행중' });
-                    }}
-                  >
-                    진행중
-                  </Menu.Item>
-                  <Menu.Item
-                    key="finished"
-                    onClick={() => {
-                      setCurrent({ key: 'finished', value: '완료' });
-                    }}
-                  >
-                    완료
-                  </Menu.Item>
-                </Menu>
-              }
-            >
-              <div key={`${current.value}${current.key}`}>{current.value}</div>
-            </Dropdown>
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
-          <Col sm={4}></Col>
-          <Col sm={6} lg={6}>
-            <h5>startDate</h5>
-          </Col>
-          <Col sm={12}>
-            <DatePicker
-              value={start}
-              onChange={handleStart}
-              name="startDate"
-            ></DatePicker>
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
-          <Col sm={4}></Col>
-          <Col sm={6} lg={6}>
-            <h5>endDate</h5>
-          </Col>
-          <Col sm={12}>
-            <DatePicker
-              value={end}
-              onChange={handleEnd}
-              name="endDate"
-            ></DatePicker>
-          </Col>
-        </Row>
-        <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
-          <Col sm={4}></Col>
-          <Col sm={6} lg={6}>
-            <h5>#Tag</h5>
-          </Col>
-          <Col sm={12}>
-            <Input name="tag" value={tag} onChange={handleTag}></Input>
-          </Col>
-        </Row>
-      </Modal>
-    </>
+        afterClose={handleData}
+        onCancel={handleClose}
+      ></DModal>
+    </div>
   );
 };
 

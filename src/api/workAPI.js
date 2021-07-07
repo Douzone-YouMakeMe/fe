@@ -18,5 +18,18 @@ const workAPI = {
     }
     return data;
   },
+  addWorkList: async (param) => {
+    let data = null;
+    try {
+      data = await axios.post(`${serverUrl}/work`, param, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Accept: '*/*',
+      });
+    } catch (e) {
+      return e.response;
+    }
+    return data;
+  },
 };
 export default workAPI;

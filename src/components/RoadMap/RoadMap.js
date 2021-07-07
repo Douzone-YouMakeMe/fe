@@ -37,6 +37,7 @@ const RoadMap = (props) => {
   // }, [project.workList]);
   const user = useSelector((state) => state.user);
   useEffect(() => {
+    props.closeCollapse();
     handleInit();
     setOnLoad(true);
     return () => {

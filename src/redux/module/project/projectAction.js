@@ -95,4 +95,14 @@ export const projectAction = {
       dispatch({ type: Constant.GET_COUNT, payload: res.data });
     }
   },
+  addWorkList: (param) => async (dispatch) => {
+    const res = await workAPI.addWorkList(param);
+    if (res.status !== 200) {
+      dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
+    } else {
+      const newRes = await workAPI.getWorkList(param.projectId);
+      dispatch({ type: Constant.GET_WORKLIST, payload: newRes.data });
+      dispatch({ type: Constant.SET_TEMP, payload: newRes.data });
+    }
+  },
 };

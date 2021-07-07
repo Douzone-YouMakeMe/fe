@@ -62,12 +62,13 @@ const WithSidebar = (props) => {
   const handleSubClose = () => {
     setOnSub(!onSub);
   };
-  // const handleClick = () => {
-  //   setOnModal(!onModal);
-  // };
+
   const handleCurr = (user) => {
     setCurrUser(user);
     setOnSub(!onSub);
+  };
+  const defaultCollapse = () => {
+    setCollpased(false);
   };
   const handleMenu = () => {
     let handle = props.history.location.pathname.split('/')[3];
@@ -225,13 +226,17 @@ const WithSidebar = (props) => {
           path={`/project/:id/roadmap`}
           render={(props) => {
             // return <RoadMap {...props}></RoadMap>;
-            return <RoadMap {...props}></RoadMap>;
+            return (
+              <RoadMap closeCollapse={defaultCollapse} {...props}></RoadMap>
+            );
           }}
         ></Route>
         <Route
           path={`/project/:id/dashboard`}
           render={(props) => {
-            return <DashBoard {...props}></DashBoard>;
+            return (
+              <DashBoard closeCollapse={defaultCollapse} {...props}></DashBoard>
+            );
           }}
         ></Route>
         <Route

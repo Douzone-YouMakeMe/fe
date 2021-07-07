@@ -12,8 +12,8 @@ import {
 import { generatorColor } from '../../../util/GeneratorColor';
 const DModal = (props) => {
   const [current, setCurrent] = useState({ key: 'waited', value: '대기중' });
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
+  const [startedAt, setStartedAt] = useState(null);
+  const [finishedAt, setFinishedAt] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tag, setTag] = useState('');
@@ -21,25 +21,24 @@ const DModal = (props) => {
     props.handleClose();
   };
   const handleSubmit = () => {
-    // console.log(start.format("YYYY-MM-DD"));
-    console.log(props.count.current);
     props.handleSubmit({
       id: props.count.current,
-      startDate: start.format('YYYY-MM-DD'),
-      endDate: end.format('YYYY-MM-DD'),
+      startedAt: startedAt,
+      finishedAt: finishedAt,
       description,
       name,
       hashtag: tag,
       status: current.key,
+      color: generatorColor(),
     });
     handleClose();
   };
 
   const handleStart = (m, s) => {
-    setStart(m);
+    setStartedAt(m);
   };
   const handleEnd = (m, s) => {
-    setEnd(m);
+    setFinishedAt(m);
   };
   const handleName = ({ target }) => {
     setName(target.value);
@@ -58,6 +57,7 @@ const DModal = (props) => {
       onCancel={() => {
         handleClose();
       }}
+      afterClose={props.afterClose}
       footer={[
         <Button
           key={'등록'}
@@ -80,7 +80,7 @@ const DModal = (props) => {
               width: '80%',
               height: '80%',
               border: '0.1px solid lightgray',
-              backgroundColor: generatorColor(),
+
               marginRight: '10px',
             }}
           ></div>
@@ -159,7 +159,8 @@ const DModal = (props) => {
         </Col>
         <Col sm={12}>
           <DatePicker
-            value={start}
+            showTime
+            value={startedAt}
             onChange={handleStart}
             name="startDate"
           ></DatePicker>
@@ -172,7 +173,8 @@ const DModal = (props) => {
         </Col>
         <Col sm={12}>
           <DatePicker
-            value={end}
+            showTime
+            value={finishedAt}
             onChange={handleEnd}
             name="endDate"
           ></DatePicker>
