@@ -9,11 +9,8 @@ const initData = {
   currentMember: null,
   message: '',
   currentComment: [],
-<<<<<<< HEAD
   tempWorkList: null,
-=======
   count: 0,
->>>>>>> 7f596047c2634677548fd6e016a0d4b2f5167342
 };
 
 const project = (state = initData, action) => {
@@ -30,13 +27,10 @@ const project = (state = initData, action) => {
       return { ...state, currentProject: { ...action.payload } };
     case Constant.SET_MESSAGE:
       return { ...state, message: action.payload };
-<<<<<<< HEAD
     case Constant.SET_TEMP:
       return { ...state, tempWorkList: action.payload };
-=======
     case Constant.GET_COUNT:
       return { ...state, count: action.payload };
->>>>>>> 7f596047c2634677548fd6e016a0d4b2f5167342
     case Constant.SUCCESS_INSERT_COMMENT:
       return {
         ...state,
