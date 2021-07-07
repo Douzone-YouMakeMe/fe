@@ -41,3 +41,7 @@
   width: 10vw;
   max-width: 10vw;
 }
+
+.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 400px;
+}

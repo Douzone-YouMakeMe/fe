@@ -5,9 +5,11 @@ import HeaderB from '../page/layout/HeaderB';
 import ProjectListA from '../page/project/ProjectListA';
 import ProjectDetail from '../page/project/ProjectDetail';
 import ProjectApply from '../page/project/ProjectApply';
+import ProjectCreate from '../page/project/ProjectCreate';
 import UserInfo from '../page/user/UserInfo';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import MyProject from '../components/MyProject/MyProject';
+import ProjectUpdate from '../page/project/ProjectUpdate';
 const { Footer, Content } = Layout;
 const WithHeader = (props) => {
   return (
@@ -49,6 +51,20 @@ const WithHeader = (props) => {
               return <MyProject {...props}></MyProject>;
             }}
           ></Route>
+          {/* 추가중 */}
+          <Route
+            path="/app/projectCreate"
+            render={(props) => {
+              return <ProjectCreate {...props} />;
+            }}
+          ></Route>
+          <Route
+            path="/app/projectUpdate/:id"
+            render={(props) => {
+              return <ProjectUpdate {...props} />;
+            }}
+          ></Route>
+          {/* 추가중 */}
         </Content>
         <Footer>Footer</Footer>
       </Layout>

@@ -32,5 +32,26 @@ const ProjectApi = {
     }
     return result;
   },
+  postProject: async (param) => {
+    let result;
+    
+    try {
+      result = await axios.post(`${serverUrl}/project`,  param ,{
+        headers: {
+          Accept: '*/*',
+        'Content-Type': 'multipart/form-data; boundary=——WebKitFormBoundaryqTqJIxvkWFYqvP5s',
+        'Access-Control-Allow-Origin': '*',
+        'cache-control': 'no-cache',
+      },
+      });
+    } catch (e) {
+      console.error(e.response);
+      return e.response;
+    }
+    console.log(result);
+    return result;
+  },
+
+
 };
 export default ProjectApi;
