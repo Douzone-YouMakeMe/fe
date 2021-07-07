@@ -1,4 +1,6 @@
 import Constant from '../../actionType';
+import produce from 'immer';
+
 const initData = {
   currentProject: null,
   myProjectList: null,
@@ -7,6 +9,7 @@ const initData = {
   currentMember: null,
   message: '',
   currentComment: [],
+  tempWorkList: null,
 };
 
 const project = (state = initData, action) => {
@@ -23,15 +26,35 @@ const project = (state = initData, action) => {
       return { ...state, currentProject: { ...action.payload } };
     case Constant.SET_MESSAGE:
       return { ...state, message: action.payload };
+    case Constant.SET_TEMP:
+      return { ...state, tempWorkList: action.payload };
     case Constant.SUCCESS_INSERT_COMMENT:
       return {
         ...state,
         currentComment: [...state.currentComment, action.payload],
       };
+    case Constant.LEAVE_WORK:
+      return { ...state, workList: action.payload };
     case Constant.GET_WORKLIST:
       return { ...state, workList: action.payload };
     case Constant.GET_CURRENT_COMMENT:
       return { ...state, currentComment: action.payload };
+    case Constant.ADD_TEMP:
+      return {
+        ...state,
+        tempWorkList: [...state.tempWorkList, action.payload],
+      };
+    case Constant.UPDATE_TEMP:
+      return {
+        ...state,
+        tempWorkList: produce(state.tempWorkList, (draft) => {
+          const data = draft.find(
+            (value) => value.id === action.payload.value.id,
+          );
+          data.status = action.payload.value.status;
+        }),
+      };
+
     default:
       return state;
   }

@@ -41,6 +41,7 @@ export const projectAction = {
       dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
     } else {
       dispatch({ type: Constant.GET_WORKLIST, payload: res.data });
+      dispatch({ type: Constant.SET_TEMP, payload: res.data });
     }
   },
   insertComment: (param) => async (dispatch) => {
