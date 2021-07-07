@@ -33,7 +33,7 @@ function ProjectDetail(props) {
   const initProjectDetail = async () => {
     await dispatch(projectAction.getProjectOne(props.match.params.id));
     await dispatch(projectAction.getProjectCount(props.match.params.id));
-    await dispatch(projectAction.getProjectMembers(props.match.params.id));
+    await dispatch(projectAction.getDetailMembers(props.match.params.id));
   };
   if (list.currentProject !== null) {
     return (

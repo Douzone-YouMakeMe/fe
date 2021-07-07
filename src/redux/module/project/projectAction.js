@@ -26,15 +26,20 @@ export const projectAction = {
       dispatch({ type: Constant.GET_MEMBERS, payload: res.data });
     }
   },
+  getDetailMembers: (param) => async (dispatch) => {
+    const res = await memberAPI.getMembers(param);
+    if (res.data === null) {
+      dispatch({ type: Constant.PROJECT_GET_FAIL });
+    } else {
+      dispatch({ type: Constant.GET_MEMBERS, payload: res.data });
+    }
+  },
   getCurrentProject: (param) => async (dispatch) => {
     const res = await projectAPI.getCurrentProject(param);
     const user = await JSON.parse(localStorage.getItem('userInfo'));
     if (res.data === null) {
       dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
     } else {
-      let memberInfo = res.data.filter((value) => {
-        return value.userId === user.id;
-      });
       dispatch({ type: Constant.GETCURRENT, payload: res.data[0] });
     }
   },

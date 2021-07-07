@@ -32,18 +32,18 @@ const ProjectApi = {
     }
     return result;
   },
-<<<<<<< HEAD
   postProject: async (param) => {
     let result;
-    
+
     try {
-      result = await axios.post(`${serverUrl}/project`,  param ,{
+      result = await axios.post(`${serverUrl}/project`, param, {
         headers: {
           Accept: '*/*',
-        'Content-Type': 'multipart/form-data; boundary=——WebKitFormBoundaryqTqJIxvkWFYqvP5s',
-        'Access-Control-Allow-Origin': '*',
-        'cache-control': 'no-cache',
-      },
+          'Content-Type':
+            'multipart/form-data; boundary=——WebKitFormBoundaryqTqJIxvkWFYqvP5s',
+          'Access-Control-Allow-Origin': '*',
+          'cache-control': 'no-cache',
+        },
       });
     } catch (e) {
       console.error(e.response);
@@ -52,9 +52,6 @@ const ProjectApi = {
     console.log(result);
     return result;
   },
-
-
-=======
 
   getMainProject: async (param) => {
     let result;
@@ -120,6 +117,5 @@ const ProjectApi = {
     }
     return result;
   },
->>>>>>> 7f596047c2634677548fd6e016a0d4b2f5167342
 };
 export default ProjectApi;
