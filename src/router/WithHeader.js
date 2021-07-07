@@ -60,7 +60,6 @@ const WithHeader = (props) => {
               return <MyProject {...props}></MyProject>;
             }}
           ></Route>
-          {/* 추가중 */}
           <Route
             path="/app/projectCreate"
             render={(props) => {
@@ -73,7 +72,6 @@ const WithHeader = (props) => {
               return <ProjectUpdate {...props} />;
             }}
           ></Route>
-          {/* 추가중 */}
         </Content>
         <Footer>Footer</Footer>
       </Layout>

@@ -117,5 +117,33 @@ const ProjectApi = {
     }
     return result;
   },
+
+  patchProject: async (param) => {
+    let result;
+
+    try { 
+      // 이거 param중에 projectId를 뽑아내야 한다... 
+      // withHeader 경로는 path="/app/projectUpdate/:id"
+      // ${serverUrl}/project/${param.projectId}  <= 즉 project/:id를 어떻게 사용하지?
+      // -> ProjectUpdate.js 에서 param에다 append(projectId) 한다!
+      result = await axios.patch(`${serverUrl}/project/${param.get("projectId")}`, param, {
+        headers: {
+          Accept: '*/*',
+          'Content-Type':
+            'multipart/form-data; boundary=——WebKitFormBoundaryqTqJIxvkWFYqvP5s',
+          'Access-Control-Allow-Origin': '*',
+          'cache-control': 'no-cache',
+        },
+      });
+    } catch (e) {
+      console.error(e.response);
+      return e.response;
+    }
+    console.log(result);
+    return result;
+  },
+
+
+
 };
 export default ProjectApi;

@@ -57,7 +57,12 @@ const project = (state = initData, action) => {
           data.status = action.payload.value.status;
         }),
       };
-
+      //프로젝트 내역 PATCH
+    case Constant.UPDATE_PROJECT:
+      return{...state,currentProject:produce(state.currentProject,(draft)=>{
+        const data=draft;
+        data=action.payload;
+      })}
     default:
       return state;
   }
