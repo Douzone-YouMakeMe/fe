@@ -123,4 +123,13 @@ export const projectAction = {
       dispatch({ type: Constant.SET_TEMP, payload: newRes.data });
     }
   },
+  // 프로젝트 PATCH 메소드용
+  updateProject: (param) => async (dispatch) => {
+    const res = await projectAPI.patchProject(param);
+    if (res.status !== 200) {
+      dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
+    } else {
+      dispatch({ type: Constant.UPDATE_PROJECT, payload: param });
+    }
+  },
 };

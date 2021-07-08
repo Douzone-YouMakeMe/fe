@@ -8,14 +8,13 @@ import {
   Button,
   Menu,
   Avatar,
-  Tooltip,
   Modal,
   List,
 } from 'antd';
-import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
+
 import TimeLine from 'react-gantt-timeline';
 import moment from 'moment';
-import { config } from '../../util/configStyle';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../../redux/module/project/projectAction';
 import Constant from '../../redux/actionType';

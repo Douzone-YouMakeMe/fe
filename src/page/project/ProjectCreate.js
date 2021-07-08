@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react'; //ckeditor4->5로 변경(07.05 확인)
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ReactHtmlParser from 'react-html-parser';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -47,11 +48,7 @@ function beforeUpload(file) {
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');
   }
-<<<<<<< HEAD
-  const isLt5M = file.size / 1024 / 1024 < 5;
-=======
   const isLt5M = file.size / 1024 / 1024 < 100;
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   if (!isLt5M) {
     message.error('Image must smaller than 5MB!');
   }
@@ -63,13 +60,14 @@ function ProjectCreate(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   //const [value, setValue] = React.useState(0);
+  const history = useHistory(); //히스토리를 보고 뒤로가기 버튼 구현용.
   const [thumbnail, setThumbnail] = useState(null);
   const [name, setName] = React.useState(2);
   const [description, setDescription] = React.useState('설명을 적어주세요.');
   const [total, setTotal] = React.useState(4);
   const [startedTime, setStartedTime] = useState(null); //
   const [finishedTime, setFinishedTime] = useState(null); //
-  const [contents, setContents] = useState('');
+  const [contents, setContents] = useState('모집공고의 내용을 적어주세요.');
 
   useEffect(() => {
     //console.log("화면에서 나타날때": user);
@@ -80,25 +78,6 @@ function ProjectCreate(props) {
   };
 
   const handleThumbnailChange = (info) => {
-<<<<<<< HEAD
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      //setThumbnail({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      //const file = new File(info.file.originFileObj, "thumbnail.jpeg");
-      setThumbnail(info.file.originFileObj);
-      setLoading(false);
-      //   getBase64(info.file.originFileObj, thumbnail =>
-      //     setThumbnail({
-      //       thumbnail,
-      //       loading: false,
-      //     }),
-      //   );
-    }
-=======
     // console.log(info.file.originFileObj);
     // if (info.file.status === 'uploading') {
     //     setLoading(true);
@@ -117,7 +96,6 @@ function ProjectCreate(props) {
     //       loading: false,
     //     }),
     //   );
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   };
 
   // 이미지 업로드용 버튼. 이거 어떻게 되돌려야 십자표가 다시 나올까?
@@ -159,7 +137,6 @@ function ProjectCreate(props) {
       .local()
       .format(utcFormat);
 
-    console.log(startTime);
     //console.log(thumbnail.thumbnail);
     //const buffer = Buffer.from(thumbnail.thumbnail, 'base64');
     //const blobNail =fetch(thumbnail).then(res => res.blob());
@@ -172,12 +149,6 @@ function ProjectCreate(props) {
     formData.append('total', total);
     formData.append('startedTime', startTime);
     formData.append('finishedTime', finishTime);
-<<<<<<< HEAD
-    // 컨텐츠는 JSON.stringify 필요.
-    formData.append('contents', JSON.stringify(contents));
-    // const res=await projectAPI.postProject(formData);
-=======
-
     // 컨텐츠는 JSON.stringify 필요.
     formData.append('contents', JSON.stringify(contents));
     const res = await projectAPI.postProject(formData);
@@ -185,7 +156,6 @@ function ProjectCreate(props) {
       alert('프로젝트 생성 성공');
       props.history.push('/main');
     }
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   };
 
   return (
@@ -199,56 +169,12 @@ function ProjectCreate(props) {
       }}
     >
       <Row justify="center">
-        <Title level={3}>프로젝트 개설</Title>
+        <Title level={3}>프로젝트 모집 공고</Title>
       </Row>
       <hr></hr>
       <Row gutter={[]}>
         <Col span={8}>
           <Title level={5}>Thumbnail</Title>
-<<<<<<< HEAD
-        </Col>
-        <Col span={10}>
-          <Upload
-            name="thumbnail"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={true}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={handleThumbnailChange}
-          >
-            {thumbnail ? (
-              <img src={thumbnail} alt="avatar" style={{ width: '100%' }} />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
-
-          {/* <Upload.Dragger action={null} style={{width:"30vh"}} name="files" getValueFromEvent={(e)=>{console.log(e)}}> 
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-          </Upload.Dragger> */}
-        </Col>
-      </Row>
-      <br></br>
-      <br></br>
-      <Row gutter={[]}>
-        <Col span={8}>
-          <Title level={5}>프로젝트명 name</Title>
-        </Col>
-        <Col span={16}>
-          <Input
-            style={{ width: 280 }}
-            onChange={handleNameChange}
-            defaultValue="project.name"
-          ></Input>
-        </Col>
-      </Row>
-      <br></br>
-=======
         </Col>
         <Col span={10}>
           <input
@@ -263,27 +189,26 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>프로젝트명 name</Title>
+          <Title level={5}>프로젝트명</Title>
         </Col>
         <Col span={16}>
           <Input
             style={{ width: 280 }}
             onChange={handleNameChange}
-            defaultValue="project.name"
+            placeholder="프로젝트 이름입니다."
           ></Input>
         </Col>
       </Row>
       <br></br>
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>프로젝트 설명 description</Title>
+          <Title level={5}>프로젝트 설명</Title>
         </Col>
         <Col span={16}>
           <Input
             style={{ width: 280 }}
             onChange={handleDescriptionChange}
-            defaultValue="project.description"
+            placeholder="프로젝트에 대한 설명을 적어주세요."
           ></Input>
         </Col>
       </Row>
@@ -291,7 +216,7 @@ function ProjectCreate(props) {
       <Input.Group size="large">
         <Row gutter={8}>
           <Col span={8}>
-            <Title level={5}>구인 직무</Title>
+            <Title level={5}>구인 직군</Title>
           </Col>
           <Col span={5}>
             <Input defaultValue="웹 개발자" />
@@ -305,7 +230,7 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>프로젝트 시작일 project.started_time</Title>
+          <Title level={5}>프로젝트 시작일</Title>
         </Col>
         <Col span={16}>
           <DatePicker
@@ -318,7 +243,7 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>모집 마감 기한 project.finished_time</Title>
+          <Title level={5}>모집 마감 기한</Title>
         </Col>
         <Col span={16}>
           <DatePicker
@@ -331,12 +256,17 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>컨텐츠 contents</Title>
+          <Title level={5}>모집공고 내용</Title>
         </Col>
         <Col span={16}>
           <CKEditor
             editor={ClassicEditor}
             data={contents}
+            config={
+              {
+                //placeholder: "모집공고의 상세한 설명을 적어주세요."
+              }
+            }
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               //console.log( 'Editor is ready to use!', editor );
@@ -367,7 +297,7 @@ function ProjectCreate(props) {
           </Button>
         </Col>
         <Col>
-          <Button type="cancell" danger onClick={handleSubmit}>
+          <Button type="cancell" danger onClick={() => history.goBack()}>
             취소
           </Button>
         </Col>
@@ -382,33 +312,6 @@ export default ProjectCreate;
 // console.log(...formData); //+formData.values+formData.keys entires
 // return formData; //제출은 projectAPI로?
 
-<<<<<<< HEAD
-{
-  /* {contents!==""&&(
-      <div>
-            {ReactHtmlParser(JSON.stringify(contents))}
-        </div>)} */
-}
-
-{
-  /* <Row gutter={[]}>
-          <Col span={8}>
-            <Title level={5}>지원 직무 applied_position</Title>
-          </Col>
-          <Col span={16}>
-            <Select
-              defaultValue="Frontend"
-              style={{ width: 120 }}
-              onChange={handleChange}
-            >
-              <Option value="Frontend">Frontend</Option>
-              <Option value="Backend">Backend</Option>
-            </Select>
-          </Col>
-        </Row>
-        <br></br> */
-}
-=======
 // {/* {contents!==""&&(
 //       <div>
 //             {ReactHtmlParser(JSON.stringify(contents))}
@@ -430,7 +333,6 @@ export default ProjectCreate;
 //           </Col>
 //         </Row>
 //         <br></br> */}
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
 
 // 순수 base64인코딩 파일은 java에서 String 파일로 받아들인다. Blob가지고 File로 변환해서 multipart/formData로 보내야...
 // function dataURItoBlob(dataURI) {
@@ -452,8 +354,6 @@ export default ProjectCreate;
 
 //     return new Blob([ia], {type:mimeString});
 // }
-<<<<<<< HEAD
-=======
 
 // {/* <Upload
 //   name="thumbnail"
@@ -474,4 +374,3 @@ export default ProjectCreate;
 //   <p className="ant-upload-text">Click or drag file to this area to upload</p>
 //   <p className="ant-upload-hint">Support for a single or bulk upload.</p>
 // </Upload.Dragger> */}
->>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
