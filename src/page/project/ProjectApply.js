@@ -3,34 +3,24 @@ import ReactHtmlParser from 'react-html-parser';
 import {
   Row,
   Col,
-  Form,
   Input,
   Button,
   Radio,
   Select,
-  Cascader,
   DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
   Typography,
-  Upload,
   Space,
 } from 'antd';
 import { Link } from 'react-router-dom';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { projectAction } from '../../redux/module/project/projectAction';
 import { projectAPI } from '../../api';
+import moment from 'moment';
 
 const { Option } = Select;
 const { TextArea } = Input;
 const { Title, Text } = Typography;
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 function ProjectApply(props) {
   const user = useSelector((state) => {
@@ -45,13 +35,88 @@ function ProjectApply(props) {
     initProjectApply();
     return () => {};
   }, []);
+
+  // userId,      //user 아이디 리덕스에서 보내기
+  //   projectId, //프로젝트 아이디 리덕스 상태에서 보내기
+  //   name       //지원자 이름 리덕스에서
+  //   appliedTime //참여가능일
+  //   appliedPosition, //희망 직무
+  //   comments,        //하고 싶은말
+  //   portfolioFile,   //포토폴리오 파일 업로드
+  //   portfolioUrl,    //url 업로드
+  //   description;     // 대비 칼럼
+  const [appliedTime, setAppliedTime] = useState(null);
+  const [appliedPosition, setAppliedPosition] = useState(null);
+  const [portfolioUrl, setPortfolioUrl] = useState('');
+  const [portfolioFile, setPortfolioFile] = useState(null);
+  const [comments, setComments] = useState(null);
+
+  const [radio, setRadio] = useState('url');
+
+  // 리덕스에서 프로젝트 값 받아오기
   const initProjectApply = async () => {
     await dispatch(projectAction.getProjectOne(props.match.params.id));
   };
-
-  const onChange = (e) => {
-    console.log('radio checked', e.target.value);
+  //참여 가능일
+  const handleAppliedTime = (e) => {
+    setAppliedTime(e);
   };
+  //희망 직무
+  const handleAppliedPosition = (e) => {
+    setAppliedPosition(e.target.value);
+  };
+  //포토 폴리오
+  const handleRadio = (e) => {
+    setRadio(e.target.value);
+  };
+  //하고 싶은말
+  const handleComments = (e) => {
+    setComments(e.target.value);
+  };
+
+  const handlePortfolioUrl = (e) => {
+    setPortfolioUrl(e.target.value);
+  };
+
+  const handlePortfolioFile = (e) => {
+    setPortfolioFile(e);
+  };
+
+  // 지원 하기 버튼 함수
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    let utcFormat = 'yyyy-MM-DD HH:mm:ss';
+
+    let applyDate = moment
+      .utc(appliedTime, utcFormat)
+      .local()
+      .format(utcFormat);
+
+    formData.append('userId', user.userInfo.id);
+    formData.append('projectId', list.currentProject.id);
+    formData.append('name', user.userInfo.name);
+    formData.append('appliedTime', applyDate);
+    formData.append('appliedPosition', appliedPosition);
+
+    if (radio === 'url') {
+      formData.append('portfolioUrl', portfolioUrl);
+    } else {
+      formData.append('portfolioFile', portfolioFile); //[null]
+    }
+
+    formData.append('comments', comments);
+
+    const res = await projectAPI.postApplyProject(formData);
+    //console.log(res);
+
+    if (res.status === 201) {
+      alert('프로젝트 지원 성공');
+      props.history.push(`/app/info/user/${user.userInfo.id}`);
+    } else {
+      alert('다시');
+    }
+  };
+
   if (list.currentProject !== null) {
     return (
       <div
@@ -85,23 +150,20 @@ function ProjectApply(props) {
               <Title level={5}>프로젝트 참여가능일</Title>
             </Col>
             <Col span={16}>
-              <DatePicker />
+              <DatePicker
+                showTime
+                onChange={handleAppliedTime}
+                value={appliedTime}
+              />
             </Col>
           </Row>
           <br></br>
           <Row gutter={[]}>
             <Col span={8}>
-              <Title level={5}>지원 직무</Title>
+              <Title level={5}>희망 직무</Title>
             </Col>
             <Col span={16}>
-              <Select
-                defaultValue="프론트"
-                style={{ width: 120 }}
-                onChange={handleChange}
-              >
-                <Option value="백앤드">Jack</Option>
-                <Option value="프론트앤드">Lucy</Option>
-              </Select>
+              <Input style={{ width: 280 }} onChange={handleAppliedPosition} />
             </Col>
           </Row>
           <br></br>
@@ -110,23 +172,29 @@ function ProjectApply(props) {
               <Title level={5}>포트폴리오</Title>
             </Col>
             <Col span={16}>
-              <Radio.Group onChange={onChange}>
+              <Radio.Group value={radio} onChange={handleRadio}>
                 <Space direction="vertical">
-                  <Radio value={1}>
-                    <Input
-                      placeholder="url을 입력 해주세요 "
-                      style={{ width: 250, marginLeft: 10 }}
-                    />
-                  </Radio>
-                  <Radio value={2}>
-                    <Upload {...props}>
-                      <Button
+                  <Radio value={'url'}>
+                    url
+                    {radio === 'url' ? (
+                      <Input
+                        placeholder="url을 입력 해주세요 "
                         style={{ width: 250, marginLeft: 10 }}
-                        icon={<UploadOutlined />}
-                      >
-                        Click to Upload
-                      </Button>
-                    </Upload>
+                        onChange={handlePortfolioUrl}
+                      />
+                    ) : null}
+                  </Radio>
+                  <Radio value={'file'}>
+                    pdf 업로드
+                    {radio === 'file' ? (
+                      <input
+                        style={{ width: 250, marginLeft: 10 }}
+                        type="file"
+                        onChange={(e) => {
+                          handlePortfolioFile(e.target.files[0]);
+                        }}
+                      ></input>
+                    ) : null}
                   </Radio>
                 </Space>
               </Radio.Group>
@@ -138,14 +206,21 @@ function ProjectApply(props) {
               <Title level={5}>하고싶은말</Title>
             </Col>
             <Col span={16}>
-              <TextArea rows={4} />
+              <TextArea
+                onChange={handleComments}
+                rows={4}
+                style={{ width: 290 }}
+                placeholder="100자 이내로 입력해주세요 // 글자 수 더이상 입력안되게 하기 "
+              />
             </Col>
           </Row>
           <br></br>
           <br></br>
           <Row gutter={[10, 10]} justify="center">
             <Col>
-              <Button type="primary">지원하기</Button>
+              <Button type="primary" onClick={handleSubmit}>
+                지원하기
+              </Button>
             </Col>
             <Col>
               <Link to={{ pathname: `/main` }}>
@@ -226,3 +301,7 @@ export default ProjectApply;
 //           </Space>
 //         </Col>
 //       </Row>
+
+//    // for (var value of formData.values()) {
+//   console.log(value);
+// }

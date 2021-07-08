@@ -98,12 +98,27 @@ const ProjectApi = {
     }
     return result;
   },
-  //프로젝트 지원하기_API(멀티파트 폼) 화면경로 : /page/project/ProjectApply.js
-  postApplyP: async (param) => {
+  //내가 지원한 프로젝트 정보 보기 함수
+  getAppplyListMe: async (param) => {
     let result;
-    let fromData = new FormData();
     try {
-      result = await axios.post(`${serverUrl}/member/${param}`, {
+      result = await axios.get(`${serverUrl}/member/by-user/${param}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Accept: '*/*',
+        },
+      });
+    } catch (e) {
+      return e.response;
+    }
+    return result;
+  },
+  //프로젝트 지원하기_API(멀티파트 폼) 화면경로 : /page/project/ProjectApply.js
+  postApplyProject: async (param) => {
+    let result;
+    try {
+      result = await axios.post(`${serverUrl}/member`, param, {
         headers: {
           Accept: '*/*',
           'Content-Type':
@@ -112,6 +127,7 @@ const ProjectApi = {
           'cache-control': 'no-cache',
         },
       });
+      console.log(result);
     } catch (e) {
       return e.response;
     }

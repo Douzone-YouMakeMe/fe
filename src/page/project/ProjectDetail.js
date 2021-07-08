@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Avatar, Typography, Col, Row } from 'antd';
 import { Card, CardGroup } from 'react-bootstrap';
@@ -12,30 +12,64 @@ import { useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../../redux/module/project/projectAction';
 import { projectAPI } from '../../api';
 
-//GrView ,TiDocumentText
 const { Title, Text, Paragraph } = Typography;
 const html =
   '<html lang=en dir=ltr>	<head><meta charset=utf-8><title>하이</title></head>	<body>살아있어 행복 해요 더 자세한 설명은  ck에디터 입력 내용 받아오기</body></html>';
+
 function ProjectDetail(props) {
-  console.log(props);
+  const list = useSelector((state) => {
+    return state.project;
+  });
+  //const [변수명,변수값을바꾸는함수]= useState(초기값);
+  const [writer, setWriter] = useState(null);
+  const [teamMember, setTeamMember] = useState(null);
+
+  // 팀에 현재 소속된 맴버 정보와 아바타
+
+  //프로젝트 작성자
+  // 프로젝트 멤버리스트의 값이 변경 될때 값이 바끼는 로직
+  const getWriter = () => {
+    let temp;
+    if (list.memberList !== null) {
+      temp = list.memberList.find(
+        (element) => element.userId === list.currentProject.userId,
+      );
+      setWriter(temp);
+    }
+  };
+
+  // 어떠한 현상이 일어났을때 실행 시킬 훅
+  // useEffect  첫번째 들어가는 /실행문
+  //2. 값이 사라질때 실행 시키는문 /클린문
+  //3. 배열 [] 안 변경되는 값 / 지켜 봐야하는 값
+  // 배열의 값이 바끼면 실행문 , 없어지면 클린문
+  useEffect(() => {
+    getWriter();
+    return () => {};
+  }, [list.memberList]);
+
+  //리둑스에서 받아오는
   const user = useSelector((state) => {
     console.log(state);
     return state.user;
   });
-  const list = useSelector((state) => {
-    return state.project;
-  });
+
   const dispatch = useDispatch();
   useEffect(() => {
     initProjectDetail();
     return () => {};
   }, []);
+
   const initProjectDetail = async () => {
     await dispatch(projectAction.getProjectOne(props.match.params.id));
     await dispatch(projectAction.getProjectCount(props.match.params.id));
     await dispatch(projectAction.getDetailMembers(props.match.params.id));
   };
-  if (list.currentProject !== null) {
+
+  // useSate에 담기긴 변수를 호출 해보면 볼수있다
+  console.log(writer);
+
+  if (list.currentProject !== null && writer !== null) {
     return (
       <div
         style={{
@@ -46,7 +80,6 @@ function ProjectDetail(props) {
           marginBottom: 50,
         }}
       >
-        {ReactHtmlParser(html)}
         <Row justify="center">
           <Title>{list.currentProject.name}</Title>
         </Row>
@@ -57,36 +90,34 @@ function ProjectDetail(props) {
           </Col>
           <Col>
             <TiDocumentText />
-            <Text>&nbsp;&nbsp; 지원:{list.currentProject.total}</Text>
+            <Text>&nbsp;&nbsp; 지원자수:{list.count - 1}</Text>
           </Col>
           <Col>
-            <Text>created- {list.currentProject.createTime}</Text>
+            <Text>생성일- {list.currentProject.createTime}</Text>
           </Col>
           <Col>
-            <Text>updated- {list.currentProject.updateTime}</Text>
+            <Text>수정일- {list.currentProject.updateTime}</Text>
           </Col>
         </Row>
 
         <hr></hr>
 
-        <Title level={4}>Project Summary </Title>
+        <Title level={4}>Project Description </Title>
         <Paragraph>{list.currentProject.description}</Paragraph>
-        <Title level={4}>
-          프론트앤드 개발자 컨탠트 부분 ck에디터에서 받아오기 받아오는 이름
-          contents
-        </Title>
+        <Title level={4}>{ReactHtmlParser(list.currentProject.contents)}</Title>
         <Row></Row>
 
         <hr></hr>
         <CardGroup>
-          <Card border="dark">
-            <Card.Header>리더 이름 :{list.currentProject.userId}</Card.Header>
+          <Card bg="primary" text="white">
+            <Card.Header>리더 이름 :{writer.name}</Card.Header>
             <Card.Body>
               <Card.Title></Card.Title>
-              <Card.Text>리더 정보</Card.Text>
+              <Card.Title>이메일</Card.Title>
+              <Card.Text>이메일</Card.Text>
             </Card.Body>
           </Card>
-          <Card border="dark">
+          {/* <Card border="dark">
             <Card.Header>프로젝트 상세보기</Card.Header>
             <Card.Body>
               <Card.Title>문서자료</Card.Title>
@@ -97,77 +128,41 @@ function ProjectDetail(props) {
                 icon={<DownloadOutlined />}
               />
             </Card.Body>
-          </Card>
+          </Card> */}
         </CardGroup>
         <hr></hr>
+
+        {/*jobTitle : 자기분야 / name : 유저 이름 
+        현재 프로젝트에 참가 중 인 멤바 정보와 팀에의 부족인원 모집중 메세지  */}
         <Row gutter={20} justify="center">
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>front-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>이균환</Text>
-            </Row>
-          </Col>
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>back-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>모집중</Text>
-            </Row>
-          </Col>
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>back-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>모집중</Text>
-            </Row>
-          </Col>
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>front-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>모집중</Text>
-            </Row>
-          </Col>
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>back-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>모집중</Text>
-            </Row>
-          </Col>
-          <Col>
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Row justify="center">
-              {' '}
-              <Text>back-dev</Text>
-            </Row>
-            <Row justify="center">
-              {' '}
-              <Text>모집중</Text>
-            </Row>
-          </Col>
+          {Array.from({ length: list.currentProject.total }).map(
+            (value, key) => {
+              if (key < list.memberList.length) {
+                return (
+                  <Col>
+                    <Avatar size={100} icon={<UserOutlined />} />
+                    <Row justify="center">
+                      <Text>{list.memberList[key].jobTitle}</Text>
+                    </Row>
+                    <Row justify="center">
+                      <Text>{list.memberList[key].name}</Text>
+                    </Row>
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col>
+                    <Avatar size={100} icon={<UserOutlined />} />
+                    <Row justify="center">
+                      <Text>모집중</Text>
+                    </Row>
+                  </Col>
+                );
+              }
+            },
+          )}
         </Row>
+
         <br></br>
         <br></br>
         <Row justify="center">

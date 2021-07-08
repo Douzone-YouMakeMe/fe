@@ -47,7 +47,11 @@ function beforeUpload(file) {
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');
   }
+<<<<<<< HEAD
   const isLt5M = file.size / 1024 / 1024 < 5;
+=======
+  const isLt5M = file.size / 1024 / 1024 < 100;
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   if (!isLt5M) {
     message.error('Image must smaller than 5MB!');
   }
@@ -58,8 +62,8 @@ function ProjectCreate(props) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = React.useState(0);
-  const [thumbnail, setThumbnail] = useState([]);
+  //const [value, setValue] = React.useState(0);
+  const [thumbnail, setThumbnail] = useState(null);
   const [name, setName] = React.useState(2);
   const [description, setDescription] = React.useState('설명을 적어주세요.');
   const [total, setTotal] = React.useState(4);
@@ -76,6 +80,7 @@ function ProjectCreate(props) {
   };
 
   const handleThumbnailChange = (info) => {
+<<<<<<< HEAD
     if (info.file.status === 'uploading') {
       setLoading(true);
       //setThumbnail({ loading: true });
@@ -93,6 +98,26 @@ function ProjectCreate(props) {
       //     }),
       //   );
     }
+=======
+    // console.log(info.file.originFileObj);
+    // if (info.file.status === 'uploading') {
+    //     setLoading(true);
+    //   //setThumbnail({ loading: true });
+    //   return;
+    // }
+    // if (info.file.status === 'done') {
+    //   // Get this url from response in real world.
+    //   //const file = new File(info.file.originFileObj, "thumbnail.jpeg");
+    //   setLoading(false);
+    //   setThumbnail(info.file.originFileObj);
+    setThumbnail(info);
+    //   getBase64(info.file.originFileObj, thumbnail =>
+    //     setThumbnail({
+    //       thumbnail,
+    //       loading: false,
+    //     }),
+    //   );
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   };
 
   // 이미지 업로드용 버튼. 이거 어떻게 되돌려야 십자표가 다시 나올까?
@@ -147,9 +172,20 @@ function ProjectCreate(props) {
     formData.append('total', total);
     formData.append('startedTime', startTime);
     formData.append('finishedTime', finishTime);
+<<<<<<< HEAD
     // 컨텐츠는 JSON.stringify 필요.
     formData.append('contents', JSON.stringify(contents));
     // const res=await projectAPI.postProject(formData);
+=======
+
+    // 컨텐츠는 JSON.stringify 필요.
+    formData.append('contents', JSON.stringify(contents));
+    const res = await projectAPI.postProject(formData);
+    if (res.status === 201) {
+      alert('프로젝트 생성 성공');
+      props.history.push('/main');
+    }
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
   };
 
   return (
@@ -169,6 +205,7 @@ function ProjectCreate(props) {
       <Row gutter={[]}>
         <Col span={8}>
           <Title level={5}>Thumbnail</Title>
+<<<<<<< HEAD
         </Col>
         <Col span={10}>
           <Upload
@@ -211,6 +248,33 @@ function ProjectCreate(props) {
         </Col>
       </Row>
       <br></br>
+=======
+        </Col>
+        <Col span={10}>
+          <input
+            type="file"
+            onChange={(e) => {
+              handleThumbnailChange(e.target.files[0]);
+            }}
+          ></input>
+        </Col>
+      </Row>
+      <br></br>
+      <br></br>
+      <Row gutter={[]}>
+        <Col span={8}>
+          <Title level={5}>프로젝트명 name</Title>
+        </Col>
+        <Col span={16}>
+          <Input
+            style={{ width: 280 }}
+            onChange={handleNameChange}
+            defaultValue="project.name"
+          ></Input>
+        </Col>
+      </Row>
+      <br></br>
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
       <Row gutter={[]}>
         <Col span={8}>
           <Title level={5}>프로젝트 설명 description</Title>
@@ -318,6 +382,7 @@ export default ProjectCreate;
 // console.log(...formData); //+formData.values+formData.keys entires
 // return formData; //제출은 projectAPI로?
 
+<<<<<<< HEAD
 {
   /* {contents!==""&&(
       <div>
@@ -343,6 +408,29 @@ export default ProjectCreate;
         </Row>
         <br></br> */
 }
+=======
+// {/* {contents!==""&&(
+//       <div>
+//             {ReactHtmlParser(JSON.stringify(contents))}
+//         </div>)} */}
+
+//         {/* <Row gutter={[]}>
+//           <Col span={8}>
+//             <Title level={5}>지원 직무 applied_position</Title>
+//           </Col>
+//           <Col span={16}>
+//             <Select
+//               defaultValue="Frontend"
+//               style={{ width: 120 }}
+//               onChange={handleChange}
+//             >
+//               <Option value="Frontend">Frontend</Option>
+//               <Option value="Backend">Backend</Option>
+//             </Select>
+//           </Col>
+//         </Row>
+//         <br></br> */}
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
 
 // 순수 base64인코딩 파일은 java에서 String 파일로 받아들인다. Blob가지고 File로 변환해서 multipart/formData로 보내야...
 // function dataURItoBlob(dataURI) {
@@ -364,3 +452,26 @@ export default ProjectCreate;
 
 //     return new Blob([ia], {type:mimeString});
 // }
+<<<<<<< HEAD
+=======
+
+// {/* <Upload
+//   name="thumbnail"
+//   listType="picture-card"
+//   className="avatar-uploader"
+//   showUploadList={true}
+//   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+//   beforeUpload={beforeUpload}
+//   onChange={handleThumbnailChange}
+// >
+//   {thumbnail ? <img src={thumbnail} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+// </Upload> */}
+
+//           {/* <Upload.Dragger action={null} style={{width:"30vh"}} name="files" getValueFromEvent={(e)=>{console.log(e)}}>
+//   <p className="ant-upload-drag-icon">
+//     <InboxOutlined />
+//   </p>
+//   <p className="ant-upload-text">Click or drag file to this area to upload</p>
+//   <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+// </Upload.Dragger> */}
+>>>>>>> af44fc56c8ea7ab8a4f6a3e5d9e5a9693474211e
