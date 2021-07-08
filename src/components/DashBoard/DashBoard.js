@@ -14,23 +14,20 @@ import {
 } from 'antd';
 import moment from 'moment';
 import DModal from './components/DModal';
+import DUModal from './components/DUModal';
 import LaneLayout from './components/LaneLayout';
 import CusCard from './components/CusCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../../redux/module/project/projectAction';
 import Constant from '../../redux/actionType';
-import { generatorColor } from '../../util/GeneratorColor';
 
 const DashBoard = (props) => {
   const [eventBus, setEventBus] = useState(null);
   const [onModal, setOnModal] = useState(false);
-  const [current, setCurrent] = useState({ key: 'waited', value: '대기중' });
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [tag, setTag] = useState('');
+  const [onUModal, setOnUModal] = useState(false);
   const dispatch = useDispatch();
+  const [index, setIndex] = useState('');
+  const [current, setCurrent] = useState(null);
   const project = useSelector((state) => state.project);
   const workList = project.tempWorkList;
   const initLayout = {
@@ -46,22 +43,15 @@ const DashBoard = (props) => {
   };
   const handleSubmit = (e) => {
     let utcFormat = 'yyyy-MM-DD HH:mm:ss';
-    // let dateFormat1 = moment
-    //   .utc(startedTime, utcFormat)
-    //   .local()
-    //   .format(utcFormat);
-
     const param = {
       ...e,
       startedAt: moment.utc(e.startedAt, utcFormat).local().format(utcFormat),
       finishedAt: moment.utc(e.finishedAt, utcFormat).local().format(utcFormat),
+      status: 'waited',
       memberId: project.currentMember.id,
       projectId: project.currentProject.id,
     };
-    // dispatch({
-    //   type: Constant.ADD_TEMP,
-    //   payload: param,
-    // });
+
     dispatch(projectAction.addWorkList(param));
     handleClose();
   };
@@ -102,43 +92,71 @@ const DashBoard = (props) => {
     position,
     cardDetails,
   ) => {
-    console.log('카드 아이디가', cardId);
-    console.log('어디로', targetLaneId);
-    console.log('어디서', sourceLaneId);
     if (sourceLaneId !== targetLaneId) {
       let index = workList.findIndex((value) => {
         return value.id === cardDetails.id;
       });
       const newCurr = {
         ...cardDetails,
+        memberId: project.currentMember.id,
+        projectId: project.currentProject.id,
         status: targetLaneId,
       };
-      if (queue.length === 0) {
-        queue.push(newCurr);
-      } else {
-        let idx = queue.findIndex((value) => {
-          return value.id === newCurr.id;
-        });
-        if (idx === -1) {
-          queue.push(newCurr);
-        } else {
-          queue.splice(idx, 1, newCurr);
-        }
-      }
-      console.log(newCurr);
-      dispatch({
-        type: Constant.UPDATE_TEMP,
-        payload: { idx: index, value: newCurr },
-      });
+      // if (queue.length === 0) {
+      //   queue.push(newCurr);
+      // } else {
+      //   let idx = queue.findIndex((value) => {
+      //     return value.id === newCurr.id;
+      //   });
+      //   if (idx === -1) {
+      //     queue.push(newCurr);
+      //   } else {
+      //     queue.splice(idx, 1, newCurr);
+      //   }
+      // }
+      dispatch(projectAction.moveWorkList(newCurr));
+      // dispatch({
+      //   type: Constant.UPDATE_TEMP,
+      //   payload: { idx: index, value: newCurr },
+      // });
       handleData();
     }
   };
+  const handleUpdate = (e, prevStatus) => {
+    let utcFormat = 'yyyy-MM-DD HH:mm:ss';
+    let index = workList.findIndex((value) => {
+      return value.id === e.id;
+    });
 
+    const param = {
+      ...e,
+      startedAt: moment.utc(e.startedAt, utcFormat).local().format(utcFormat),
+      finishedAt: moment.utc(e.finishedAt, utcFormat).local().format(utcFormat),
+      memberId: project.currentMember.id,
+      projectId: project.currentProject.id,
+    };
+    dispatch({
+      type: Constant.UPDATE_TEMP,
+      payload: { idx: index, value: e },
+    });
+    dispatch(projectAction.modifyWorkList(param));
+    handleData();
+  };
   const handleClose = () => {
     setOnModal(!onModal);
     handleData();
   };
+  const handleUclose = () => {
+    setOnUModal(!onUModal);
 
+    handleData();
+  };
+  const handleCurr = (e, e2) => {
+    setOnUModal(true);
+    setCurrent(e);
+    setIndex(e2);
+    handleData();
+  };
   return (
     <div>
       <Row
@@ -159,26 +177,16 @@ const DashBoard = (props) => {
         >
           ADD
         </Button>
-        <Button
-          style={{
-            zIndex: 999,
-            width: '30vw',
-            marginTop: '4vh',
-            marginBottom: '2vh',
-            marginLeft: '1vw',
-          }}
-        >
-          수정
-        </Button>
       </Row>
       <Board
+        onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => {}}
         style={{
           minWidth: '300px',
           backgroundColor: '#F7F7FF',
           textAlign: 'center',
           justifyContent: 'center',
+          minHeight: '1000px',
           width: '100vw',
-          overflow: 'wrap',
         }}
         laneStyle={{
           minWidth: '300px',
@@ -188,7 +196,7 @@ const DashBoard = (props) => {
           borderRadius: '10px',
         }}
         onDataChange={(e) => {
-          handleData();
+          // handleData();
         }}
         handleDragEnd={handleDragEnd}
         laneDraggable={false}
@@ -197,7 +205,7 @@ const DashBoard = (props) => {
         eventBusHandle={(e) => setEventBus(e)}
         components={{
           Card: (props) => {
-            return <CusCard {...props} eventBus={eventBus}></CusCard>;
+            return <CusCard handleCurr={handleCurr} {...props}></CusCard>;
           },
           LaneHeader: (props) => {
             return (
@@ -210,7 +218,17 @@ const DashBoard = (props) => {
           },
         }}
       ></Board>
-
+      {current !== null && (
+        <DUModal
+          current={current}
+          index={index}
+          visible={onUModal}
+          handleSubmit={handleUpdate}
+          handleClose={handleUclose}
+          afterClose={handleData}
+          onCancel={handleUclose}
+        ></DUModal>
+      )}
       <DModal
         count={count}
         visible={onModal}

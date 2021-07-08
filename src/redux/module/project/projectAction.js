@@ -105,4 +105,22 @@ export const projectAction = {
       dispatch({ type: Constant.SET_TEMP, payload: newRes.data });
     }
   },
+  modifyWorkList: (param) => async (dispatch) => {
+    const res = await workAPI.modifyWorkList(param);
+    if (res.status !== 200) {
+      dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
+    } else {
+      const newRes = await workAPI.getWorkList(param.projectId);
+      dispatch({ type: Constant.SET_TEMP, payload: newRes.data });
+    }
+  },
+  moveWorkList: (param) => async (dispatch) => {
+    const res = await workAPI.moveWorkList(param.id, param.status);
+    if (res.status !== 200) {
+      dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
+    } else {
+      const newRes = await workAPI.getWorkList(param.projectId);
+      dispatch({ type: Constant.SET_TEMP, payload: newRes.data });
+    }
+  },
 };

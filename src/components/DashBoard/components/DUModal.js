@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   Button,
@@ -10,25 +10,58 @@ import {
   Dropdown,
 } from 'antd';
 import { generatorColor } from '../../../util/GeneratorColor';
-const DModal = (props) => {
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+
+const DUModal = (props) => {
+  const [id, setId] = useState('');
+  const [current, setCurrent] = useState({ key: 'waited', value: '대기중' });
   const [startedAt, setStartedAt] = useState(null);
   const [finishedAt, setFinishedAt] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tag, setTag] = useState('');
+  const [color, setColor] = useState('');
+  const project = useSelector((state) => state.project);
+  const [prev, setPrev] = useState('');
+  useEffect(() => {
+    handleCurr();
+  }, [project.tempWorkList]);
+  const handleCurr = () => {
+    if (project.tempWorkList !== null) {
+      const item = project.tempWorkList.find((value) => {
+        return value.id === props.current;
+      });
+      if (item.status === 'waited') {
+        setCurrent({ key: 'waited', value: '대기중' });
+      } else if (item.status === 'finished') {
+        setCurrent({ key: 'finished', value: '완료' });
+      } else {
+        setCurrent({ key: 'proceed', value: '진행중' });
+      }
+      setPrev(item.status);
+      setId(item.id);
+      setColor(item.color);
+      setName(item.name);
+      setDescription(item.description);
+      setStartedAt(moment(item.startedAt));
+      setFinishedAt(moment(item.finishedAt));
+      setTag(item.hashtag);
+    }
+  };
   const handleClose = () => {
     props.handleClose();
   };
   const handleSubmit = () => {
     props.handleSubmit({
-      id: props.count.current,
+      id: id,
       startedAt: startedAt,
       finishedAt: finishedAt,
       description,
       name,
       hashtag: tag,
-
-      color: generatorColor(),
+      status: current.key,
+      color: color,
     });
     handleClose();
   };
@@ -59,11 +92,11 @@ const DModal = (props) => {
       afterClose={props.afterClose}
       footer={[
         <Button
-          key={'등록'}
+          key={'수정'}
           onClick={handleSubmit}
-          style={{ width: '100px', background: '#69c0ff', color: 'white' }}
+          style={{ width: '100px', background: '#fadb14', color: 'white' }}
         >
-          등록
+          수정
         </Button>,
       ]}
     >
@@ -79,7 +112,7 @@ const DModal = (props) => {
               width: '80%',
               height: '80%',
               border: '0.1px solid lightgray',
-
+              backgroundColor: color,
               marginRight: '10px',
             }}
           ></div>
@@ -108,6 +141,47 @@ const DModal = (props) => {
             name="description"
             placeholder="작업설명 적으세요"
           ></Input>
+        </Col>
+      </Row>
+      <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
+        <Col sm={4}></Col>
+        <Col sm={6} lg={6}>
+          <h5>state</h5>
+        </Col>
+        <Col sm={12}>
+          <Dropdown
+            key={`${current.value}`}
+            overlay={
+              <Menu selectedKeys={[current.key]} name="state">
+                <Menu.Item
+                  key="wating"
+                  onClick={() => {
+                    setCurrent({ key: 'waited', value: '대기중' });
+                  }}
+                >
+                  대기중
+                </Menu.Item>
+                <Menu.Item
+                  key="proceed"
+                  onClick={() => {
+                    setCurrent({ key: 'proceed', value: '진행중' });
+                  }}
+                >
+                  진행중
+                </Menu.Item>
+                <Menu.Item
+                  key="finished"
+                  onClick={() => {
+                    setCurrent({ key: 'finished', value: '완료' });
+                  }}
+                >
+                  완료
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <div key={`${current.value}${current.key}`}>{current.value}</div>
+          </Dropdown>
         </Col>
       </Row>
       <Row style={{ height: '80%', marginBottom: '10px' }} align="middle">
@@ -151,4 +225,4 @@ const DModal = (props) => {
   );
 };
 
-export default DModal;
+export default DUModal;

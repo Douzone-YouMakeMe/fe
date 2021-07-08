@@ -48,16 +48,21 @@ const project = (state = initData, action) => {
         tempWorkList: [...state.tempWorkList, action.payload],
       };
     case Constant.UPDATE_TEMP:
+      return produce(state, (draft) => {
+        const data = draft.tempWorkList;
+        data.splice(action.payload.idx, 1, action.payload.value);
+      });
+    case Constant.SET_UPDATE:
       return {
         ...state,
         tempWorkList: produce(state.tempWorkList, (draft) => {
-          const data = draft.find(
-            (value) => value.id === action.payload.value.id,
-          );
+          let data = draft.find((value) => {
+            return value.id === action.payload.value.id;
+          });
+          data.name = action.payload.value.name;
           data.status = action.payload.value.status;
         }),
       };
-
     default:
       return state;
   }

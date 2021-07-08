@@ -11,6 +11,7 @@ export const config = {
       selectedStyle: { backgroundColor: '#b13525' }, //The style applied to the day of week elements when is selected
     },
     bottom: {
+      //Tartget elements displaying the day number or time
       style: { background: 'grey', fontSize: 9 }, //the style tp be applied
       selectedStyle: { backgroundColor: '#b13525', fontWeight: 'bold' }, //the style tp be applied  when selected
     },
@@ -19,7 +20,7 @@ export const config = {
     //the right side task list
     title: {
       //The title od the task list
-      label: 'projectName', //The caption to display as title
+      label: 'Projects', //The caption to display as title
       style: {
         backgroundColor: '#333333',
         borderBottom: 'solid 1px silver',
@@ -28,6 +29,7 @@ export const config = {
       }, //The style to be applied to the title
     },
     task: {
+      // The items inside the list diplaying the task
       style: { backgroundColor: '#fbf9f9' }, // the style to be applied
     },
     verticalSeparator: {
@@ -46,7 +48,6 @@ export const config = {
       style: {
         backgroundColor: '#fbf9f9',
         borderBottom: 'solid 0.5px #cfcfcd',
-        height: '15vh',
       },
     },
     task: {
@@ -60,5 +61,10 @@ export const config = {
       },
       selectedStyle: {}, //the style tp be applied  when selected
     },
+  },
+  links: {
+    //The link between two task
+    color: 'black',
+    selectedColor: '#ff00fa',
   },
 };

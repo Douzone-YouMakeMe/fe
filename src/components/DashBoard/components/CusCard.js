@@ -1,15 +1,11 @@
 import { Row, Card, Divider, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 const CusCard = (props) => {
-  const [onModal, setOnModal] = useState(false);
   const handleClick = () => {
-    console.log(props);
+    props.handleCurr(props.id, props.index);
+    console.log(props.onChange);
   };
-  useEffect(() => {
-    return () => {
-      console.log('siba');
-    };
-  });
+
   return (
     <Card
       key={props.id + props.laneId}
@@ -22,7 +18,7 @@ const CusCard = (props) => {
       }}
       onClick={handleClick}
     >
-      <div key={props.id + props.name}>{props.name}</div>
+      <div key={props.id}>{props.name}</div>
       <Divider></Divider>
       <div key={props.id + props.description}>{props.description}</div>
       <Divider></Divider>
@@ -33,7 +29,9 @@ const CusCard = (props) => {
             return '' !== value;
           })
           .map((value) => {
-            return <div key={`${value}`}>{JSON.stringify(value)}</div>;
+            return (
+              <div key={`${props.id}/${value}`}>{JSON.stringify(value)}</div>
+            );
           })}
     </Card>
   );

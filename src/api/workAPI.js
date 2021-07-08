@@ -21,11 +21,49 @@ const workAPI = {
   addWorkList: async (param) => {
     let data = null;
     try {
-      data = await axios.post(`${serverUrl}/work`, param, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Accept: '*/*',
-      });
+      data = await axios.post(
+        `${serverUrl}/work`,
+        { ...param },
+        {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Accept: '*/*',
+        },
+      );
+    } catch (e) {
+      return e.response;
+    }
+    return data;
+  },
+  modifyWorkList: async (param) => {
+    let data = null;
+    try {
+      data = await axios.put(
+        `${serverUrl}/work/${param.id}`,
+        { ...param },
+        {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Accept: '*/*',
+        },
+      );
+    } catch (e) {
+      return e.response;
+    }
+    return data;
+  },
+  moveWorkList: async (id, status) => {
+    let data = null;
+    try {
+      data = await axios.patch(
+        `${serverUrl}/work/status`,
+        [{ id: id, status: status }],
+        {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Accept: '*/*',
+        },
+      );
     } catch (e) {
       return e.response;
     }
