@@ -32,9 +32,9 @@ const RoadMap = (props) => {
   const [search, setSearch] = useState('');
   const [onLoad, setOnLoad] = useState(false);
 
-  // useEffect(() => {
-  //   setData(project.workList);
-  // }, [project.workList]);
+  useEffect(() => {
+    setData(project.workList);
+  }, [project.workList]);
   const user = useSelector((state) => state.user);
   useEffect(() => {
     props.closeCollapse();
@@ -89,9 +89,7 @@ const RoadMap = (props) => {
       newData = newData.filter((value) => {
         return value.status === key.key || key.key === 'all';
       });
-      console.log(newData);
     }
-
     setData(newData);
   };
   const handleChangeComment = (e) => {
@@ -165,19 +163,21 @@ const RoadMap = (props) => {
           className="time-line-container"
           style={{ height: '80vh', width: '100vw' }}
         >
-          <TimeLine
-            onSelectItem={handleSelect}
-            data={project.workList.map((value) => {
-              return {
-                ...value,
-                key: value.id,
-                id: value.id,
-                start: value.startedAt,
-                end: value.finishedAt,
-              };
-            })}
-            links={null}
-          />
+          {data !== null && (
+            <TimeLine
+              onSelectItem={handleSelect}
+              data={data.map((value) => {
+                return {
+                  ...value,
+                  key: value.id,
+                  id: value.id,
+                  start: value.startedAt,
+                  end: value.finishedAt,
+                };
+              })}
+              links={null}
+            />
+          )}
         </div>
       )}
       ,
