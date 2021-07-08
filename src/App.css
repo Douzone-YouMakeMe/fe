@@ -41,7 +41,7 @@
   width: 10vw;
   max-width: 10vw;
 }
-
+/* ckeditor5용 높이 조정 css 설정 */
 .ck-editor__editable:not(.ck-editor__nested-editable) {
   min-height: 400px;
 }

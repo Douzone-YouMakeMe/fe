@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react'; //ckeditor4->5로 변경(07.05 확인)
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ReactHtmlParser from 'react-html-parser';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -58,13 +59,14 @@ function ProjectCreate(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   //const [value, setValue] = React.useState(0);
+  const history = useHistory(); //히스토리를 보고 뒤로가기 버튼 구현용.
   const [thumbnail, setThumbnail] = useState(null);
   const [name, setName] = React.useState(2);
   const [description, setDescription] = React.useState("설명을 적어주세요.");
   const [total, setTotal] = React.useState(4);
   const [startedTime, setStartedTime] = useState(null); //
   const [finishedTime, setFinishedTime] = useState(null); //
-  const [contents, setContents] = useState("");
+  const [contents, setContents] = useState("모집공고의 내용을 적어주세요.");
 
   useEffect(() => {
     //console.log("화면에서 나타날때": user);
@@ -164,7 +166,7 @@ return (
     }}
   >
     <Row justify="center">
-      <Title level={3}>프로젝트 개설</Title>
+      <Title level={3}>프로젝트 모집 공고</Title>
     </Row>
     <hr></hr>
     <Row gutter={[]}>
@@ -180,22 +182,22 @@ return (
     <Row gutter={[]}>
       <Col span={8}>
         <Title level={5} >
-          프로젝트명 name
+          프로젝트명
         </Title>
       </Col>
       <Col span={16}>
-        <Input style={{ width: 280 }} onChange={handleNameChange} defaultValue="project.name"></Input>
+        <Input style={{ width: 280 }} onChange={handleNameChange} placeholder="프로젝트 이름입니다."></Input>
       </Col>
     </Row>
     <br></br>
     <Row gutter={[]}>
       <Col span={8}>
         <Title level={5} >
-          프로젝트 설명 description
+          프로젝트 설명
         </Title>
       </Col>
       <Col span={16}>
-        <Input style={{ width: 280 }} onChange={handleDescriptionChange} defaultValue="project.description"></Input>
+        <Input style={{ width: 280 }} onChange={handleDescriptionChange} placeholder="프로젝트에 대한 설명을 적어주세요."></Input>
       </Col>
     </Row>
     <br></br>
@@ -203,7 +205,7 @@ return (
       <Row gutter={8}>
         <Col span={8}>
           <Title level={5} >
-            구인 직무
+            구인 직군
           </Title>
         </Col>
         <Col span={5}>
@@ -218,7 +220,7 @@ return (
     <br></br>
     <Row gutter={[]}>
       <Col span={8}>
-        <Title level={5}>프로젝트 시작일 project.started_time</Title>
+        <Title level={5}>프로젝트 시작일</Title>
       </Col>
       <Col span={16}>
         <DatePicker showTime onChange={handleStartedTimeChange} value={startedTime} />
@@ -227,7 +229,7 @@ return (
     <br></br>
     <Row gutter={[]}>
       <Col span={8}>
-        <Title level={5}>모집 마감 기한 project.finished_time</Title>
+        <Title level={5}>모집 마감 기한</Title>
       </Col>
       <Col span={16}>
         <DatePicker showTime onChange={handleFinishedTimeChange} value={finishedTime} />
@@ -236,13 +238,16 @@ return (
     <br></br>
     <Row gutter={[]}>
       <Col span={8}>
-        <Title level={5}>컨텐츠 contents</Title>
+        <Title level={5}>모집공고 내용</Title>
       </Col>
       <Col span={16}>
 
         <CKEditor
           editor={ClassicEditor}
           data={contents}
+          config={{
+            //placeholder: "모집공고의 상세한 설명을 적어주세요."
+          }} 
           onReady={editor => {
             // You can store the "editor" and use when it is needed.
             //console.log( 'Editor is ready to use!', editor );
@@ -273,7 +278,7 @@ return (
         <Button htmlType="submit" type="primary" onClick={handleSubmit}>등록하기</Button>
       </Col>
       <Col>
-        <Button type="cancell" danger onClick={handleSubmit} >
+        <Button type="cancell" danger onClick={() => history.goBack()}>
           취소
         </Button>
       </Col>

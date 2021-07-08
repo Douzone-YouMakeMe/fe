@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react'; //ckeditor4->5로 변경(07.05 확인)
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ReactHtmlParser from 'react-html-parser';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -36,6 +37,7 @@ function ProjectCreate(props) {
   const user = useSelector((state) => state.user);
   const project = useSelector((state) => state.project);
   const dispatch = useDispatch();
+  const history = useHistory(); //히스토리를 보고 뒤로가기 버튼 구현용.
   //각 db 컬럼들과 동일.
   const [thumbnail, setThumbnail] = useState(null);
   const [name, setName] = React.useState();
@@ -117,6 +119,8 @@ function ProjectCreate(props) {
     if (res.status === 200) {
       alert("프로젝트 내역 수정에 성공했습니다.");
       props.history.push(`/app/detail/${props.match.params.id}`);
+    } else{
+      alert("수정 중 오류 발생. 관리자에게 문의 바랍니다.");
     }
 
   }
@@ -148,7 +152,7 @@ function ProjectCreate(props) {
       <Row gutter={[]}>
         <Col span={8}>
           <Title level={5} >
-            프로젝트명 name
+            프로젝트명
           </Title>
         </Col>
         <Col span={16}>
@@ -159,7 +163,7 @@ function ProjectCreate(props) {
       <Row gutter={[]}>
         <Col span={8}>
           <Title level={5} >
-            프로젝트 설명 description
+            프로젝트 설명
           </Title>
         </Col>
         <Col span={16}>
@@ -171,7 +175,7 @@ function ProjectCreate(props) {
         <Row gutter={8}>
           <Col span={8}>
             <Title level={5} >
-              구인 직무
+              구인 직군
             </Title>
           </Col>
           <Col span={5}>
@@ -186,7 +190,7 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>프로젝트 시작일 project.started_time</Title>
+          <Title level={5}>프로젝트 시작일</Title>
         </Col>
         <Col span={16}>
           <DatePicker showTime onChange={handleStartedTimeChange} value={startedTime} />
@@ -195,7 +199,7 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>모집 마감 기한 project.finished_time</Title>
+          <Title level={5}>모집 마감 기한</Title>
         </Col>
         <Col span={16}>
           <DatePicker showTime onChange={handleFinishedTimeChange} value={finishedTime} />
@@ -204,7 +208,7 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[]}>
         <Col span={8}>
-          <Title level={5}>컨텐츠 contents</Title>
+          <Title level={5}>모집 공고 내용</Title>
         </Col>
         <Col span={16}>
 
@@ -238,12 +242,14 @@ function ProjectCreate(props) {
       <br></br>
       <Row gutter={[10, 10]} justify="center">
         <Col>
-          <Button htmlType="submit" type="primary" onClick={handleSubmit}>등록하기</Button>
+          <Button htmlType="submit" type="primary" onClick={handleSubmit}>수정하기</Button>
         </Col>
         <Col>
-          <Button type="cancell" danger onClick={handleSubmit} >
+        
+          <Button type="cancell" danger onClick={() => history.goBack()}>
             취소
           </Button>
+
         </Col>
       </Row>
 
