@@ -34,7 +34,7 @@ function ProjectListA(props) {
     setPlist(data.data);
     await console.log(data.data);
   };
-
+  console.log(Plist);
   return (
     <div>
       <Title style={{ marginLeft: '1%' }} level={2}>

@@ -86,13 +86,14 @@ export const projectAction = {
       dispatch({ type: Constant.GET_COUNT, payload: res.data.length });
     }
   },
-  //프로젝트 생성자 (pm) 정보 액션
-  getProjectPmInfo: (param) => async (dispatch) => {
-    const res = await projectAPI.getProjectOne(param);
+  //유저가 프로젝트에 대한 지원한 정보 / 승인 상태 / 프로젝트 아이디 : id , 유저아이디 :userId
+
+  getAppplyListMe: (param) => async (dispatch) => {
+    const res = await projectAPI.getAppplyListMe(param);
     if (res.status !== 200) {
       dispatch({ type: 'GET_PROJECT_FAIL', payload: null });
     } else {
-      dispatch({ type: Constant.GET_COUNT, payload: res.data });
+      dispatch({ type: Constant.GET_MEMBERS, payload: res.data });
     }
   },
 };

@@ -37,7 +37,7 @@ const WithHeader = (props) => {
             }}
           ></Route>
           <Route
-            path="/app/user_info/:id"
+            path="/app/info/user/:id"
             render={(props) => {
               return <UserInfo {...props} />;
             }}
