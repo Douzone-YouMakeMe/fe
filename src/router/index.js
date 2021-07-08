@@ -10,6 +10,29 @@ const CRouter = (props) => {
   return (
     <Router>
       <Route
+        exact
+        path="/"
+        render={(props) => {
+          return (
+            <Layout Top-Bottom Layout>
+              <HeaderB {...props} />
+              <Content
+                style={{
+                  marginLeft: '7%',
+                  marginRight: '7%',
+                  marginTop: '1%',
+                  background: 'white',
+                  height: 'auto',
+                }}
+              >
+                <ProjectListA {...props} />;
+              </Content>
+              <Footer>Footer</Footer>
+            </Layout>
+          );
+        }}
+      ></Route>
+      <Route
         path="/main"
         render={(props) => {
           return (

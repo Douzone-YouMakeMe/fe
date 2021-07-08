@@ -29,11 +29,14 @@ function ProjectDetail(props) {
   //프로젝트 작성자
   // 프로젝트 멤버리스트의 값이 변경 될때 값이 바끼는 로직
   const getWriter = () => {
-    let temp;
-    if (list.memberList !== null) {
-      temp = list.memberList.find(
-        (element) => element.userId === list.currentProject.userId,
-      );
+    let temp = null;
+    if (list.memberList !== null && list.currentProject !== null) {
+      console.log(list.currentProject.userId);
+      temp = list.memberList.find((element) => {
+        console.log(element.userId === list.currentProject.userId);
+        return element.userId === list.currentProject.userId;
+      });
+      console.log(temp);
       setWriter(temp);
     }
   };
@@ -50,7 +53,6 @@ function ProjectDetail(props) {
 
   //리둑스에서 받아오는
   const user = useSelector((state) => {
-    console.log(state);
     return state.user;
   });
 
@@ -67,7 +69,6 @@ function ProjectDetail(props) {
   };
 
   // useSate에 담기긴 변수를 호출 해보면 볼수있다
-  console.log(writer);
 
   if (list.currentProject !== null && writer !== null) {
     return (
@@ -108,16 +109,17 @@ function ProjectDetail(props) {
         <Row></Row>
 
         <hr></hr>
-        <CardGroup>
-          <Card bg="primary" text="white">
-            <Card.Header>리더 이름 :{writer.name}</Card.Header>
-            <Card.Body>
-              <Card.Title></Card.Title>
-              <Card.Title>이메일</Card.Title>
-              <Card.Text>이메일</Card.Text>
-            </Card.Body>
-          </Card>
-          {/* <Card border="dark">
+        {writer !== null && (
+          <CardGroup>
+            <Card bg="primary" text="white">
+              <Card.Header>리더 이름 :{writer.name}</Card.Header>
+              <Card.Body>
+                <Card.Title></Card.Title>
+                <Card.Title>이메일</Card.Title>
+                <Card.Text>이메일</Card.Text>
+              </Card.Body>
+            </Card>
+            {/* <Card border="dark">
             <Card.Header>프로젝트 상세보기</Card.Header>
             <Card.Body>
               <Card.Title>문서자료</Card.Title>
@@ -129,7 +131,8 @@ function ProjectDetail(props) {
               />
             </Card.Body>
           </Card> */}
-        </CardGroup>
+          </CardGroup>
+        )}
         <hr></hr>
 
         {/*jobTitle : 자기분야 / name : 유저 이름 
