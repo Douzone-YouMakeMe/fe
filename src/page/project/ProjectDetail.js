@@ -31,7 +31,7 @@ function ProjectDetail(props) {
   const getWriter = () => {
     let temp = null;
     if (list.memberList !== null && list.currentProject !== null) {
-      console.log(list.currentProject.userId);
+      // console.log(list.currentProject.userId);
       temp = list.memberList.find((element) => {
         console.log(element.userId === list.currentProject.userId);
         return element.userId === list.currentProject.userId;
