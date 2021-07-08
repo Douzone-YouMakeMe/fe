@@ -23,7 +23,7 @@ function initWsAndSubscribe(wsClient, store, url, wsUserTokenValue) {
     topicNotificationSubscribe = wsClient.subscribe(
       '/topic/notification/' + userId,
       (res) => {
-        console.log('RECEIVING NOTIFICATION');
+        // console.log('RECEIVING NOTIFICATION');
         console.log(JSON.parse(res.body));
         updateGroupsWithLastMessageSent(store, JSON.parse(res.body), userId);
       },
