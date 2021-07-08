@@ -25,6 +25,7 @@ import DashBoard from '../components/DashBoard/DashBoard';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../redux/module/project/projectAction';
 import { user } from '../redux/module';
+import Chatting from '../components/Chat/Chatting';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 
@@ -242,7 +243,7 @@ const WithSidebar = (props) => {
         <Route
           path={`/project/:id/chat`}
           render={(props) => {
-            return <div>3323</div>;
+            return <Chatting {...props}></Chatting>;
           }}
         ></Route>
       </Content>

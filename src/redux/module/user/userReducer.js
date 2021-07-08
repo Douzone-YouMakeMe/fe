@@ -4,6 +4,7 @@ const initData = {
   isLogined: false,
   userInfo: JSON.parse(localStorage.getItem('userInfo')),
   message: '',
+  wsCleint: null,
 };
 const user = (state = initData, action) => {
   switch (action.type) {
@@ -15,6 +16,8 @@ const user = (state = initData, action) => {
       return { ...state, ...action.payload };
     case Constant.LOGOUT:
       return { ...state, isLogined: false, userInfo: null };
+    case Constant.INITSOCKET:
+      return { ...state, wsCleint: action.payload };
     default:
       return state;
   }

@@ -1,7 +1,6 @@
 import Constant from '../../actionType';
 import { batch } from 'react-redux';
 import { projectAPI, memberAPI, workAPI, commentAPI } from '../../../api';
-import ProjectApi from '../../../api/projectAPI';
 
 export const projectAction = {
   getMyProject: (param) => async (dispatch) => {

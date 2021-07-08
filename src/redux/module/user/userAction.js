@@ -1,7 +1,17 @@
 import Constant from '../../actionType';
 import { batch } from 'react-redux';
 import { userAPI } from '../../../api';
-
+// const retriveUserData = (store) => (data) => {
+//   store.dispatch({
+//     type: 'SET_WS_GROUPS',
+//     payload: data.groupSet,
+//   });
+// };
+let userQueueReplySubscribe;
+let topicNotificationSubscribe;
+let topicCallReplySubscribe;
+let appGroupGetSubscribe;
+let topicGroupSubscribe;
 export const actionCreators = {
   login: (param) => async (dispatch) => {
     const res = await userAPI.login(param);
