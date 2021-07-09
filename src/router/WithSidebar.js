@@ -218,6 +218,20 @@ const WithSidebar = (props) => {
                     CHAT
                   </Link>
                 </Menu.Item>
+                <Menu.Item
+                  style={{
+                    margin: '0 0 0 0',
+                    paddingLeft: '10%',
+                    width: '100%',
+                  }}
+                  key="4"
+                  icon={<SettingOutlined />}
+                  title="Navigation Three"
+                >
+                  <Link to={{ pathname: `/app/myproject` }}>
+                    내 프로젝트로 돌아가기
+                  </Link>
+                </Menu.Item>
               </Menu>
             </Col>
           </Row>

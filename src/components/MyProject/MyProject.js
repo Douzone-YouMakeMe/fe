@@ -17,6 +17,9 @@ const MyProject = (props) => {
   const initProjectList = async () => {
     await dispatch(projectAction.getMyProject(user.userInfo.id));
   };
+  const goCreateProjedt = () => {
+    props.history.push('/app/ProjectCreate');
+  };
   return (
     <div style={{ marginTop: '5vh' }}>
       <div>
@@ -55,7 +58,9 @@ const MyProject = (props) => {
           </Row>
         </Col>
       </Row>
+
       <h2>Project List</h2>
+
       {list.myProjectList !== null && (
         <List
           dataSource={list.myProjectList}
@@ -70,6 +75,7 @@ const MyProject = (props) => {
           }}
         ></List>
       )}
+      <Button onClick={goCreateProjedt}>프로젝트 생성하기</Button>
     </div>
   );
 };
@@ -90,6 +96,13 @@ const ListObject = (props) => {
             }}
           >
             팀으로가기
+          </Button>
+          <Button
+            onClick={() => {
+              history.push(`/app/ProjectUpdate/${value.id}`);
+            }}
+          >
+            수정하기
           </Button>
         </Col>
         <Col>
