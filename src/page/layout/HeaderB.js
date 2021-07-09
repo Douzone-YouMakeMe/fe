@@ -14,13 +14,18 @@ const profileImage = (
   </div>
 );
 
-const logo = (
-  <img
-    src={Logo}
-    alt="서비스 로고"
-    style={{ height: '15vh', objectFit: 'cover' }}
-  />
-);
+const LogoImg = (props) => {
+  return (
+    <img
+      onClick={() => {
+        props.history.push('/');
+      }}
+      src={Logo}
+      alt="서비스 로고"
+      style={{ height: '15vh', objectFit: 'cover' }}
+    />
+  );
+};
 
 function HeaderB(props) {
   const user = useSelector((state) => state.user);
@@ -37,7 +42,9 @@ function HeaderB(props) {
         style={{ height: '18vh', zIndex: 999, backgroundColor: '#FFFFFF' }}
       >
         <Container>
-          <div>{logo}</div>
+          <div>
+            <LogoImg {...props}></LogoImg>
+          </div>
           {user.userInfo !== null && (
             <>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -70,7 +77,9 @@ function HeaderB(props) {
                     <NavDropdown.Item href="/app/myproject">
                       프로젝트
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
+                    <NavDropdown.Item
+                      href={`/app/info/user/${user.userInfo.id}`}
+                    >
                       프로필 설정
                     </NavDropdown.Item>
                     <NavDropdown.Item
