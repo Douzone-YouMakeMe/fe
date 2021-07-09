@@ -5,6 +5,7 @@ const initData = {
   userInfo: JSON.parse(localStorage.getItem('userInfo')),
   message: '',
   wsCleint: null,
+  chatHistory: null,
 };
 const user = (state = initData, action) => {
   switch (action.type) {
@@ -18,6 +19,13 @@ const user = (state = initData, action) => {
       return { ...state, isLogined: false, userInfo: null };
     case Constant.INITSOCKET:
       return { ...state, wsCleint: action.payload };
+    case Constant.SET_CHAT_HISTORY:
+      return {
+        ...state,
+        chatHistory: action.payload,
+      };
+    case Constant.ADD_CHAT_HISTORY:
+      return { ...state, chatHistory: [...state.chatHistory, action.payload] };
     default:
       return state;
   }

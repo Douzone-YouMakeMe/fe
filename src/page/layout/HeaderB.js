@@ -8,12 +8,6 @@ import {} from '../../css/Header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators } from '../../redux/module/user/userAction';
 
-const profileImage = (
-  <div>
-    <img className="profile" src={ProfilePicAvater} alt="user pic" />
-  </div>
-);
-
 const LogoImg = (props) => {
   return (
     <img
