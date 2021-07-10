@@ -36,7 +36,7 @@ const Chatting = (props) => {
     // console.log(message);
     // const formData = new FormData();
     // formData.append('message', message);
-    const model = { message: 'hie' };
+    const model = { message: message };
     dispatch({
       type: Constant.SEND_GROUP_MESSAGE,
       payload: model,
