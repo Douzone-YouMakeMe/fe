@@ -106,7 +106,13 @@ const ListObject = (props) => {
           </Button>
         </Col>
         <Col>
-          <Button>팀관리</Button>
+          <Button
+            onClick={() => {
+              history.push(`/app/setting/${value.id}`);
+            }}
+          >
+            팀관리
+          </Button>
         </Col>
       </Row>
     </List.Item>

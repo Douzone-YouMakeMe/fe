@@ -8,6 +8,7 @@ import ProjectApply from '../page/project/ProjectApply';
 import ProjectCreate from '../page/project/ProjectCreate';
 import UserInfo from '../page/user/UserInfo';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
+import Setting from '../components/Setting/Setting';
 import MyProject from '../components/MyProject/MyProject';
 import ProjectUpdate from '../page/project/ProjectUpdate';
 const { Footer, Content } = Layout;
@@ -70,6 +71,12 @@ const WithHeader = (props) => {
             path="/app/projectUpdate/:id"
             render={(props) => {
               return <ProjectUpdate {...props} />;
+            }}
+          ></Route>
+          <Route
+            path="/app/setting/:id"
+            render={(props) => {
+              return <Setting {...props}></Setting>;
             }}
           ></Route>
         </Content>

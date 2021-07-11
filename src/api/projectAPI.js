@@ -162,5 +162,15 @@ const ProjectApi = {
     console.log(result);
     return result;
   },
+  deleteProject: async (param) => {
+    let result;
+    try {
+      result = await axios.delete(`${serverUrl}/project/${param}`);
+    } catch (error) {
+      console.error(error);
+      return error.response;
+    }
+    return result;
+  },
 };
 export default ProjectApi;
