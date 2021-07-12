@@ -1,3 +1,8 @@
+/*
+작성일자 : 2021.07.08
+작업명   : 유저가 지원한 해당 프로젝트 수정 모달 화면
+
+*/
 import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
@@ -25,7 +30,6 @@ const { Title, Text } = Typography;
 function ProjectApply(props) {
   // usestate 는 배열 객체 안에 첫 번째 값이 변수의 이름 / 변수의 값을 변경해 주길 위한 함수 / usestate 안에 괄호는 초기 값
   const user = useSelector((state) => {
-    console.log(state);
     return state.user;
   });
   const list = useSelector((state) => {
@@ -33,9 +37,15 @@ function ProjectApply(props) {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    initProjectApply();
+    //initProjectApply();
     return () => {};
   }, []);
+
+  // 지원한 해당프로젝트의 유저의 지원 정보를 보내주는 객체
+  const memberApplyL = list.memberList;
+  //console.log({memberApplyL});
+  memberApplyL.forEach((applyInfo) => console.log(applyInfo));
+  // memberApplyL.forEach(toUeserL =>console.log(toUeserL));
 
   // userId,      //user 아이디 리덕스에서 보내기
   //   projectId, //프로젝트 아이디 리덕스 상태에서 보내기
@@ -46,6 +56,7 @@ function ProjectApply(props) {
   //   portfolioFile,   //포토폴리오 파일 업로드
   //   portfolioUrl,    //url 업로드
   //   description;     // 대비 칼럼
+
   const [appliedTime, setAppliedTime] = useState(null);
   const [appliedPosition, setAppliedPosition] = useState(null);
   const [portfolioUrl, setPortfolioUrl] = useState('');
@@ -55,9 +66,10 @@ function ProjectApply(props) {
   const [radio, setRadio] = useState('url');
 
   // 리덕스에서 프로젝트 값 받아오기
-  const initProjectApply = async () => {
-    await dispatch(projectAction.getProjectOne(props.match.params.id));
-  };
+  // const initProjectApply = async () => {
+  //    const infoApplyL = await projectAPI.getInfoApplyList();
+  // };
+
   //참여 가능일
   const handleAppliedTime = (e) => {
     setAppliedTime(e);
@@ -107,16 +119,17 @@ function ProjectApply(props) {
 
     formData.append('comments', comments);
 
-    const res = await projectAPI.postApplyProject(formData);
-    //console.log(res);
+    const res = await projectAPI.pathchApplyProject(formData);
+    console.log(res);
 
-    // if (res.status === 201) {
-    //   alert('수정 지원 성공');
-    //   props.history.push(`/app/info/user/${user.userInfo.id}`);
-    // } else {
-    //   alert('다시');
-    // }
+    if (res.status === 201) {
+      alert('프로젝트 지원 수정 및 저장 되었습니다');
+      props.history.push(`/app/info/user/${user.userInfo.id}`);
+    } else {
+      alert('수정 안됨 다시');
+    }
   };
+  //console.log(list.memberList[0].name);
   if (list.currentProject !== null) {
     return (
       <div
@@ -129,10 +142,11 @@ function ProjectApply(props) {
         }}
       >
         <Row justify="center">
-          <Title>$프로젝트이름 가져 오기</Title>
+          {/* 프로젝트 이름 */}
+          <Title>해당 프로젝트 이름 </Title>
         </Row>
         <Row justify="center">
-          <Title level={3}> 내용 수정</Title>
+          <Title level={3}> 지원서 보기 및 수정</Title>
         </Row>
         <hr></hr>
         <form>
@@ -218,7 +232,9 @@ function ProjectApply(props) {
           <br></br>
           <Row gutter={[80]} justify="center">
             <Col>
-              <Button type="primary">수정</Button>
+              <Button type="primary" onClick={handleSubmit}>
+                수정
+              </Button>
             </Col>
             <Col>
               <Button type="primary" danger>

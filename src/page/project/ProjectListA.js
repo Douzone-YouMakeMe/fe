@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Pimg from '../../test_img/card_test.png';
 //import { Card, Row, Col, Avatar } from 'antd';
-import { Avatar, Typography } from 'antd';
+import { Avatar, Divider, Typography } from 'antd';
 import { Row, Col, Card } from 'react-bootstrap';
 //import { UserOutlined } from '@ant-design/icons';
 import { s3Bucket } from '../../util';
@@ -37,7 +37,7 @@ function ProjectListA(props) {
   console.log(Plist);
   return (
     <div>
-      <Title style={{ marginLeft: '1%' }} level={2}>
+      <Title style={{ marginLeft: '1%', marginTop: '1%' }} level={2}>
         Project List
       </Title>
       <Row xs={1} md={3} className="g-1">
@@ -47,11 +47,26 @@ function ProjectListA(props) {
               to={{ pathname: `/app/detail/${value.id}` }}
               style={{ textDecoration: 'none' }}
             >
-              <Card>
-                <Card.Img variant="top" src={`${s3Bucket}${value.thumbnail}`} />
-                <Card.Body>
-                  <Card.Title>{value.name}</Card.Title>
-                  <Card.Text>
+              <Card
+                style={{
+                  //border: '2px solid rgba(0, 191, 255, .5)',
+                  border: '0 0 0 0',
+                  //borderTop: '5px solid rgba(0, 191, 255, .7)',
+                  boxShadow: '3px 3px rgba(0, 191, 255, .6)',
+
+                  height: '320px',
+                }}
+              >
+                <Card.Img
+                  variant="top"
+                  src={`${s3Bucket}${value.thumbnail}`}
+                  //380 160
+                  style={{ width: 'autdo', height: '150px' }}
+                />
+                <Card.Body style={{ backgroundColor: '#FFFF' }}>
+                  <Card.Title className="text-center">{value.name}</Card.Title>
+
+                  <Card.Text className="text-center">
                     <div
                       style={{
                         overflow: 'hidden',
@@ -63,6 +78,49 @@ function ProjectListA(props) {
                     </div>
                   </Card.Text>
                 </Card.Body>
+                <Card.Footer
+                  style={{ backgroundColor: '#FFFF', color: '#708090' }}
+                >
+                  <Row
+                    style={{
+                      height: '50px',
+                    }}
+                  >
+                    <Col
+                      style={{
+                        borderRight: '0.1px  solid rgba(0, 191, 255, .4)',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {/* <div style={{ marginTop: '10px' }}>모집인원</div> */}
+                      <Card.Text style={{ fontWeight: 600 }}>
+                        모집인원
+                      </Card.Text>
+                      {value.total}
+                    </Col>
+                    <Col
+                      style={{
+                        borderRight: '0.1px solid rgba(0, 191, 255, .4)',
+                        textAlign: 'center',
+                      }}
+                    >
+                      <Card.Text style={{ fontWeight: 600 }}>조회수</Card.Text>
+                      {value.view_count}
+                    </Col>
+                    <Col
+                      style={{
+                        textAlign: 'center',
+                      }}
+                    >
+                      <Card.Text style={{ fontWeight: 600 }}>
+                        마감일
+                        <div style={{ fontSize: '14px' }}>
+                          {String(value.finished_time).substring(0, 10)}
+                        </div>
+                      </Card.Text>
+                    </Col>
+                  </Row>
+                </Card.Footer>
               </Card>
             </Link>
           </Col>
@@ -129,3 +187,40 @@ antd 모바일 적용 안되는 카드 그리드 뷰
 
 
 */
+
+/* <footer>
+                    <Row
+                      style={{
+                        height: '70px',
+                        borderTop: '0.1px solid lightgray',
+                      }}
+                    >
+                      <Col
+                        style={{
+                          borderRight: '0.1px solid lightgray',
+
+                          textAlign: 'center',
+                        }}
+                      >
+                        <div style={{ marginTop: '10px' }}>모집인원</div>
+                        {value.total}
+                      </Col>
+                      <Col
+                        style={{
+                          borderRight: '0.1px solid lightgray',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <div style={{ marginTop: '10px' }}>조회수</div>
+                        {value.view_count}
+                      </Col>
+                      <Col
+                        style={{
+                          textAlign: 'center',
+                        }}
+                      >
+                        <div style={{ marginTop: '10px' }}>마감일</div>
+                        {String(value.finished_time).substring(0, 10)}
+                      </Col>
+                    </Row>
+                  </footer> */

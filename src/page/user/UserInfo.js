@@ -114,7 +114,7 @@ function UserInfo(props) {
       dataIndex: 'date',
       key: 'date',
       render: (text, record) => {
-        return <div>{moment(record.createTime).fromNow()}</div>;
+        return <div>{record.createTime}</div>;
       },
     },
     {
@@ -165,7 +165,14 @@ function UserInfo(props) {
         </Row>
         <hr></hr>
         <Collapse defaultActiveKey={['4']} onChange={callback}>
-          <Panel header="이메일" key="1">
+          <Panel
+            header="이메일"
+            key="1"
+            style={{
+              border: '1px solid #00BFFF',
+              background: '#00BFFF',
+            }}
+          >
             <Row justify="center"></Row>
 
             <Row justify="center">
@@ -191,7 +198,14 @@ function UserInfo(props) {
               </Col>
             </Row>
           </Panel>
-          <Panel header="비밀번호 변경하기" key="2">
+          <Panel
+            header="비밀번호 변경하기"
+            key="2"
+            style={{
+              border: 'solid #00BFFF',
+              background: '#00BFFF',
+            }}
+          >
             <Row justify="center">
               <Col style={{ width: 250 }}>
                 <Title level={5}>현재 비밀번호</Title>
@@ -231,11 +245,12 @@ function UserInfo(props) {
           <Panel header="내 지원 리스트" key="4">
             {list.memberList !== null && (
               <Table
+                style={{}}
                 columns={applyListC}
                 expandable={{
                   //+ 누르면 화면에 출력 되는 부분
                   expandedRowRender: (record) => (
-                    <p style={{ margin: 0 }}>{record.comments}</p>
+                    <p style={{ margin: 0 }}> {record.comments}</p>
                   ),
                   rowExpandable: (record) => record.name !== 'Not Expandable',
                 }}

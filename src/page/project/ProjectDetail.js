@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button, Avatar, Typography, Col, Row } from 'antd';
-import { Card, CardGroup } from 'react-bootstrap';
+import { Card, CardGroup, ListGroup } from 'react-bootstrap';
 import { UserOutlined, DownloadOutlined } from '@ant-design/icons';
 import { GrView } from 'react-icons/gr';
 import { TiDocumentText } from 'react-icons/ti';
@@ -13,8 +13,6 @@ import { projectAction } from '../../redux/module/project/projectAction';
 import { projectAPI } from '../../api';
 
 const { Title, Text, Paragraph } = Typography;
-const html =
-  '<html lang=en dir=ltr>	<head><meta charset=utf-8><title>하이</title></head>	<body>살아있어 행복 해요 더 자세한 설명은  ck에디터 입력 내용 받아오기</body></html>';
 
 function ProjectDetail(props) {
   const list = useSelector((state) => {
@@ -82,19 +80,21 @@ function ProjectDetail(props) {
         }}
       >
         <Row justify="center">
-          <Title>{list.currentProject.name}</Title>
+          <Title level={1}>{list.currentProject.name}</Title>
         </Row>
         <Row gutter={20} justify="end">
           <Col>
             <GrView />
-            <Text>&nbsp;&nbsp; 조회: {list.currentProject.viewCount}</Text>
+            <Text>&nbsp;&nbsp; 조회 : {list.currentProject.viewCount}회</Text>
           </Col>
           <Col>
             <TiDocumentText />
-            <Text>&nbsp;&nbsp; 지원자수:{list.count - 1}</Text>
+            <Text>
+              &nbsp;&nbsp; 모집 인원 :&nbsp;{list.currentProject.total} 명
+            </Text>
           </Col>
           <Col>
-            <Text>생성일- {list.currentProject.createTime}</Text>
+            <Text>작성일- {list.currentProject.createTime}</Text>
           </Col>
           <Col>
             <Text>수정일- {list.currentProject.updateTime}</Text>
@@ -105,39 +105,125 @@ function ProjectDetail(props) {
 
         <Title level={4}>Project Description </Title>
         <Paragraph>{list.currentProject.description}</Paragraph>
-        <Title level={4}>{ReactHtmlParser(list.currentProject.contents)}</Title>
+        <Paragraph style={{}}>
+          {ReactHtmlParser(list.currentProject.contents)}
+        </Paragraph>
         <Row></Row>
 
         <hr></hr>
         {writer !== null && (
           <CardGroup>
-            <Card bg="primary" text="white">
-              <Card.Header>리더 이름 :{writer.name}</Card.Header>
+            <Card text="white" style={{ border: '1px solid #00BFFF' }}>
+              <Card.Header
+                style={{
+                  background: '#00BFFF',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  fontSize: '20px',
+                }}
+              >
+                프로젝트 리더 정보
+              </Card.Header>
               <Card.Body>
-                <Card.Title></Card.Title>
-                <Card.Title>이메일</Card.Title>
-                <Card.Text>이메일</Card.Text>
+                <ListGroup variant="flush">
+                  <Row></Row>
+                  <ListGroup.Item>
+                    <Row>
+                      <Text style={{ fontWeight: 'bold', color: '#708090 ' }}>
+                        리더 이름
+                      </Text>
+                      <Text style={{ marginLeft: '15%', color: '#708090' }}>
+                        {writer.name}
+                      </Text>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Text style={{ fontWeight: 'bold', color: '#708090' }}>
+                        전문 분야
+                      </Text>
+                      <Text style={{ marginLeft: '15%', color: '#708090' }}>
+                        {writer.name}
+                      </Text>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Text
+                        style={{
+                          marginLeft: '3%',
+                          fontWeight: 'bold',
+                          color: '#708090',
+                        }}
+                      >
+                        Email
+                      </Text>
+                      <Text style={{ marginLeft: '18%', color: '#708090' }}>
+                        {writer.email}
+                      </Text>
+                    </Row>
+                  </ListGroup.Item>
+                </ListGroup>
               </Card.Body>
             </Card>
-            {/* <Card border="dark">
-            <Card.Header>프로젝트 상세보기</Card.Header>
-            <Card.Body>
-              <Card.Title>문서자료</Card.Title>
-              <Card.Text>문서 다운로드</Card.Text>
-              <Button
-                type="primary"
-                shape="round"
-                icon={<DownloadOutlined />}
-              />
-            </Card.Body>
-          </Card> */}
+            <Card text="white" style={{ border: '1px solid #00BFFF' }}>
+              <Card.Header
+                style={{
+                  background: '#00BFFF',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  fontSize: '20px',
+                }}
+              >
+                지원자수 및 마감일
+              </Card.Header>
+              <Card.Body>
+                <Row justify="center">
+                  <Text
+                    style={{
+                      fontSize: '75px',
+                      color: '#708090',
+                    }}
+                  >
+                    {list.count - 1}명
+                  </Text>
+                </Row>
+
+                <Row justify="center">
+                  <Button
+                    shape="round"
+                    disabled
+                    style={{
+                      border: '1px solid #00BFFF',
+                      background: '#FFFF',
+                      color: '#00BFFF',
+                    }}
+                  >
+                    마감일
+                  </Button>
+                  <Text
+                    style={{
+                      fontSize: '19px',
+                      marginLeft: '14px',
+                      color: '#708090',
+                    }}
+                  >
+                    {list.currentProject.finishedTime}
+                  </Text>
+                </Row>
+              </Card.Body>
+            </Card>
           </CardGroup>
         )}
         <hr></hr>
 
         {/*jobTitle : 자기분야 / name : 유저 이름 
         현재 프로젝트에 참가 중 인 멤바 정보와 팀에의 부족인원 모집중 메세지  */}
-        <Row gutter={20} justify="center">
+        <Row justify="center">
+          <Title level={5}>현재 모집 현황</Title>
+        </Row>
+        <br></br>
+        <Row gutter={[10]} justify="center">
           {Array.from({ length: list.currentProject.total }).map(
             (value, key) => {
               if (key < list.memberList.length) {
@@ -145,7 +231,14 @@ function ProjectDetail(props) {
                   <Col>
                     <Avatar size={100} icon={<UserOutlined />} />
                     <Row justify="center">
-                      <Text>{list.memberList[key].jobTitle}</Text>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          color: '#708090',
+                        }}
+                      >
+                        {list.memberList[key].jobTitle}
+                      </Text>
                     </Row>
                     <Row justify="center">
                       <Text>{list.memberList[key].name}</Text>
@@ -157,7 +250,18 @@ function ProjectDetail(props) {
                   <Col>
                     <Avatar size={100} icon={<UserOutlined />} />
                     <Row justify="center">
-                      <Text>모집중</Text>
+                      <Button
+                        //shape="round"
+                        disabled
+                        style={{
+                          marginTop: '4%',
+                          border: '1px solid #00BFFF',
+                          background: '#00BFFF',
+                          color: '#ffff',
+                        }}
+                      >
+                        모집중
+                      </Button>
                     </Row>
                   </Col>
                 );

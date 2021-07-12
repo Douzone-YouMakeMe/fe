@@ -3,10 +3,17 @@ import React from 'react';
 import { Button, Avatar } from 'antd';
 import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
 import ProfilePicAvater from '../../test_img/u_profile.jpg';
-import Logo from '../../test_img/logoHeader.png';
+//import Logo from '../../test_img/logoHeader.png';
+import Logo from '../../test_img/ymm_logo.png';
 import {} from '../../css/Header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators } from '../../redux/module/user/userAction';
+
+const profileImage = (
+  <div>
+    <img className="profile" src={ProfilePicAvater} alt="user pic" />
+  </div>
+);
 
 const LogoImg = (props) => {
   return (
@@ -16,7 +23,7 @@ const LogoImg = (props) => {
       }}
       src={Logo}
       alt="서비스 로고"
-      style={{ height: '15vh', objectFit: 'cover' }}
+      style={{ height: '8vh', objectFit: 'cover' }}
     />
   );
 };
@@ -33,12 +40,20 @@ function HeaderB(props) {
       <Navbar
         expand="lg"
         variant="light"
-        style={{ height: '18vh', zIndex: 999, backgroundColor: '#FFFFFF' }}
+        style={{
+          height: '11vh',
+          zIndex: 999,
+          backgroundColor: '#FFFFFF',
+          border: '0.1px solid lightgray',
+          borderWidth: '0px 0px 0.1px',
+        }}
       >
         <Container>
-          <div>
+          <Navbar.Brand>
             <LogoImg {...props}></LogoImg>
-          </div>
+          </Navbar.Brand>
+          <div></div>
+
           {user.userInfo !== null && (
             <>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -47,19 +62,14 @@ function HeaderB(props) {
                 id="basic-navbar-nav"
               >
                 <Nav className="me-auto">
-                  {/* <Navbar.Text
-                    style={{ fontSize: '32px', background: '#FFFFFF' }}
-                  >
-                    {user.userInfo.name}
-                  </Navbar.Text> */}
                   <Navbar.Text
-                    style={{ fontSize: '32px', background: '#FFFFFF' }}
+                    style={{ fontSize: '22px', background: '#FFFFFF' }}
                   >
                     {user.userInfo.email}
                   </Navbar.Text>
                   <NavDropdown
                     title={
-                      <Avatar size={70} style={{ backgroundColor: 'red' }}>
+                      <Avatar size={50} style={{ backgroundColor: 'black' }}>
                         {user.userInfo.name}
                       </Avatar>
                     }

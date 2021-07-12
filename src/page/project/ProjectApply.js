@@ -18,7 +18,6 @@ import { projectAction } from '../../redux/module/project/projectAction';
 import { projectAPI } from '../../api';
 import moment from 'moment';
 
-const { Option } = Select;
 const { TextArea } = Input;
 const { Title, Text } = Typography;
 
@@ -128,6 +127,7 @@ function ProjectApply(props) {
           marginBottom: 50,
         }}
       >
+        <div></div>
         <Row justify="center">
           <Title>{list.currentProject.name}</Title>
         </Row>

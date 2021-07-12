@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../../redux/module/project/projectAction';
-import { Space, Avatar, Row, Col, Button, List } from 'antd';
+import { Space, Avatar, Row, Col, Button, List, Card } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
+import { s3Bucket } from '../../util';
+{
+  /* <ProjectFilled /> */
+}
 const MyProject = (props) => {
   const user = useSelector((state) => {
     return state.user;
@@ -21,7 +26,14 @@ const MyProject = (props) => {
     props.history.push('/app/ProjectCreate');
   };
   return (
-    <div style={{ marginTop: '5vh' }}>
+    <div
+      style={{
+        marginLeft: 50,
+        marginRight: 50,
+        marginTop: 20,
+        marginBottom: 50,
+      }}
+    >
       <div>
         <h4>Profile</h4>
       </div>
@@ -58,7 +70,6 @@ const MyProject = (props) => {
           </Row>
         </Col>
       </Row>
-
       <h2>Project List</h2>
 
       {list.myProjectList !== null && (
@@ -81,34 +92,58 @@ const MyProject = (props) => {
 };
 const ListObject = (props) => {
   const { value, history } = props;
+  console.log(value);
   return (
     <List.Item>
-      <Row>
-        <Col>
-          <img src={`${value.thumbnail}`}></img>
-        </Col>
-        <Col>{value.name}</Col>
-        <Col>{value.description}</Col>
-        <Col>
-          <Button
-            onClick={() => {
-              history.push(`/project/${value.id}/roadmap`);
-            }}
-          >
-            팀으로가기
-          </Button>
-          <Button
-            onClick={() => {
-              history.push(`/app/ProjectUpdate/${value.id}`);
-            }}
-          >
-            수정하기
-          </Button>
-        </Col>
-        <Col>
-          <Button>팀관리</Button>
-        </Col>
-      </Row>
+      <Card style={{ width: '100%' }}>
+        <Row align="middle">
+          <Col span={5}>
+            <img
+              src={`${s3Bucket}${value.thumbnail}`}
+              style={{
+                width: '150px',
+                height: '50px',
+              }}
+            />
+          </Col>
+
+          <Col span={9}>
+            <Row>
+              <p style={{ fontSize: '30px', marginLeft: '3%' }}>{value.name}</p>
+            </Row>
+            <Row>
+              <p style={{ fontSize: '15px', marginLeft: '3%' }}>
+                {value.description}
+              </p>
+            </Row>
+          </Col>
+          <Col span={4}>
+            <Button
+              onClick={() => {
+                history.push(`/project/${value.id}/roadmap`);
+              }}
+            >
+              팀으로가기
+            </Button>
+          </Col>
+          <Col span={3}>
+            <Button
+              style={{ width: '100px' }}
+              onClick={() => {
+                history.push(`/app/ProjectUpdate/${value.id}`);
+              }}
+            >
+              수정하기
+            </Button>
+          </Col>
+          <Col span={3}>
+            <Button style={{ width: '100px', height: '45px' }}>
+              <SettingOutlined style={{ fontSize: '20px' }} />
+              팀관리
+            </Button>
+          </Col>
+        </Row>
+      </Card>
     </List.Item>
   );
 };
