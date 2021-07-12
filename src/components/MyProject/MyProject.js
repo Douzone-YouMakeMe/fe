@@ -4,9 +4,7 @@ import { projectAction } from '../../redux/module/project/projectAction';
 import { Space, Avatar, Row, Col, Button, List, Card } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { s3Bucket } from '../../util';
-{
-  /* <ProjectFilled /> */
-}
+
 const MyProject = (props) => {
   const user = useSelector((state) => {
     return state.user;
@@ -137,13 +135,50 @@ const ListObject = (props) => {
             </Button>
           </Col>
           <Col span={3}>
-            <Button style={{ width: '100px', height: '45px' }}>
+            <Button
+              onClick={() => {
+                history.push(`/app/setting/${value.id}/member`);
+              }}
+              style={{ width: '100px', height: '45px' }}
+            >
               <SettingOutlined style={{ fontSize: '20px' }} />
               팀관리
             </Button>
           </Col>
         </Row>
       </Card>
+      {/* <Row>
+        <Col>
+          <img src={`${value.thumbnail}`}></img>
+        </Col>
+        <Col>{value.name}</Col>
+        <Col>{value.description}</Col>
+        <Col>
+          <Button
+            onClick={() => {
+              history.push(`/project/${value.id}/roadmap`);
+            }}
+          >
+            팀으로가기
+          </Button>
+          <Button
+            onClick={() => {
+              history.push(`/app/ProjectUpdate/${value.id}`);
+            }}
+          >
+            수정하기
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            onClick={() => {
+              history.push(`/app/setting/${value.id}/member`);
+            }}
+          >
+            팀관리
+          </Button>
+        </Col>
+      </Row> */}
     </List.Item>
   );
 };

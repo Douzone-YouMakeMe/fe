@@ -17,16 +17,14 @@ import {
   Select,
   Table,
   Modal,
-  Pagination,
 } from 'antd';
-import { useForm, useFormState } from 'react-hook-form';
-import { DeleteOutlined } from '@ant-design/icons';
+
 import ProjectApplyModify from '../project/ProjectApplyModify';
 import { projectAction } from '../../redux/module/project/projectAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { projectAPI, userAPI } from '../../api';
 import moment from 'moment';
-
+import { userAction } from '../../redux/module/user/userAction';
 const { Panel } = Collapse;
 
 const { Title, Paragraph, Text } = Typography;
@@ -43,10 +41,20 @@ const del_msg =
 
 function UserInfo(props) {
   const [Plist, setPlist] = useState([]);
-  const handInit = async () => {
-    const data = await projectAPI.getMainProject();
-    setPlist(data.data);
-    await console.log(data.data);
+  const [record, setRecord] = useState(null);
+  const [name, setName] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [checkPassword, setCheckPassword] = useState('');
+  const [check, setCheck] = useState(true);
+  const handleInit = async () => {
+    if (user.userInfo !== null) {
+      setName(user.userInfo.name);
+      setPassword(user.userInfo.password);
+      setJobTitle(user.userInfo.jobTitle);
+    }
   };
   const user = useSelector((state) => {
     return state.user;
@@ -55,35 +63,33 @@ function UserInfo(props) {
   const list = useSelector((state) => {
     return state.project;
   });
-  ///
-  // const getProjectName = () => {
-  //   let temp;
-  //   if (list.memberList !== null) {
-  //     temp = list.memberList.find((element) => element.userId === Plist.userId);
-  //     setProjectName(temp);
-  //   }
-  // };
-
-  console.log(list.memberList);
-
-  const myApplyList = list.memberList;
 
   const dispatch = useDispatch();
   useEffect(() => {
     initInfoUser();
-    handInit();
     return () => {};
   }, []);
-  //console.log(Plist);
+  useEffect(() => {
+    handleInit();
+  }, [user.userInfo]);
 
   const initInfoUser = async () => {
+    if (user.userInfo == null) {
+      props.history.push('/main');
+    }
     await dispatch(projectAction.getProjectOne(props.match.params.id));
-    await dispatch(projectAction.getProjectMembers(props.match.params.id));
-    await dispatch(projectAction.getAppplyListMe(props.match.params.id));
+    await dispatch(projectAction.getAppplyListMe(user.userInfo.id));
   };
   // 모달
-  const [visible, setVisible] = useState(false);
-
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleNewPassword = (e) => {
+    setNewPassword(e.target.value);
+  };
   const applyListC = [
     {
       title: '프로젝트명',
@@ -98,7 +104,7 @@ function UserInfo(props) {
       dataIndex: 'position',
       key: 'position',
       render: (text, record) => {
-        return <div>{record.appliedPosition}</div>;
+        return <div>{record.JopTitle}</div>;
       },
     },
     {
@@ -124,14 +130,70 @@ function UserInfo(props) {
       render: (text, record, index) => {
         console.log(record);
         return (
-          <Button type="primary" onClick={() => setVisible(true)}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setRecord(record);
+              setVisible(true);
+            }}
+          >
             수정
           </Button>
         );
       },
     },
   ];
-  if (list.currentProject && list.memberList !== null) {
+  const handleSubmit = (e) => {
+    const formData = new FormData();
+    if (e === 'name') {
+      formData.append('name', name);
+      dispatch(userAction.modifyUser({ data: formData, id: user.userInfo.id }));
+    } else if (e === 'password') {
+      if (password !== newPassword) {
+        alert('값이 다릅니다.');
+      } else {
+        formData.append('password', password);
+        dispatch(
+          userAction.modifyUser({ data: formData, id: user.userInfo.id }),
+        );
+      }
+    } else {
+      formData.append('jobTitle', jobTitle);
+      dispatch(userAction.modifyUser({ data: formData, id: user.userInfo.id }));
+    }
+  };
+  const handleJobTitle = (e) => {
+    setJobTitle(e.target.value);
+  };
+  const handleDelete = async () => {
+    const res = await userAPI.deleteUser({
+      id: user.userInfo.id,
+    });
+    if (res.status !== 200) {
+      alert('실패했습니다.');
+    } else {
+      localStorage.clear();
+      alert(res.data);
+      props.history('/main');
+    }
+  };
+  const handleSetCheckPassword = (e) => {
+    setCheckPassword(e.target.value);
+  };
+  const handleCheck = async () => {
+    console.log(checkPassword);
+    const res = await userAPI.login({
+      email: user.userInfo.email,
+      password: checkPassword,
+    });
+    if (res.status !== 200) {
+      setCheck(true);
+      alert('비밀번호가 다릅니다.');
+    } else {
+      setCheck(false);
+    }
+  };
+  if (list.currentProject != null) {
     return (
       <div
         style={{
@@ -152,11 +214,17 @@ function UserInfo(props) {
             <Title level={4}>이름</Title>
           </Col>
           <Col>
-            <Input defaultValue={user.userInfo.name} />
+            <Input value={name} onChange={handleName} />
           </Col>
           <Row gutter={[20, 0]}>
             <Col>
-              <Button>수정</Button>
+              <Button
+                onClick={() => {
+                  handleSubmit('name');
+                }}
+              >
+                수정
+              </Button>
             </Col>
             <Col>
               <Button>취소</Button>
@@ -165,59 +233,29 @@ function UserInfo(props) {
         </Row>
         <hr></hr>
         <Collapse defaultActiveKey={['4']} onChange={callback}>
-          <Panel
-            header="이메일"
-            key="1"
-            style={{
-              border: '1px solid #00BFFF',
-              background: '#00BFFF',
-            }}
-          >
-            <Row justify="center"></Row>
-
-            <Row justify="center">
-              <Col>
-                <Title level={5}> 내 이메일 주소</Title>
-              </Col>
-            </Row>
-            <Row justify="center">
-              <Col>
-                <Input
-                  style={{ width: 250 }}
-                  defaultValue={user.userInfo.email}
-                />
-              </Col>
-            </Row>
-            <br></br>
-            <Row gutter={[10]} justify="center">
-              <Col>
-                <Button>확인</Button>
-              </Col>
-              <Col>
-                <Button>취소</Button>
-              </Col>
-            </Row>
-          </Panel>
-          <Panel
-            header="비밀번호 변경하기"
-            key="2"
-            style={{
-              border: 'solid #00BFFF',
-              background: '#00BFFF',
-            }}
-          >
+          <Panel header="비밀번호 변경하기" key="2">
             <Row justify="center">
               <Col style={{ width: 250 }}>
-                <Title level={5}>현재 비밀번호</Title>
-                <Input placeholder="현재 비밀번호를 입력해주세요"></Input>
                 <Title level={5}>새 비밀번호</Title>
-                <Input placeholder="새로운 비밀번호를 입력해주세요"></Input>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={handlePassword}
+                  placeholder="새 비밀번호를 입력해주세요"
+                ></Input>
+                <Title level={5}>비밀번호 확인</Title>
+                <Input
+                  type="password"
+                  value={newPassword}
+                  onChange={handleNewPassword}
+                  placeholder="새로운 비밀번호를 입력해주세요"
+                ></Input>
               </Col>
             </Row>
             <br></br>
             <Row gutter={[10]} justify="center">
               <Col>
-                <Button>확인</Button>
+                <Button onClick={() => handleSubmit('password')}>확인</Button>
               </Col>
               <Col>
                 <Button>취소</Button>
@@ -228,13 +266,19 @@ function UserInfo(props) {
             <Row justify="center">
               <Col>
                 <Title level={5}>희망 직무 변경</Title>
-                <Input defaultValue={list.memberList.appliedPosition}></Input>
+                <Input value={jobTitle} onChange={handleJobTitle}></Input>
               </Col>
             </Row>
             <br></br>
             <Row gutter={[10]} justify="center">
               <Col>
-                <Button>확인</Button>
+                <Button
+                  onClick={() => {
+                    handleSubmit('appliedPosition');
+                  }}
+                >
+                  확인
+                </Button>
               </Col>
               <Col>
                 <Button>취소</Button>
@@ -247,13 +291,6 @@ function UserInfo(props) {
               <Table
                 style={{}}
                 columns={applyListC}
-                expandable={{
-                  //+ 누르면 화면에 출력 되는 부분
-                  expandedRowRender: (record) => (
-                    <p style={{ margin: 0 }}> {record.comments}</p>
-                  ),
-                  rowExpandable: (record) => record.name !== 'Not Expandable',
-                }}
                 //list.memberList.length
                 dataSource={list.memberList.map((value, key) => {
                   return { ...value, key: key };
@@ -264,9 +301,21 @@ function UserInfo(props) {
           <Panel header="계정 삭제" key="5">
             <Paragraph>
               <pre>{del_msg}</pre>
+              <Input
+                value={checkPassword}
+                onChange={handleSetCheckPassword}
+              ></Input>
+              <Button onClick={handleCheck}>비밀번호 확인</Button>
             </Paragraph>
             <Row justify="center">
-              <Button>계정 삭제</Button>
+              <Button
+                disabled={check}
+                onClick={() => {
+                  handleDelete();
+                }}
+              >
+                계정 삭제
+              </Button>
               <Button>취소</Button>
             </Row>
           </Panel>
@@ -278,8 +327,14 @@ function UserInfo(props) {
           onOk={() => setVisible(false)}
           onCancel={() => setVisible(false)}
           width={1000}
+          footer={[]}
         >
-          <ProjectApplyModify />
+          <ProjectApplyModify
+            onOk={() => setVisible(false)}
+            onCancel={() => setVisible(false)}
+            record={record}
+            {...props}
+          />
         </Modal>
       </div>
     );

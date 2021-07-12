@@ -25,6 +25,19 @@ export const projectAction = {
       dispatch({ type: Constant.GET_MEMBERS, payload: res.data });
     }
   },
+  getProjectMemberAll: (param) => async (dispatch) => {
+    const res = await memberAPI.getMemberAll(param);
+    const user = await JSON.parse(localStorage.getItem('userInfo'));
+    if (res.data === null) {
+      dispatch({ type: Constant.PROJECT_GET_FAIL });
+    } else {
+      let memberInfo = res.data.filter((value) => {
+        return value.userId === user.id;
+      });
+      dispatch({ type: Constant.GET_CURRENT_MEMBER, payload: memberInfo[0] });
+      dispatch({ type: Constant.GET_MEMBERS, payload: res.data });
+    }
+  },
   getDetailMembers: (param) => async (dispatch) => {
     const res = await memberAPI.getMembers(param);
     if (res.data === null) {
@@ -131,5 +144,34 @@ export const projectAction = {
     } else {
       dispatch({ type: Constant.UPDATE_PROJECT, payload: param });
     }
+  },
+  approvedMember: (param) => async (dispatch) => {
+    const res = await memberAPI.apporovedMember(param);
+    if (res.status !== 201) {
+      alert('승인에 실패하였습니다.');
+    } else {
+      console.log(res);
+      return res;
+    }
+  },
+  modifyMember: (param) => async (dispatch) => {
+    const res = await projectAPI.modifyApplyProject(param);
+    if (res.status !== 201) {
+      alert('수정에 실패하였습니다.');
+    } else {
+      let temp = await projectAPI.getAppplyListMe(param.get('userId'));
+      dispatch({ type: Constant.GET_MEMBERS, payload: temp.data });
+    }
+    return res;
+  },
+  dropMember: (param) => async (dispatch) => {
+    const res = await memberAPI.dropMember(param.id);
+    if (res.status !== 200) {
+      alert(res.data);
+    } else {
+      let temp = await projectAPI.getAppplyListMe(param.userId);
+      dispatch({ type: Constant.GET_MEMBERS, payload: temp.data });
+    }
+    return res;
   },
 };
