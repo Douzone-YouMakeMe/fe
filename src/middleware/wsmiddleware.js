@@ -49,7 +49,7 @@ const WsClientMiddleWare = () => {
   let wsClient = null;
   return (store) => (next) => (action) => {
     // wsClient = store.getState().user.wsClient;
-    const userId = JSON.parse(localStorage.getItem('userInfo')).id;
+
     switch (action.type) {
       case Constant.INITSOCKET:
         if (action.payload === null) {

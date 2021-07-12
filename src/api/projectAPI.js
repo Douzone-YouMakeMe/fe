@@ -102,6 +102,7 @@ const ProjectApi = {
   getAppplyListMe: async (param) => {
     let result;
     try {
+      console.log(param);
       result = await axios.get(`${serverUrl}/member/by-user/${param}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -127,13 +128,33 @@ const ProjectApi = {
           'cache-control': 'no-cache',
         },
       });
+    } catch (e) {
+      return e.response;
+    }
+    return result;
+  },
+  modifyApplyProject: async (param) => {
+    let result;
+    try {
+      result = await axios.put(
+        `${serverUrl}/member/${param.get('id')}`,
+        param,
+        {
+          headers: {
+            Accept: '*/*',
+            'Content-Type':
+              'multipart/form-data; boundary=——WebKitFormBoundaryqTqJIxvkWFYqvP5s',
+            'Access-Control-Allow-Origin': '*',
+            'cache-control': 'no-cache',
+          },
+        },
+      );
       console.log(result);
     } catch (e) {
       return e.response;
     }
     return result;
   },
-
   patchProject: async (param) => {
     let result;
 

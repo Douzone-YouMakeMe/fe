@@ -6,7 +6,7 @@ import ProfilePicAvater from '../../test_img/u_profile.jpg';
 import Logo from '../../test_img/logoHeader.png';
 import {} from '../../css/Header.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { actionCreators } from '../../redux/module/user/userAction';
+import { userAction } from '../../redux/module/user/userAction';
 
 const LogoImg = (props) => {
   return (
@@ -25,8 +25,8 @@ function HeaderB(props) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(actionCreators.logout());
-    props.history.push('/main');
+    dispatch(userAction.logout());
+    props.history.push('/');
   };
   return (
     <>

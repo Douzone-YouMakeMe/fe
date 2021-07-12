@@ -8,6 +8,9 @@ const ProjectDelete = (props) => {
   const user = useSelector((state) => state.user);
   const project = useSelector((state) => state.project);
   const dispatch = useDispatch();
+  useEffect(() => {
+    handleInit();
+  }, []);
   const handleInit = () => {
     dispatch(projectAction.getCurrentProject(props.match.params.id));
   };

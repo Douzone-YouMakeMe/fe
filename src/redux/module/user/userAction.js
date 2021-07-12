@@ -12,16 +12,11 @@ let topicNotificationSubscribe;
 let topicCallReplySubscribe;
 let appGroupGetSubscribe;
 let topicGroupSubscribe;
-export const actionCreators = {
+export const userAction = {
   login: (param) => async (dispatch) => {
     const res = await userAPI.login(param);
 
-    if (res.status === 401) {
-      dispatch({
-        type: Constant.LOGIN_FAIL,
-        payload: { isLogined: false, message: res.data },
-      });
-    } else {
+    if (res.status === 200) {
       const data = res.data[0];
       localStorage.setItem('userInfo', JSON.stringify(data));
       console.log(data);
@@ -37,11 +32,27 @@ export const actionCreators = {
           },
         });
       });
+    } else {
+      dispatch({
+        type: Constant.LOGIN_FAIL,
+        payload: { isLogined: false, message: res.data },
+      });
     }
   },
   logout: () => (dispatch) => {
     localStorage.removeItem('userInfo');
     dispatch({ type: Constant.LOGOUT, payload: null });
+  },
+  modifyUser: (param) => async (dispatch) => {
+    const res = await userAPI.modifyUser(param);
+    if (res.status !== 200) {
+      alert('수정 성공');
+      console.log(res);
+      localStorage.setItem('userInfo', JSON.stringify(res.data[0]));
+      dispatch({ type: Constant.LOGIN, payload: { userInfo: res.data[0] } });
+    }
+
+    return res;
   },
 };
 

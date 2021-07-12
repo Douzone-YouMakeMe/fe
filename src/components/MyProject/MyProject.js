@@ -108,7 +108,7 @@ const ListObject = (props) => {
         <Col>
           <Button
             onClick={() => {
-              history.push(`/app/setting/${value.id}`);
+              history.push(`/app/setting/${value.id}/member`);
             }}
           >
             팀관리

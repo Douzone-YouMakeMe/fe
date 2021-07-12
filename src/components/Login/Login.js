@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators as UserAction } from '../../redux/module/user/userAction';
+import { userAction } from '../../redux/module/user/userAction';
 import { Link } from 'react-router-dom';
 import { Input, Button, Space, Row, Col } from 'antd';
 import Logo from '../../test_img/logoCenter.png';
@@ -27,7 +27,7 @@ const LoginPresenter = (props) => {
     setPassword(e.target.value);
   };
   const handleSubmit = () => {
-    dispatch(UserAction.login({ email: id, password: password }));
+    dispatch(userAction.login({ email: id, password: password }));
   };
   return (
     <Row

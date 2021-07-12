@@ -6,6 +6,7 @@ import { Route } from 'react-router';
 import { Row } from 'antd';
 import { Col } from 'react-bootstrap';
 import ProjectDrop from './componet/ProjectDrop';
+import ProjectMember from './componet/ProjectMember';
 const Setting = (props) => {
   const user = useSelector((state) => state.user);
   const project = useSelector((state) => state.project);
@@ -20,7 +21,14 @@ const Setting = (props) => {
   return (
     <div>
       <Row align="middle">
-        <Col span={4}>사용자</Col>
+        <Col
+          span={4}
+          onClick={() => {
+            props.history.push(`/app/setting/${props.match.params.id}/member`);
+          }}
+        >
+          사용자
+        </Col>
         <Col
           span={4}
           onClick={() => {
@@ -38,7 +46,12 @@ const Setting = (props) => {
           개인관리
         </Col>
       </Row>
-      <Route path="/app/setting/:id/member" render={(props) => {}}></Route>
+      <Route
+        path="/app/setting/:id/member"
+        render={(props) => {
+          return <ProjectMember {...props}></ProjectMember>;
+        }}
+      ></Route>
       <Route
         path="/app/setting/:id/project"
         render={(props) => {

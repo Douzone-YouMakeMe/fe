@@ -33,11 +33,7 @@ const ProjectDrop = (props) => {
     }
   };
   const handleDrop = async (e) => {
-    const result = await memberAPI.dropMember({
-      member: project.currentMember.id,
-      id: user.userInfo.id,
-      password: password,
-    });
+    const result = await memberAPI.dropMember(project.currentMember.id);
     if (result.status !== 200) {
       alert('실패 햇습니다.');
     } else {
