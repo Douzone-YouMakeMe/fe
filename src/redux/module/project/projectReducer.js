@@ -73,7 +73,17 @@ const project = (state = initData, action) => {
         }),
       };
     case Constant.LEAVE_PROJECT:
-      return { workList: null };
+      return {
+        currentProject: null,
+        myProjectList: null,
+        memberList: null,
+        workList: null,
+        currentMember: null,
+        message: '',
+        currentComment: [],
+        tempWorkList: null,
+        count: 0,
+      };
     default:
       return state;
   }

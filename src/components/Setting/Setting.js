@@ -13,6 +13,7 @@ import { Row, Col, Card } from 'antd';
 import { Tab, Tabs } from 'react-bootstrap';
 import ProjectDrop from './componet/ProjectDrop';
 import ProjectMember from './componet/ProjectMember';
+import Constant from '../../redux/actionType';
 const Setting = (props) => {
   const [key, setKey] = useState('memberM');
   const user = useSelector((state) => state.user);
@@ -21,9 +22,8 @@ const Setting = (props) => {
   useEffect(() => {
     handleInit();
   }, []);
+
   const handleInit = () => {
-    dispatch(projectAction.getProjectMembers(props.match.params.id));
-    dispatch(projectAction.getCurrentProject(props.match.params.id));
     let path = props.history.location.pathname.split('/');
     if (path[path.length - 1] === 'member') {
       setKey('memberM');

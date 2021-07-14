@@ -17,6 +17,7 @@ import {
 } from 'antd';
 import UserInfo from '../../../page/user/UserInfo';
 import { memberAPI } from '../../../api';
+import Constant from '../../../redux/actionType';
 const { Panel } = Collapse;
 
 const ProjectMember = (props) => {
@@ -27,12 +28,17 @@ const ProjectMember = (props) => {
   const [visible, setVisible] = useState(false);
   const [record, setRecord] = useState(null);
   const [current, setCurrent] = useState({ key: 'all', value: '모두' });
+
+  const handleLeave = () => {
+    dispatch({ type: Constant.LEAVE_PROJECT });
+  };
+
   useEffect(() => {
     checkProject();
   }, [project.currentProject]);
-  // useEffect(() => {
-  //   checkProject();
-  // }, [project.memberList]);
+  useEffect(() => {
+    checkProject();
+  }, [project.memberList]);
   const checkProject = () => {
     if (project.currentProject !== null) {
       if (project.memberList !== null) {
@@ -148,6 +154,9 @@ const ProjectMember = (props) => {
   ];
   useEffect(() => {
     handleInit();
+    return () => {
+      handleLeave();
+    };
   }, []);
   useEffect(() => {
     filterList();
