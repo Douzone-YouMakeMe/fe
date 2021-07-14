@@ -317,10 +317,13 @@ function UserInfo(props) {
               <Table
                 style={{}}
                 columns={applyListC}
-                //list.memberList.length
-                dataSource={list.memberList.map((value, key) => {
-                  return { ...value, key: key };
-                })}
+                dataSource={list.memberList
+                  .filter((value) => {
+                    return value.ownerUserId !== user.userInfo.id;
+                  })
+                  .map((value, key) => {
+                    return { ...value, key: key };
+                  })}
               />
             )}
           </Panel>

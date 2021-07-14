@@ -150,25 +150,13 @@ function ProjectApply(props) {
       >
         <Row justify="center">
           {/* 프로젝트 이름 */}
-          <Title>해당 프로젝트 이름 </Title>
+          <Title>{name} </Title>
         </Row>
         <Row justify="center">
           <Title level={3}> 지원서 보기 및 수정</Title>
         </Row>
         <hr></hr>
         <form>
-          <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>이름</Title>
-            </Col>
-            <Col span={16}>
-              <Input
-                style={{ width: 280 }}
-                value={name}
-                onChange={handleName}
-              />
-            </Col>
-          </Row>
           <br></br>
           <Row gutter={[]}>
             <Col span={8}>

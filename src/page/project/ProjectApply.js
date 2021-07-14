@@ -154,15 +154,6 @@ function ProjectApply(props) {
         <form>
           <Row gutter={[]}>
             <Col span={8}>
-              <Title level={5}>이름</Title>
-            </Col>
-            <Col span={16}>
-              <Input style={{ width: 280 }} value={user.userInfo.name} />
-            </Col>
-          </Row>
-          <br></br>
-          <Row gutter={[]}>
-            <Col span={8}>
               <Title level={5}>프로젝트 참여가능일</Title>
             </Col>
             <Col span={16}>

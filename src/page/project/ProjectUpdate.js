@@ -117,14 +117,16 @@ function ProjectCreate(props) {
     formData.append('projectId', props.match.params.id);
     formData.append('userId', user.userInfo.id); //이거 전역 redux store에서 받아와야...
     //console.log(user.userInfo.id+"-----입니다");
-    formData.append('thumbnail', thumbnail);
+    if (thumbnail !== null) {
+      formData.append('thumbnail', thumbnail);
+    }
     formData.append('name', name);
     formData.append('description', description);
     formData.append('total', total);
     formData.append('startedTime', startTime);
     formData.append('finishedTime', finishTime);
     // 컨텐츠는 JSON.stringify 필요.
-    formData.append('contents', JSON.stringify(contents));
+    formData.append('contents', String(JSON.stringify(contents)));
     const res = await projectAPI.patchProject(formData);
     if (res.status === 200) {
       alert('프로젝트 내역 수정에 성공했습니다.');
