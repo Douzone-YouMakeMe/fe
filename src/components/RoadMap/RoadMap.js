@@ -10,6 +10,7 @@ import {
   Avatar,
   Modal,
   List,
+  Empty,
 } from 'antd';
 
 import TimeLine from 'react-gantt-timeline';
@@ -55,7 +56,9 @@ const RoadMap = (props) => {
   const handleInit = async () => {
     await dispatch(projectAction.getProjectWork(props.match.params.id));
   };
-
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   const handleSelect = async (object) => {
     setItem(object);
     setOnModal(!onModal);
@@ -172,7 +175,7 @@ const RoadMap = (props) => {
         </Col>
         <Col xs={6} sm={2} md={2}></Col>
       </Row>
-      {project.workList !== null && project.workList.length !== 0 && (
+      {project.workList !== null && project.workList.length !== 0 ? (
         <Row justify="center" style={{ backgroundColor: 'white' }}>
           <div
             className="time-line-container"
@@ -183,52 +186,60 @@ const RoadMap = (props) => {
             }}
           >
             {data !== null && (
-              <TimeLine
-                mode="month"
-                itemheight={30}
-                config={{
-                  ...config,
-                  taskList: {
-                    title: {
-                      label: 'work',
-                      style: {
-                        fontSize: '20px',
-                        backgroundColor: String('#40a9ff'),
-                        color: 'white',
-                        textAlign: 'center',
+              <div>
+                33333
+                <TimeLine
+                  mode="month"
+                  itemheight={30}
+                  config={{
+                    ...config,
+                    taskList: {
+                      title: {
+                        label: 'work',
+                        style: {
+                          fontSize: '20px',
+                          backgroundColor: String('#40a9ff'),
+                          color: 'white',
+                          textAlign: 'center',
+                        },
+                      },
+                      task: {
+                        style: {
+                          borderBottom: '1.5px solid #bae7ff',
+                          backgroundColor: 'white',
+                          fontSize: '15px',
+                          fontstyle: 'bold',
+                        }, // the style to be applied
+                      },
+                      verticalSeparator: {
+                        style: { display: 'none' }, //the style
+                        grip: {
+                          //the four square grip inside the vertical separator
+                          style: { visbility: 'hidden' }, //the style to be applied
+                        },
                       },
                     },
-                    task: {
-                      style: {
-                        borderBottom: '1.5px solid #bae7ff',
-                        backgroundColor: 'white',
-                        fontSize: '15px',
-                        fontstyle: 'bold',
-                      }, // the style to be applied
-                    },
-                    verticalSeparator: {
-                      style: { display: 'none' }, //the style
-                      grip: {
-                        //the four square grip inside the vertical separator
-                        style: { visbility: 'hidden' }, //the style to be applied
-                      },
-                    },
-                  },
-                }}
-                onSelectItem={handleSelect}
-                data={data.map((value) => {
-                  return {
-                    ...value,
-                    key: value.id,
-                    id: value.id,
-                    start: value.startedAt,
-                    end: value.finishedAt,
-                  };
-                })}
-                links={null}
-              />
+                  }}
+                  onSelectItem={handleSelect}
+                  data={data.map((value) => {
+                    return {
+                      ...value,
+                      key: value.id,
+                      id: value.id,
+                      start: value.startedAt,
+                      end: value.finishedAt,
+                    };
+                  })}
+                  links={null}
+                />
+              </div>
             )}
           </div>
+        </Row>
+      ) : (
+        <Row style={{ height: '60vh' }} align={'middle'} justify="center">
+          <Empty />
+          Dash보드에서 작업을 추가하세요
         </Row>
       )}
 

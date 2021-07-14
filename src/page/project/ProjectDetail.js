@@ -67,7 +67,22 @@ function ProjectDetail(props) {
   };
 
   // useSate에 담기긴 변수를 호출 해보면 볼수있다
-
+  const handleApply = () => {
+    if (user.userInfo === null) {
+      alert('로그인이 필요합니다.');
+      props.history.push('/user/login');
+    } else if (list.memberList !== null) {
+      let member = list.memberList.filter((value) => {
+        return value.userId === user.userInfo.id;
+      });
+      console.log(member);
+      if (member.length !== 0) {
+        alert('이미 해당 프로젝트의 멤버입니다.');
+      } else {
+        props.history.push(`/app/apply/${list.currentProject.id}`);
+      }
+    }
+  };
   if (list.currentProject !== null && writer !== null) {
     return (
       <div
@@ -273,11 +288,9 @@ function ProjectDetail(props) {
         <br></br>
         <br></br>
         <Row justify="center">
-          <Link to={{ pathname: `/app/apply/${list.currentProject.id}` }}>
-            <Button type="primary" shape="round">
-              지원하기
-            </Button>
-          </Link>
+          <Button onClick={handleApply} type="primary" shape="round">
+            지원하기
+          </Button>
         </Row>
       </div>
     );

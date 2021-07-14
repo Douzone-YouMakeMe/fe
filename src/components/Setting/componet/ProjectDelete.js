@@ -38,74 +38,76 @@ const ProjectDelete = (props) => {
   const { Title, Text } = Typography;
   return (
     <div style={{ marginTop: '3%' }}>
-      <Card
-        style={{
-          width: 'auto',
-          height: '445px',
-          backgroundColor: 'rgba(0, 191, 255, .7)',
-          color: '#FFFF',
-          borderRadius: '30px',
-          border: '2px solid',
-          borderColor: '#505050',
-        }}
-      >
-        <Row justify="center" align="middle">
-          <Title
-            style={{
-              color: '#FFFF',
-              fontSize: '65px',
-              textShadow:
-                '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-              marginBottom: '1%',
-            }}
-          >
-            프로젝트 삭제
-          </Title>
-        </Row>
-        <hr></hr>
-        <Row justify="center" align="middle">
-          <Title
-            style={{
-              color: '#FFFF',
-              fontSize: '40px',
-              marginTop: '30PX',
-            }}
-          >
-            프로젝트명 : {project.currentProject.name}
-          </Title>
-        </Row>
-        <Row justify="center" align="middle">
-          <Text
-            style={{
-              color: '#708090',
-              fontSize: '20px',
-              marginTop: '30PX',
-            }}
-          >
-            프로젝트를 삭제 하시겠습니까?
-          </Text>
-        </Row>
-        <Row justify="center" align="middle">
-          <Button
-            style={{
-              marginTop: '5%',
-              width: '100px',
-              height: '50px',
-              borderRadius: '12px',
-              backgroundColor: '#FFFF',
-              border: '3px soild',
-              borderColor: '#E60A2F',
-              fontSize: '25px',
-              color: '#E60A2F',
-            }}
-            onClick={() => {
-              handleDelete();
-            }}
-          >
-            삭제
-          </Button>
-        </Row>
-      </Card>
+      {project.currentProject !== null && (
+        <Card
+          style={{
+            width: 'auto',
+            height: '445px',
+            backgroundColor: 'rgba(0, 191, 255, .7)',
+            color: '#FFFF',
+            borderRadius: '30px',
+            border: '2px solid',
+            borderColor: '#505050',
+          }}
+        >
+          <Row justify="center" align="middle">
+            <Title
+              style={{
+                color: '#FFFF',
+                fontSize: '65px',
+                textShadow:
+                  '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+                marginBottom: '1%',
+              }}
+            >
+              프로젝트 삭제
+            </Title>
+          </Row>
+          <hr></hr>
+          <Row justify="center" align="middle">
+            <Title
+              style={{
+                color: '#FFFF',
+                fontSize: '40px',
+                marginTop: '30PX',
+              }}
+            >
+              프로젝트명 : {project.currentProject.name}
+            </Title>
+          </Row>
+          <Row justify="center" align="middle">
+            <Text
+              style={{
+                color: '#708090',
+                fontSize: '20px',
+                marginTop: '30PX',
+              }}
+            >
+              프로젝트를 삭제 하시겠습니까?
+            </Text>
+          </Row>
+          <Row justify="center" align="middle">
+            <Button
+              style={{
+                marginTop: '5%',
+                width: '100px',
+                height: '50px',
+                borderRadius: '12px',
+                backgroundColor: '#FFFF',
+                border: '3px soild',
+                borderColor: '#E60A2F',
+                fontSize: '25px',
+                color: '#E60A2F',
+              }}
+              onClick={() => {
+                handleDelete();
+              }}
+            >
+              삭제
+            </Button>
+          </Row>
+        </Card>
+      )}
     </div>
   );
 };

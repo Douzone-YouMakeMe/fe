@@ -72,6 +72,8 @@ const project = (state = initData, action) => {
           data = action.payload;
         }),
       };
+    case Constant.LEAVE_PROJECT:
+      return { workList: null };
     default:
       return state;
   }

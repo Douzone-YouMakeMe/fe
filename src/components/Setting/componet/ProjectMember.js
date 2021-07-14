@@ -30,16 +30,18 @@ const ProjectMember = (props) => {
   useEffect(() => {
     checkProject();
   }, [project.currentProject]);
-  useEffect(() => {
-    checkProject();
-  }, [project.memberList]);
+  // useEffect(() => {
+  //   checkProject();
+  // }, [project.memberList]);
   const checkProject = () => {
-    if (project.currentProject !== null && project.memberList !== null) {
-      if (project.currentProject.userId !== user.userInfo.id) {
-        alert('권한이 없습니다.');
-        props.history.push(`/app/myProject`);
-      } else {
-        setTemp(project.memberList);
+    if (project.currentProject !== null) {
+      if (project.memberList !== null) {
+        if (project.currentProject.userId !== user.userInfo.id) {
+          alert('권한이 없습니다.');
+          props.history.push(`/app/myProject`);
+        } else {
+          setTemp(project.memberList);
+        }
       }
     }
   };

@@ -26,6 +26,7 @@ import { batch, useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../redux/module/project/projectAction';
 import { user } from '../redux/module';
 import Chatting from '../components/Chat/Chatting';
+import Constant from '../redux/actionType';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 
@@ -45,6 +46,9 @@ const WithSidebar = (props) => {
 
     return () => {};
   }, []);
+  const handleLeave = () => {
+    dispatch({ type: Constant.LEAVE_WORK, payload: null });
+  };
   useEffect(() => {
     handleMenu();
   }, [menu]);

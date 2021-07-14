@@ -19,11 +19,19 @@ const Setting = (props) => {
   const project = useSelector((state) => state.project);
   const dispatch = useDispatch();
   useEffect(() => {
-    // handleInit();
+    handleInit();
   }, []);
   const handleInit = () => {
     dispatch(projectAction.getProjectMembers(props.match.params.id));
     dispatch(projectAction.getCurrentProject(props.match.params.id));
+    let path = props.history.location.pathname.split('/');
+    if (path[path.length - 1] === 'member') {
+      setKey('memberM');
+    } else if (path[path.length - 1] === 'user') {
+      setKey('pSecession');
+    } else {
+      setKey('projectDel');
+    }
   };
   const { TabPane } = Tabs;
 
@@ -49,7 +57,7 @@ const Setting = (props) => {
       }}
     >
       {/* ////////////////////////////////////////////////// */}
-      <Tabs id="controlled-tab-example" onSelect={handleSelect} style={{}}>
+      <Tabs activeKey={key} id="controlled-tab-example" onSelect={handleSelect}>
         <Tab eventKey="memberM" title="맴버관리"></Tab>
         <Tab eventKey="projectDel" title="프로젝트 삭제"></Tab>
         <Tab eventKey="pSecession" title="팀 탈퇴"></Tab>
