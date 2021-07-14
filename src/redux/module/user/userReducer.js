@@ -26,6 +26,8 @@ const user = (state = initData, action) => {
       };
     case Constant.ADD_CHAT_HISTORY:
       return { ...state, chatHistory: [...state.chatHistory, action.payload] };
+    case Constant.LEAVE_CHAT:
+      return { ...state, chatHistory: null };
     default:
       return state;
   }

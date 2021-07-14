@@ -21,7 +21,7 @@ const ProjectDelete = (props) => {
     if (project.currentProject !== null) {
       if (project.currentProject.userId !== user.userInfo.id) {
         alert('권한이 없습니다.');
-        props.history.push(`/app/setting/${props.match.params.id}/user`);
+        props.history.push(`/app/myProject`);
       }
     }
   };

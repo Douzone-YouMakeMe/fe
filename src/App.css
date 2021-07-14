@@ -4,7 +4,9 @@
   background: rgba(255, 255, 255, 0.3);
   color: white;
 }
-
+body::-webkit-scrollbar {
+  display: none;
+}
 .site-layout .site-layout-background {
   background: #fff;
 }
@@ -38,10 +40,30 @@
   width: 100%;
 }
 .timeLine-side-main {
-  width: 10vw;
+  width: 15vw;
   max-width: 10vw;
 }
 /* ckeditor5용 높이 조정 css 설정 */
 .ck-editor__editable:not(.ck-editor__nested-editable) {
   min-height: 400px;
+}
+/* .timeLine-side-title {
+  font-size: '20px';
+  background-color: '#40a9ff';
+  border-bottom: 'solid 1px silver';
+  color: 'white';
+  text-align: 'center';
+} */
+.timeLine-side-title {
+  background-color: red;
+}
+.routerHeader {
+  background: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    #000000 50%,
+    white 50%,
+    white 100%
+  ); /* W3C */
 }

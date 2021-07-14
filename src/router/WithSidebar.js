@@ -84,16 +84,20 @@ const WithSidebar = (props) => {
     return <></>;
   }
   return (
-    <Layout>
+    <Layout style={{ backgroundColor: '#F0F8FF' }}>
       <Header
+        className="routerHeader"
         style={{
-          height: '13vh',
+          height: '10vh',
+          backgroundColor: 'rgb(29, 144, 251)',
           color: 'white',
-          paddingLeft: '1vw',
-          paddingRight: '1vw',
         }}
       >
-        <Row justify="start" style={{ height: '100%' }} align="middle">
+        <Row
+          justify="start"
+          style={{ height: '94%', marginLeft: '3vw', marginRight: '3vw' }}
+          align="middle"
+        >
           <Col xs={2} sm={2} md={1} lg={1}>
             <MenuOutlined
               style={{
@@ -139,7 +143,16 @@ const WithSidebar = (props) => {
           </Col>
         </Row>
       </Header>
-      <Content style={{ minHeight: '80vh' }}>
+      <Content
+        style={{
+          minHeight: '90vh',
+          width: '80vw',
+          maxWidth: '80vw',
+          marginLeft: '5vw',
+
+          backgroundColor: '#F0F8FF',
+        }}
+      >
         <Drawer
           visible={collapsed}
           placement="left"
@@ -149,7 +162,7 @@ const WithSidebar = (props) => {
           }}
           style={{
             width: '200px',
-            marginTop: '13vh',
+            marginTop: '10vh',
             marginBottom: '10vh',
             padding: 0,
           }}
@@ -250,18 +263,26 @@ const WithSidebar = (props) => {
           path={`/project/:id/dashboard`}
           render={(props) => {
             return (
-              <DashBoard closeCollapse={defaultCollapse} {...props}></DashBoard>
+              <DashBoard
+                onModal={onModal}
+                subModal={onSub}
+                collapsed={collapsed}
+                closeCollapse={defaultCollapse}
+                {...props}
+              ></DashBoard>
             );
           }}
         ></Route>
         <Route
           path={`/project/:id/chat`}
           render={(props) => {
-            return <Chatting {...props}></Chatting>;
+            return (
+              <Chatting closeCollapse={defaultCollapse} {...props}></Chatting>
+            );
           }}
         ></Route>
       </Content>
-      <Footer style={{ height: '10vh' }}>1111</Footer>
+
       <Modal
         maskClosable={false}
         centered

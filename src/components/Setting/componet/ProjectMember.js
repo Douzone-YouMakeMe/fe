@@ -39,7 +39,7 @@ const ProjectMember = (props) => {
     if (project.currentProject !== null && project.memberList !== null) {
       if (project.currentProject.userId !== user.userInfo.id) {
         alert('권한이 없습니다.');
-        props.history.push(`/app/setting/${props.match.params.id}/user`);
+        props.history.push(`/app/myProject`);
       } else {
         setTemp(project.memberList);
       }
@@ -158,7 +158,6 @@ const ProjectMember = (props) => {
     dispatch(projectAction.getCurrentProject(props.match.params.id));
   };
   const onSelected = (e) => {
-    console.log(e);
     if (e.key === 'all') {
       setCurrent({ key: 'all', value: '모두' });
     } else if (e.key === 'pending') {
@@ -174,7 +173,7 @@ const ProjectMember = (props) => {
     if (current.key === 'all') {
       setTemp(project.memberList);
     } else {
-      let filter = temp.filter((value) => {
+      let filter = project.memberList.filter((value) => {
         return value.status === current.key;
       });
       setTemp(filter);

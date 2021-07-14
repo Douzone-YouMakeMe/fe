@@ -26,6 +26,7 @@ function ProjectApply(props) {
     console.log(state);
     return state.user;
   });
+
   const list = useSelector((state) => {
     return state.project;
   });
@@ -34,7 +35,17 @@ function ProjectApply(props) {
     initProjectApply();
     return () => {};
   }, []);
-
+  useEffect(() => {
+    handleCheck();
+  }, [list.currentProject]);
+  const handleCheck = () => {
+    if (list.currentProject !== null && user.userInfo !== null) {
+      if (list.currentProject.userId === user.userInfo.id) {
+        alert('만든사람은 지원할 수 없습니다.');
+        props.history.push(`/app/detail/${props.match.params.id}`);
+      }
+    }
+  };
   // userId,      //user 아이디 리덕스에서 보내기
   //   projectId, //프로젝트 아이디 리덕스 상태에서 보내기
   //   name       //지원자 이름 리덕스에서
@@ -54,7 +65,12 @@ function ProjectApply(props) {
 
   // 리덕스에서 프로젝트 값 받아오기
   const initProjectApply = async () => {
-    await dispatch(projectAction.getProjectOne(props.match.params.id));
+    if (user.userInfo !== null) {
+      await dispatch(projectAction.getProjectOne(props.match.params.id));
+    } else {
+      alert('로그인이 필요한 기능입니다.');
+      props.history.push('/user/login');
+    }
   };
   //참여 가능일
   const handleAppliedTime = (e) => {
@@ -116,7 +132,7 @@ function ProjectApply(props) {
     }
   };
 
-  if (list.currentProject !== null) {
+  if (list.currentProject !== null && user.userInfo !== null) {
     return (
       <div
         style={{

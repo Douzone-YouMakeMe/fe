@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { config } from '../../util/configStyle';
 import {
   Row,
   Col,
@@ -48,9 +48,7 @@ const RoadMap = (props) => {
       setSearch('');
     };
   }, []);
-  const leaveWork = () => {
-    dispatch({ type: Constant.LEAVE_WORK, payload: null });
-  };
+
   useEffect(() => {
     onFilter();
   }, [condition]);
@@ -124,9 +122,26 @@ const RoadMap = (props) => {
   };
 
   return (
-    <div className="app-container" style={{ width: '100vw', height: '80vh' }}>
-      <Row style={{ height: '10vh', width: '100%' }} align="middle">
-        <Col xs={6} sm={12} md={12} lg={6}>
+    <div
+      className="app-container"
+      style={{
+        width: '90vw',
+        height: '80vh',
+        backgroundColor: 'white',
+        marginTop: '5vh',
+        border: '0.1px solid lightgray',
+        borderRadius: 20,
+        overflow: 'hidden',
+      }}
+    >
+      <Row
+        style={{
+          height: '10vh',
+          width: '100%',
+        }}
+        align="middle"
+      >
+        <Col style={{ marginLeft: '5vw' }} xs={6} sm={12} md={12} lg={6}>
           <Input.Search
             placeholder="input search text"
             value={search}
@@ -155,31 +170,68 @@ const RoadMap = (props) => {
             <Button>{key.name}</Button>
           </Dropdown>
         </Col>
-        <Col xs={12} sm={2} md={2}></Col>
+        <Col xs={6} sm={2} md={2}></Col>
       </Row>
       {project.workList !== null && project.workList.length !== 0 && (
-        <div
-          className="time-line-container"
-          style={{ height: '80vh', width: '100vw' }}
-        >
-          {data !== null && (
-            <TimeLine
-              onSelectItem={handleSelect}
-              data={data.map((value) => {
-                return {
-                  ...value,
-                  key: value.id,
-                  id: value.id,
-                  start: value.startedAt,
-                  end: value.finishedAt,
-                };
-              })}
-              links={null}
-            />
-          )}
-        </div>
+        <Row justify="center" style={{ backgroundColor: 'white' }}>
+          <div
+            className="time-line-container"
+            style={{
+              height: '60vh',
+              width: '80vw',
+              backgroundColor: 'white',
+            }}
+          >
+            {data !== null && (
+              <TimeLine
+                mode="month"
+                itemheight={30}
+                config={{
+                  ...config,
+                  taskList: {
+                    title: {
+                      label: 'work',
+                      style: {
+                        fontSize: '20px',
+                        backgroundColor: String('#40a9ff'),
+                        color: 'white',
+                        textAlign: 'center',
+                      },
+                    },
+                    task: {
+                      style: {
+                        borderBottom: '1.5px solid #bae7ff',
+                        backgroundColor: 'white',
+                        fontSize: '15px',
+                        fontstyle: 'bold',
+                      }, // the style to be applied
+                    },
+                    verticalSeparator: {
+                      style: { display: 'none' }, //the style
+                      grip: {
+                        //the four square grip inside the vertical separator
+                        style: { visbility: 'hidden' }, //the style to be applied
+                      },
+                    },
+                  },
+                }}
+                onSelectItem={handleSelect}
+                data={data.map((value) => {
+                  return {
+                    ...value,
+                    key: value.id,
+                    id: value.id,
+                    start: value.startedAt,
+                    end: value.finishedAt,
+                  };
+                })}
+                links={null}
+              />
+            )}
+          </div>
+        </Row>
       )}
-      ,
+
       {item !== null && user.userInfo !== null && (
         <Modal
           style={{ left: '30vw', top: '10vh' }}

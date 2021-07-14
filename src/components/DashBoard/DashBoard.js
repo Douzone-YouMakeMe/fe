@@ -30,6 +30,10 @@ const DashBoard = (props) => {
   const [current, setCurrent] = useState(null);
   const project = useSelector((state) => state.project);
   const workList = project.tempWorkList;
+  const collapsed = props.collapsed;
+  useEffect(() => {
+    handleData();
+  }, [collapsed, props.onModal, props.onSub]);
   const initLayout = {
     lanes: [
       {
@@ -70,6 +74,12 @@ const DashBoard = (props) => {
   useEffect(() => {
     handleData();
   }, [eventBus]);
+  useEffect(() => {
+    handleData();
+  }, [onModal]);
+  useEffect(() => {
+    handleData();
+  }, [onUModal]);
   const handleData = () => {
     if (eventBus !== null && workList !== null) {
       workList.map((value) => {
@@ -143,31 +153,38 @@ const DashBoard = (props) => {
     handleData();
   };
   const handleClose = () => {
+    setCurrent(null);
     setOnModal(!onModal);
     handleData();
   };
   const handleUclose = () => {
     setOnUModal(!onUModal);
-
     handleData();
   };
-  const handleCurr = (e, e2) => {
-    setOnUModal(true);
+  const handleCurr = (e) => {
     setCurrent(e);
-    setIndex(e2);
+    setOnUModal(true);
     handleData();
   };
   return (
-    <div>
-      <Row
-        style={{ width: '100%', backgroundColor: '#F7F7FF' }}
-        justify="center"
-      >
+    <div
+      style={{
+        backgroundColor: 'white',
+        border: '2px solid lightgray',
+        width: '90vw',
+        minWidth: '330px',
+        height: '85vh',
+        marginTop: '2vh',
+        overflow: 'scroll',
+        borderRadius: 20,
+      }}
+    >
+      <Row style={{ width: '90vw' }} justify="center">
         <Button
           style={{
             zIndex: 999,
             width: '30vw',
-            marginTop: '4vh',
+            marginTop: '2vh',
             marginBottom: '2vh',
             margintRight: '1vw',
           }}
@@ -181,18 +198,26 @@ const DashBoard = (props) => {
       <Board
         onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => {}}
         style={{
-          minWidth: '300px',
-          backgroundColor: '#F7F7FF',
-          textAlign: 'center',
-          justifyContent: 'center',
-          minHeight: '1000px',
-          width: '100vw',
+          // minWidth: '300px',
+          backgroundColor: 'white',
+          // textAlign: 'center',
+          // justifyContent: 'center',
+          height: '75vh',
+          overflowY: 'scroll',
+          minwidth: '330px',
+          marginLeft: '5vw',
+          width: '89vw',
         }}
         laneStyle={{
+          // width: '33%',
+          width: '26vw',
           minWidth: '300px',
-          width: '25vw',
-          margin: '10px',
-          backgroundColor: '#ECECFF',
+          // marginLeft: '3vw',
+          // height: '72vh',
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+          backgroundColor: '#E0FFFF',
+
           borderRadius: '10px',
         }}
         onDataChange={(e) => {

@@ -1,39 +1,58 @@
-import { Row, Card, Divider, Modal } from 'antd';
+import { Row, Card, Divider, Modal, Col, Badge } from 'antd';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 const CusCard = (props) => {
   const handleClick = () => {
-    props.handleCurr(props.id, props.index);
-    console.log(props.onChange);
+    props.handleCurr(props.id);
   };
 
   return (
     <Card
       key={props.id + props.laneId}
       hoverable
+      extra={<p>{moment(props.createTime).fromNow()}</p>}
       style={{
-        width: '100%',
+        minWidth: '280px',
+        width: '20vw',
+
         borderRadius: '10px',
-        height: 260,
+        height: 200,
         marginTop: '10px',
       }}
       onClick={handleClick}
+      title={
+        <Badge size={'default'} color={props.color} text={props.name}></Badge>
+      }
     >
-      <div key={props.id}>{props.name}</div>
-      <Divider></Divider>
-      <div key={props.id + props.description}>{props.description}</div>
-      <Divider></Divider>
-      {props.hashtag !== null &&
-        props.hashtag
-          .split('#')
-          .filter((value) => {
-            return '' !== value;
-          })
-          .map((value) => {
-            return (
-              <div key={`${props.id}/${value}`}>{JSON.stringify(value)}</div>
-            );
-          })}
+      <div>
+        <p>{props.description}</p>
+      </div>
+      {!props.hashtag !== null && (
+        <Row wrap>
+          {props.hashtag
+            .split('#')
+            .filter((value) => {
+              return value !== '';
+            })
+            .map((value) => {
+              return (
+                <Col span={8}>
+                  <Cbadge {...props} text={value}></Cbadge>
+                </Col>
+              );
+            })}
+        </Row>
+      )}
     </Card>
   );
+};
+const Cbadge = (e) => {
+  if (e.status === 'waited') {
+    return <Badge color={'#ffec3d'} text={e.text}></Badge>;
+  } else if (e.status === 'proceed') {
+    return <Badge color={'#fa541c'} text={e.text}></Badge>;
+  } else {
+    return <Badge color={'#73d13d'} text={e.text}></Badge>;
+  }
 };
 export default CusCard;

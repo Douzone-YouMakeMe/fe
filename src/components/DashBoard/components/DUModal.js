@@ -26,12 +26,14 @@ const DUModal = (props) => {
   const [prev, setPrev] = useState('');
   useEffect(() => {
     handleCurr();
-  }, [project.tempWorkList]);
+  }, [project.tempWorkList, props.current]);
+
   const handleCurr = () => {
     if (project.tempWorkList !== null) {
       const item = project.tempWorkList.find((value) => {
         return value.id === props.current;
       });
+      console.log(item);
       if (item.status === 'waited') {
         setCurrent({ key: 'waited', value: '대기중' });
       } else if (item.status === 'finished') {
