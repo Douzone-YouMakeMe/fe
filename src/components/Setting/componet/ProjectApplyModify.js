@@ -115,10 +115,10 @@ function ProjectApply(props) {
         }}
       >
         <Row justify="center">
-          <Title>$프로젝트이름 가져 오기</Title>
+          <Title>{list.currentProject.name}</Title>
         </Row>
         <Row justify="center">
-          <Title level={3}> 내용 수정</Title>
+          <Title level={3}> 지원서</Title>
         </Row>
         <hr></hr>
         <form>

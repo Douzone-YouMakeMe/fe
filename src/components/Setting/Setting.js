@@ -6,14 +6,17 @@ fornt  :
 */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { projectAction } from '../../redux/module/project/projectAction';
 import ProjectDelete from './componet/ProjectDelete';
 import { Route } from 'react-router';
-import { Row, Col, Card } from 'antd';
+import { Row, Col, Card, Typography, Button } from 'antd';
 import { Tab, Tabs } from 'react-bootstrap';
 import ProjectDrop from './componet/ProjectDrop';
 import ProjectMember from './componet/ProjectMember';
 import Constant from '../../redux/actionType';
+import { SettingOutlined, DownOutlined } from '@ant-design/icons';
+import Title from 'antd/lib/skeleton/Title';
 const Setting = (props) => {
   const [key, setKey] = useState('memberM');
   const user = useSelector((state) => state.user);
@@ -34,6 +37,7 @@ const Setting = (props) => {
     }
   };
   const { TabPane } = Tabs;
+  const { Title } = Typography;
 
   const handleSelect = (key) => {
     if (key === 'memberM') {
@@ -52,10 +56,42 @@ const Setting = (props) => {
       style={{
         marginLeft: '15%',
         marginRight: '15%',
-        marginTop: '10%',
+        marginTop: '4%',
         marginBottom: 50,
       }}
     >
+      <Row>
+        <Col>
+          <SettingOutlined
+            style={{
+              fontSize: '40px',
+              marginRight: '10px',
+            }}
+          />
+        </Col>
+        <Col>
+          <Title level={2}>Team Management</Title>
+        </Col>
+        <Col>
+          <Link to="/app/myproject">
+            <Button
+              style={{
+                marginTop: '8px',
+                marginLeft: '15px',
+                border: '1px soid',
+                borderColor: 'black',
+                backgroundColor: ' rgba(0, 191, 255, .8)',
+                color: '#ffff',
+                fontSize: '15px',
+                fontWeight: 'bold',
+              }}
+            >
+              My Project List
+            </Button>
+          </Link>
+        </Col>
+      </Row>
+
       {/* ////////////////////////////////////////////////// */}
       <Tabs activeKey={key} id="controlled-tab-example" onSelect={handleSelect}>
         <Tab eventKey="memberM" title="맴버관리"></Tab>

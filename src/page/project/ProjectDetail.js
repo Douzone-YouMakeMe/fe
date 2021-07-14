@@ -94,37 +94,62 @@ function ProjectDetail(props) {
           marginBottom: 50,
         }}
       >
-        <Row justify="center">
-          <Title level={1}>{list.currentProject.name}</Title>
-        </Row>
+        <Card
+          style={{
+            backgroundColor: '#00BFFF',
+            borderColor: ' #00BFFF',
+          }}
+        >
+          <Row justify="center">
+            <Title
+              style={{
+                fontSize: '70px',
+                color: '#FFFF',
+                textShadow: ' 0 1px #00BFFF, 1px 0 #00BFFF',
+              }}
+            >
+              {list.currentProject.name}
+            </Title>
+          </Row>
+        </Card>
+        <br></br>
+        <br></br>
         <Row gutter={20} justify="end">
           <Col>
             <GrView />
-            <Text>&nbsp;&nbsp; 조회 : {list.currentProject.viewCount}회</Text>
+            <Text style={{ fontWeight: 'bold' }}>&nbsp;&nbsp; 조회 :</Text>
+            <Text>&nbsp;{list.currentProject.viewCount} 회</Text>
           </Col>
           <Col>
             <TiDocumentText />
-            <Text>
-              &nbsp;&nbsp; 모집 인원 :&nbsp;{list.currentProject.total} 명
-            </Text>
+            <Text style={{ fontWeight: 'bold' }}>&nbsp;&nbsp; 모집 인원 :</Text>
+            <Text>&nbsp;{list.currentProject.total} 명</Text>
           </Col>
           <Col>
-            <Text>작성일- {list.currentProject.createTime}</Text>
+            <Text style={{ fontWeight: 'bold' }}>작성일 :</Text>
+            <Text>&nbsp;{list.currentProject.createTime.substring(0, 16)}</Text>
           </Col>
           <Col>
-            <Text>수정일- {list.currentProject.updateTime}</Text>
+            <Text style={{ fontWeight: 'bold' }}>수정일 :</Text>
+            <Text>&nbsp;{list.currentProject.updateTime.substring(0, 16)}</Text>
           </Col>
         </Row>
-
         <hr></hr>
+        <Title level={2}>Project Description </Title>
 
-        <Title level={4}>Project Description </Title>
-        <Paragraph>{list.currentProject.description}</Paragraph>
-        <Paragraph style={{}}>
-          {ReactHtmlParser(JSON.parse(list.currentProject.contents))}
-        </Paragraph>
-        <Row></Row>
-
+        <Card
+          style={{
+            border: '1.5px solid ',
+            borderColor: ' #00BFFF',
+            backgroundColor: 'transparent',
+          }}
+        >
+          <Title level={4}>Summary</Title>
+          <Paragraph>{list.currentProject.description}</Paragraph>
+          <Paragraph style={{ marginLeft: '22%', marginRight: '22%' }}>
+            {ReactHtmlParser(JSON.parse(list.currentProject.contents))}
+          </Paragraph>
+        </Card>
         <hr></hr>
         {writer !== null && (
           <CardGroup>
@@ -141,10 +166,15 @@ function ProjectDetail(props) {
               </Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
-                  <Row></Row>
                   <ListGroup.Item>
                     <Row>
-                      <Text style={{ fontWeight: 'bold', color: '#708090 ' }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          color: '#708090 ',
+                          marginLeft: '21%',
+                        }}
+                      >
                         리더 이름
                       </Text>
                       <Text style={{ marginLeft: '15%', color: '#708090' }}>
@@ -154,7 +184,13 @@ function ProjectDetail(props) {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
-                      <Text style={{ fontWeight: 'bold', color: '#708090' }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          color: '#708090 ',
+                          marginLeft: '21%',
+                        }}
+                      >
                         전문 분야
                       </Text>
                       <Text style={{ marginLeft: '15%', color: '#708090' }}>
@@ -166,14 +202,14 @@ function ProjectDetail(props) {
                     <Row>
                       <Text
                         style={{
-                          marginLeft: '3%',
                           fontWeight: 'bold',
-                          color: '#708090',
+                          color: '#708090 ',
+                          marginLeft: '22%',
                         }}
                       >
                         Email
                       </Text>
-                      <Text style={{ marginLeft: '18%', color: '#708090' }}>
+                      <Text style={{ marginLeft: '19%', color: '#708090' }}>
                         {writer.email}
                       </Text>
                     </Row>
@@ -223,7 +259,7 @@ function ProjectDetail(props) {
                       color: '#708090',
                     }}
                   >
-                    {list.currentProject.finishedTime}
+                    {list.currentProject.finishedTime.substring(0, 16)}
                   </Text>
                 </Row>
               </Card.Body>
@@ -231,59 +267,74 @@ function ProjectDetail(props) {
           </CardGroup>
         )}
         <hr></hr>
-
         {/*jobTitle : 자기분야 / name : 유저 이름 
         현재 프로젝트에 참가 중 인 멤바 정보와 팀에의 부족인원 모집중 메세지  */}
         <Row justify="center">
-          <Title level={5}>현재 모집 현황</Title>
+          <Title level={4}>현재 모집 현황</Title>
         </Row>
         <br></br>
-        <Row gutter={[10]} justify="center">
-          {Array.from({ length: list.currentProject.total }).map(
-            (value, key) => {
-              if (key < list.memberList.length) {
-                return (
-                  <Col>
-                    <Avatar size={100} icon={<UserOutlined />} />
-                    <Row justify="center">
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          color: '#708090',
-                        }}
-                      >
-                        {list.memberList[key].jobTitle}
-                      </Text>
-                    </Row>
-                    <Row justify="center">
-                      <Text>{list.memberList[key].name}</Text>
-                    </Row>
-                  </Col>
-                );
-              } else {
-                return (
-                  <Col>
-                    <Avatar size={100} icon={<UserOutlined />} />
-                    <Row justify="center">
-                      <Button
-                        //shape="round"
-                        disabled
-                        style={{
-                          marginTop: '4%',
-                          border: '1px solid #00BFFF',
-                          background: '#00BFFF',
-                          color: '#ffff',
-                        }}
-                      >
-                        모집중
-                      </Button>
-                    </Row>
-                  </Col>
-                );
-              }
-            },
-          )}
-        </Row>
+        <Card
+          style={{
+            border: '1.5px solid ',
+            borderColor: ' #00BFFF',
+            backgroundColor: 'transparent',
+          }}
+        >
+          <Row
+            gutter={[10]}
+            justify="center"
+            style={{
+              marginTop: '2%',
+              marginBottom: '2%',
+              backgroundColor: 't',
+            }}
+          >
+            {Array.from({ length: list.currentProject.total }).map(
+              (value, key) => {
+                if (key < list.memberList.length) {
+                  return (
+                    <Col>
+                      <Avatar size={100} icon={<UserOutlined />} />
+                      <Row justify="center">
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            color: '#708090',
+                          }}
+                        >
+                          {list.memberList[key].jobTitle}
+                        </Text>
+                      </Row>
+                      <Row justify="center">
+                        <Text>{list.memberList[key].name}</Text>
+                      </Row>
+                    </Col>
+                  );
+                } else {
+                  return (
+                    <Col>
+                      <Avatar size={100} icon={<UserOutlined />} />
+                      <Row justify="center">
+                        <Button
+                          //shape="round"
+                          disabled
+                          style={{
+                            marginTop: '4%',
+                            border: '1px solid #00BFFF',
+                            background: '#00BFFF',
+                            color: '#ffff',
+                          }}
+                        >
+                          모집중
+                        </Button>
+                      </Row>
+                    </Col>
+                  );
+                }
+              },
+            )}
+          </Row>
+        </Card>
 
         <br></br>
         <br></br>

@@ -17,6 +17,7 @@ import {
   Select,
   Table,
   Modal,
+  Tag,
 } from 'antd';
 
 import ProjectApplyModify from '../project/ProjectApplyModify';
@@ -96,6 +97,16 @@ function UserInfo(props) {
   const handleNewPassword = (e) => {
     setNewPassword(e.target.value);
   };
+
+  const CStatus = (e) => {
+    if (e.status === 'approved') {
+      return <Tag color="green">승인 완료</Tag>;
+    } else if (e.status === 'pending') {
+      return <Tag color="blue">승인 대기</Tag>;
+    } else if (e.status === 'rejected') {
+      return <Tag color="red">승인 거절</Tag>;
+    }
+  };
   const applyListC = [
     {
       title: '프로젝트명',
@@ -118,7 +129,11 @@ function UserInfo(props) {
       dataIndex: 'approval',
       key: 'approval',
       render: (text, record) => {
-        return <div>{record.status}</div>;
+        return (
+          <div>
+            <CStatus {...record} />
+          </div>
+        );
       },
     },
     {
@@ -199,6 +214,7 @@ function UserInfo(props) {
       setCheck(false);
     }
   };
+
   if (list.currentProject != null) {
     return (
       <div
