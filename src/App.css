@@ -5,6 +5,9 @@
   color: white;
 }
 
+body *::-webkit-scrollbar {
+  display: none;
+}
 .site-layout .site-layout-background {
   background: #fff;
 }

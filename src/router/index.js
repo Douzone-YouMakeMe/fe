@@ -14,12 +14,12 @@ const CRouter = (props) => {
         path="/"
         render={(props) => {
           return (
-            <Layout Top-Bottom Layout>
+            <Layout Top-Bottom Layout style={{ backgroundColor: '#FFFF' }}>
               <HeaderB {...props} />
               <Content
                 style={{
-                  marginLeft: '7%',
-                  marginRight: '7%',
+                  marginLeft: '10%',
+                  marginRight: '10%',
                   marginTop: '1%',
                   background: 'white',
                   height: 'auto',
@@ -36,12 +36,12 @@ const CRouter = (props) => {
         path="/main"
         render={(props) => {
           return (
-            <Layout Top-Bottom Layout>
+            <Layout Top-Bottom Layout style={{ backgroundColor: '#FFFF' }}>
               <HeaderB {...props} />
               <Content
                 style={{
-                  marginLeft: '7%',
-                  marginRight: '7%',
+                  marginLeft: '10%',
+                  marginRight: '10%',
                   marginTop: '1%',
                   background: 'white',
                   height: 'auto',
