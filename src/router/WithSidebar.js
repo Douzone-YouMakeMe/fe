@@ -152,7 +152,6 @@ const WithSidebar = (props) => {
           minHeight: '90vh',
           width: '80vw',
           maxWidth: '80vw',
-          marginLeft: '5vw',
 
           backgroundColor: '#F0F8FF',
         }}
@@ -160,6 +159,7 @@ const WithSidebar = (props) => {
         <Drawer
           visible={collapsed}
           placement="left"
+          closable={false}
           bodyStyle={{ padding: 0 }}
           onClose={() => {
             setCollpased(!collapsed);

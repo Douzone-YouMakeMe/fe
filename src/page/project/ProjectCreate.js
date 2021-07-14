@@ -150,7 +150,7 @@ function ProjectCreate(props) {
     formData.append('startedTime', startTime);
     formData.append('finishedTime', finishTime);
     // 컨텐츠는 JSON.stringify 필요.
-    formData.append('contents', JSON.stringify(contents));
+    formData.append('contents', String(JSON.stringify(contents)));
     const res = await projectAPI.postProject(formData);
     if (res.status === 201) {
       alert('프로젝트 생성 성공');

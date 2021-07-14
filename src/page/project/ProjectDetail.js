@@ -121,7 +121,7 @@ function ProjectDetail(props) {
         <Title level={4}>Project Description </Title>
         <Paragraph>{list.currentProject.description}</Paragraph>
         <Paragraph style={{}}>
-          {ReactHtmlParser(list.currentProject.contents)}
+          {ReactHtmlParser(JSON.parse(list.currentProject.contents))}
         </Paragraph>
         <Row></Row>
 

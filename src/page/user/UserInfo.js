@@ -25,6 +25,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { projectAPI, userAPI } from '../../api';
 import moment from 'moment';
 import { userAction } from '../../redux/module/user/userAction';
+import Constant from '../../redux/actionType';
 const { Panel } = Collapse;
 
 const { Title, Paragraph, Text } = Typography;
@@ -67,8 +68,13 @@ function UserInfo(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     initInfoUser();
-    return () => {};
+    return () => {
+      handleLeave();
+    };
   }, []);
+  const handleLeave = () => {
+    dispatch({ type: Constant.LEAVE_PROJECT });
+  };
   useEffect(() => {
     handleInit();
   }, [user.userInfo]);

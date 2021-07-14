@@ -174,6 +174,7 @@ const DashBoard = (props) => {
         width: '90vw',
         minWidth: '330px',
         height: '85vh',
+        marginLeft: '5vw',
         marginTop: '2vh',
         overflow: 'scroll',
         borderRadius: 20,

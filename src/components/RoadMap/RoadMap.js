@@ -131,6 +131,7 @@ const RoadMap = (props) => {
         width: '90vw',
         height: '80vh',
         backgroundColor: 'white',
+        marginLeft: '5vw',
         marginTop: '5vh',
         border: '0.1px solid lightgray',
         borderRadius: 20,
@@ -187,7 +188,6 @@ const RoadMap = (props) => {
           >
             {data !== null && (
               <div>
-                33333
                 <TimeLine
                   mode="month"
                   itemheight={30}

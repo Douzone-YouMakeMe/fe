@@ -155,17 +155,14 @@ function ProjectApply(props) {
               <Space direction="vertical">
                 {props.record.portfolioUrl !== null ? (
                   <div>
-                    <a
-                      href={`${s3Bucket}${props.record.portfolioUrl}`}
-                      target="_blank"
-                    >
+                    <a href={`${props.record.portfolioUrl}`} target="_blank">
                       포트폴리오 url
                     </a>
                   </div>
                 ) : (
                   <div>
                     <a
-                      download
+                      target="_blank"
                       href={`${s3Bucket}${props.record.portfolioFile}`}
                     >
                       포트폴리오 파일

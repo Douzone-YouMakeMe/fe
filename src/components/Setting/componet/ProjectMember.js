@@ -46,7 +46,10 @@ const ProjectMember = (props) => {
           alert('권한이 없습니다.');
           props.history.push(`/app/myProject`);
         } else {
-          setTemp(project.memberList);
+          let temps = project.memberList.filter((value) => {
+            return value.userId !== project.currentProject.userId;
+          });
+          setTemp(temps);
         }
       }
     }
@@ -179,13 +182,21 @@ const ProjectMember = (props) => {
     hadleFilter();
   }, [current]);
   const hadleFilter = () => {
-    if (current.key === 'all') {
-      setTemp(project.memberList);
-    } else {
-      let filter = project.memberList.filter((value) => {
-        return value.status === current.key;
-      });
-      setTemp(filter);
+    if (project.memberList !== null) {
+      if (current.key === 'all') {
+        let temps = project.memberList.filter((value) => {
+          return value.userId !== project.currentProject.userId;
+        });
+        setTemp(temps);
+      } else {
+        let filter = project.memberList.filter((value) => {
+          return (
+            value.status === current.key &&
+            value.userId !== project.currentProject.userId
+          );
+        });
+        setTemp(filter);
+      }
     }
   };
   return (
