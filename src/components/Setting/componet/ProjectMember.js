@@ -14,6 +14,7 @@ import {
   Menu,
   Table,
   Modal,
+  Tag,
 } from 'antd';
 import UserInfo from '../../../page/user/UserInfo';
 import { memberAPI } from '../../../api';
@@ -88,6 +89,13 @@ const ProjectMember = (props) => {
       dispatch(projectAction.getProjectMemberAll(props.match.params.id));
     }
   };
+  const CStatus = (e) => {
+    if (e.status === 'approved') {
+      return <Tag color="green">승인 완료</Tag>;
+    } else if (e.status === 'pending') {
+      return <Tag color="yellow">승인 대기</Tag>;
+    }
+  };
   const applyList = [
     {
       title: '프로젝트명',
@@ -110,7 +118,7 @@ const ProjectMember = (props) => {
       dataIndex: 'approval',
       key: 'approval',
       render: (text, record) => {
-        return <div>{record.status}</div>;
+        return <CStatus {...record} />;
       },
     },
     {
@@ -122,13 +130,20 @@ const ProjectMember = (props) => {
       },
     },
     {
-      title: '지원서',
+      title: '지원서 확인',
       dataIndex: 'applyModify',
       key: 'applyModify',
       render: (text, record, index) => {
         return (
           <Button
-            type="primary"
+            style={{
+              border: '1px soid',
+              borderColor: 'black',
+              backgroundColor: ' rgba(0, 191, 255, .8)',
+              color: '#ffff',
+              fontSize: '15px',
+              fontWeight: 'bold',
+            }}
             onClick={() => {
               setRecord(record);
               setVisible(true);
@@ -140,12 +155,22 @@ const ProjectMember = (props) => {
       },
     },
     {
-      title: '추방시키기',
+      title: '추방 하기',
       dataIndex: 'applyModify',
       key: 'applyDrop',
       render: (text, record, index) => {
         return (
-          <Button danger type="primary" onClick={() => handleDrop(record)}>
+          <Button
+            style={{
+              border: '1px soid',
+              borderColor: 'black',
+              backgroundColor: ' rgba(255, 0, 0, .8)',
+              color: '#ffff',
+              fontSize: '15px',
+              fontWeight: 'bold',
+            }}
+            onClick={() => handleDrop(record)}
+          >
             추방
           </Button>
         );
@@ -188,6 +213,7 @@ const ProjectMember = (props) => {
       setTemp(filter);
     }
   };
+
   return (
     <div>
       <Col xs={6} sm={10} md={10} lg={2}>

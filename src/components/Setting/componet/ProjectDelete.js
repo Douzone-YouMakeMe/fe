@@ -1,10 +1,12 @@
-import { Row, Col, Button, Card, Typography } from 'antd';
+import { Row, Col, Button, Card, Typography, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { projectAPI } from '../../../api';
+import { projectAPI, userAPI } from '../../../api';
 import { projectAction } from '../../../redux/module/project/projectAction';
 const ProjectDelete = (props) => {
+  const [check, setCheck] = useState(true);
+  const [password, setPassword] = useState('');
   const user = useSelector((state) => state.user);
   const project = useSelector((state) => state.project);
   const dispatch = useDispatch();
@@ -25,6 +27,22 @@ const ProjectDelete = (props) => {
       }
     }
   };
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const checkPassword = async (e) => {
+    const result = await userAPI.login({
+      email: user.userInfo.email,
+      password: password,
+    });
+    if (result.status !== 200) {
+      alert('비밀번호가 다릅니다.');
+      setCheck(true);
+    } else {
+      setCheck(false);
+    }
+  };
   const handleDelete = async () => {
     const result = await projectAPI.deleteProject(props.match.params.id);
     if (result.status !== 200) {
@@ -33,6 +51,7 @@ const ProjectDelete = (props) => {
       props.history.push('/app/myProject');
     }
   };
+
   useEffect(() => {}, [user]);
 
   const { Title, Text } = Typography;
@@ -72,7 +91,7 @@ const ProjectDelete = (props) => {
                 marginTop: '30PX',
               }}
             >
-              프로젝트명 : {project.currentProject.name}
+              프로젝트명 :{project.currentProject.name}
             </Title>
           </Row>
           <Row justify="center" align="middle">
@@ -80,11 +99,33 @@ const ProjectDelete = (props) => {
               style={{
                 color: '#708090',
                 fontSize: '20px',
-                marginTop: '30PX',
+                marginTop: '10PX',
               }}
             >
               프로젝트를 삭제 하시겠습니까?
             </Text>
+          </Row>
+          <Row justify="center" align="middle" style={{ marginTop: '15px' }}>
+            <Col>
+              <Input
+                value={password}
+                onChange={handlePassword}
+                placeholder="비밀번호를 입력 해주세요"
+                style={{ width: '190px' }}
+              ></Input>
+            </Col>
+            <Col>
+              <Button
+                onClick={checkPassword}
+                style={{
+                  marginLeft: '10px',
+                  fontWeight: 'bold',
+                  color: '#708090',
+                }}
+              >
+                check
+              </Button>
+            </Col>
           </Row>
           <Row justify="center" align="middle">
             <Button
@@ -93,15 +134,15 @@ const ProjectDelete = (props) => {
                 width: '100px',
                 height: '50px',
                 borderRadius: '12px',
-                backgroundColor: '#FFFF',
+                backgroundColor: '#ff0000',
                 border: '3px soild',
-                borderColor: '#E60A2F',
+                borderColor: '',
                 fontSize: '25px',
-                color: '#E60A2F',
+                color: '#FFFF',
+                fontWeight: 'bold',
               }}
-              onClick={() => {
-                handleDelete();
-              }}
+              onClick={handleDelete}
+              disabled={check}
             >
               삭제
             </Button>
