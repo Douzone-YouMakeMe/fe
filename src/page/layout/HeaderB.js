@@ -69,7 +69,10 @@ function HeaderB(props) {
                   </Navbar.Text>
                   <NavDropdown
                     title={
-                      <Avatar size={50} style={{ backgroundColor: 'black' }}>
+                      <Avatar
+                        size={50}
+                        style={{ backgroundColor: user.userInfo.color }}
+                      >
                         {user.userInfo.name}
                       </Avatar>
                     }

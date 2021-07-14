@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-
 import ProjectApplyModify from './ProjectApplyModify';
 import { projectAction } from '../../../redux/module/project/projectAction';
 import moment from 'moment';
@@ -200,6 +198,8 @@ const ProjectMember = (props) => {
       </Col>
       {temp !== null && (
         <Table
+          // style={{ border: 'solid #00BFFF', background: '#00BFFF' }}
+          rowClassName={(record, index) => (index % 2 === 0 ? 'red' : 'yellow')}
           columns={applyList}
           dataSource={temp.map((value, key) => {
             return { ...value, key: key };

@@ -286,7 +286,11 @@ function UserInfo(props) {
             </Row>
           </Panel>
 
-          <Panel header="내 지원 리스트" key="4">
+          <Panel
+            header="내 지원 리스트"
+            key="4"
+            //style={{ border: 'solid #00BFFF', background: '#00BFFF' }}
+          >
             {list.memberList !== null && (
               <Table
                 style={{}}

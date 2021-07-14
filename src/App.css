@@ -4,7 +4,8 @@
   background: rgba(255, 255, 255, 0.3);
   color: white;
 }
-body::-webkit-scrollbar {
+
+body *::-webkit-scrollbar {
   display: none;
 }
 .site-layout .site-layout-background {

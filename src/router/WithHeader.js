@@ -22,21 +22,14 @@ const WithHeader = (props) => {
       >
         <HeaderB {...props} />
         <Content
-          // style={{
-          //   marginLeft: '22vw',
-          //   marginRight: '22vw',
-          //   marginTop: '1vh',
-          //   background: '#F0F8FF',
-          //   height: 'auto',
-          //   minWidth: 'auto',
-          // }}
-
           style={{
             marginLeft: '15%',
             marginRight: '15%',
             marginTop: '1%',
             background: '#F0F8FF',
-            height: 'auto',
+            height: '80vh',
+            overflowY: 'scroll',
+            overflowX: 'hidden',
             minWidth: 'auto',
           }}
         >
