@@ -101,7 +101,7 @@ const ProjectMember = (props) => {
   };
   const applyList = [
     {
-      title: '프로젝트명',
+      title: '유저명',
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => {

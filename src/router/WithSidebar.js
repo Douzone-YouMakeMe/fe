@@ -134,12 +134,18 @@ const WithSidebar = (props) => {
             />
           </Col>
           <Col xs={2} sm={1} md={1} lg={1}>
-            <UserOutlined
-              style={{
-                color: 'white',
-                fontSize: '3vh',
+            <Link
+              to={{
+                pathname: `/app/setting/${project.currentProject.id}/user`,
               }}
-            />
+            >
+              <UserOutlined
+                style={{
+                  color: 'white',
+                  fontSize: '3vh',
+                }}
+              />
+            </Link>
           </Col>
           <Col xs={6} sm={4} md={4} lg={2}>
             <h5 style={{ color: 'white', fontSize: '2vh' }}>
