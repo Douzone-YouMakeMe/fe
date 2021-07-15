@@ -189,7 +189,6 @@ function ProjectApply(props) {
           style={{
             border: '1.5px solid ',
             borderColor: ' #00BFFF',
-            backgroundColor: 'transparent',
 
             marginLeft: '10%',
             marginRight: '10%',
@@ -241,7 +240,7 @@ function ProjectApply(props) {
                       ) : null}
                     </Radio>
                     <Radio value={'file'}>
-                      pdf 업로드
+                      파일 업로드
                       {radio === 'file' ? (
                         <input
                           style={{ width: 250 }}

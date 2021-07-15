@@ -123,63 +123,135 @@ function ProjectApply(props) {
         <hr></hr>
         <form>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>이름</Title>
-            </Col>
-            <Col span={16}>{props.record.name}</Col>
+            </div>
+            <div
+              style={{
+                marginLeft: '10%',
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
+              {props.record.name}
+            </div>
           </Row>
+
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>프로젝트 참여가능일</Title>
-            </Col>
-            <Col span={16}>
-              <div>{props.record.appliedTime}</div>
-            </Col>
+            </div>
+            <div
+              style={{
+                marginLeft: '10%',
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
+              <div>{props.record.appliedTime.substring(0, 10)}</div>
+            </div>
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>희망 직무</Title>
-            </Col>
-            <Col span={16}>
+            </div>
+            <div
+              style={{
+                marginLeft: '10%',
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
               <div>{props.record.appliedPosition}</div>
-            </Col>
+            </div>
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>포트폴리오</Title>
-            </Col>
-            <Col span={16}>
-              <Space direction="vertical">
-                {props.record.portfolioUrl !== null ? (
-                  <div>
-                    <a href={`${props.record.portfolioUrl}`} target="_blank">
-                      포트폴리오 url
-                    </a>
-                  </div>
-                ) : (
-                  <div>
-                    <a
-                      target="_blank"
-                      href={`${s3Bucket}${props.record.portfolioFile}`}
-                    >
-                      포트폴리오 파일
-                    </a>
-                  </div>
-                )}
-              </Space>
-            </Col>
+            </div>
+
+            {props.record.portfolioUrl !== null ? (
+              <div
+                style={{
+                  marginLeft: '10%',
+                  width: '50%',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                <a href={`${props.record.portfolioUrl}`} target="_blank">
+                  포트폴리오 url
+                </a>
+              </div>
+            ) : (
+              <div
+                style={{
+                  marginLeft: '10%',
+                  width: '50%',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                <a
+                  target="_blank"
+                  href={`${s3Bucket}${props.record.portfolioFile}`}
+                >
+                  포트폴리오 파일
+                </a>
+              </div>
+            )}
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>하고싶은말</Title>
-            </Col>
-            <Col span={16}>
+            </div>
+            <div
+              style={{
+                marginLeft: '10%',
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
               <div>{props.record.comments}</div>
-            </Col>
+            </div>
           </Row>
           <br></br>
           <br></br>

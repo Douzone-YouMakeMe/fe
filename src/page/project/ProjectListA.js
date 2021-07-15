@@ -36,7 +36,7 @@ function ProjectListA(props) {
   };
 
   return (
-    <div>
+    <div style={{ height: '80vh', overflow: 'scroll' }}>
       <Title style={{ marginLeft: '1%', marginTop: '1%' }} level={2}>
         Project List
       </Title>

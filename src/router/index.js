@@ -27,7 +27,15 @@ const CRouter = (props) => {
               >
                 <ProjectListA {...props} />
               </Content>
-              <Footer>Footer</Footer>
+              <Footer
+                style={{
+                  textAlign: 'center',
+                  fontSize: '20px',
+                  marginTop: '1px',
+                }}
+              >
+                다 해드림
+              </Footer>
             </Layout>
           );
         }}
@@ -49,7 +57,15 @@ const CRouter = (props) => {
               >
                 <ProjectListA {...props} />
               </Content>
-              <Footer>Footer</Footer>
+              <Footer
+                style={{
+                  textAlign: 'center',
+                  fontSize: '20px',
+                  marginTop: '1px',
+                }}
+              >
+                다 해드림
+              </Footer>
             </Layout>
           );
         }}

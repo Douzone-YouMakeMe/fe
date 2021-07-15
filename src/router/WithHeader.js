@@ -82,7 +82,15 @@ const WithHeader = (props) => {
             }}
           ></Route>
         </Content>
-        <Footer>Footer</Footer>
+        <Footer
+          style={{
+            textAlign: 'center',
+            fontSize: '20px',
+            marginTop: '1px',
+          }}
+        >
+          다해드림
+        </Footer>
       </Layout>
     </div>
   );

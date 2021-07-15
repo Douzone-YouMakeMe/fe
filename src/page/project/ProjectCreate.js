@@ -216,10 +216,7 @@ function ProjectCreate(props) {
       <Input.Group size="large">
         <Row gutter={8}>
           <Col span={8} style={{ textAlign: 'center' }}>
-            <Title level={5}>구인 직군</Title>
-          </Col>
-          <Col span={5}>
-            <Input defaultValue="웹 개발자" />
+            <Title level={5}>구인수</Title>
           </Col>
           <Col span={3}>
             <Input onChange={handleTotalChange} defaultValue="4" />

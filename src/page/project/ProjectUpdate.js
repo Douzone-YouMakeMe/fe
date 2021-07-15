@@ -32,6 +32,7 @@ import {
 import { projectAPI } from '../../api';
 import moment from 'moment';
 import { projectAction } from '../../redux/module/project/projectAction';
+import Constant from '../../redux/actionType';
 const { Option } = Select;
 const { TextArea } = Input;
 const { Title, Text } = Typography;
@@ -53,20 +54,30 @@ function ProjectCreate(props) {
 
   useEffect(() => {
     handleInit();
+    return () => {
+      handleLeave();
+    };
     //console.log("화면에서 나타날때": user);
     //return () =>{console.log("화면에서 사라질때");}
   }, []);
+  const handleLeave = () => {
+    dispatch({ type: Constant.LEAVE_PROJECT });
+  };
   const handleState = () => {
-    console.log(project.currentProject);
     if (project.currentProject !== null) {
-      setName(project.currentProject.name);
-      setDescription(project.currentProject.description);
-      setTotal(project.currentProject.total);
-      console.log(project.currentProject);
-      // multipart에서는 순수 datetime 객체화 시켜야 합니다. moment() 필수
-      setStartedTime(moment(project.currentProject.startedTime));
-      setFinishedTime(moment(project.currentProject.finishedTime)); //
-      setContents(JSON.parse(project.currentProject.contents));
+      if (project.currentProject.userId !== user.userInfo.id) {
+        alert('권한이 없습니다.');
+        props.history.push('/app/myProject');
+      } else {
+        setName(project.currentProject.name);
+        setDescription(project.currentProject.description);
+        setTotal(project.currentProject.total);
+        console.log(project.currentProject);
+
+        setStartedTime(moment(project.currentProject.startedTime));
+        setFinishedTime(moment(project.currentProject.finishedTime)); //
+        setContents(JSON.parse(project.currentProject.contents));
+      }
     }
   };
   useEffect(() => {
@@ -194,10 +205,7 @@ function ProjectCreate(props) {
       <Input.Group size="large">
         <Row gutter={8}>
           <Col span={8}>
-            <Title level={5}>구인 직군</Title>
-          </Col>
-          <Col span={5}>
-            <Input defaultValue="웹 개발자" />
+            <Title level={5}>구인수</Title>
           </Col>
           <Col span={3}>
             <Input value={total} onChange={handleTotalChange} />
