@@ -61,9 +61,18 @@ function ProjectListA(props) {
                   variant="top"
                   src={`${s3Bucket}${value.thumbnail}`}
                   //380 160
-                  style={{ width: 'autdo', height: '150px' }}
+                  style={{
+                    objectFit: 'cover',
+                    width: 'autdo',
+                    height: '150px',
+                  }}
                 />
-                <Card.Body style={{ backgroundColor: '#FFFF' }}>
+                <Card.Body
+                  style={{
+                    backgroundColor: '#FFFF',
+                    borderTop: '0.1px solid lightgray',
+                  }}
+                >
                   <Card.Title className="text-center">{value.name}</Card.Title>
 
                   <Card.Text className="text-center">

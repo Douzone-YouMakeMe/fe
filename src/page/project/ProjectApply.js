@@ -11,6 +11,7 @@ import {
   Typography,
   Space,
 } from 'antd';
+import { Card, CardGroup, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -99,6 +100,8 @@ function ProjectApply(props) {
 
   // 지원 하기 버튼 함수
   const handleSubmit = async () => {
+    if (appliedTime === '') {
+    }
     const formData = new FormData();
     let utcFormat = 'yyyy-MM-DD HH:mm:ss';
 
@@ -109,7 +112,7 @@ function ProjectApply(props) {
 
     formData.append('userId', user.userInfo.id);
     formData.append('projectId', list.currentProject.id);
-    formData.append('name', user.userInfo.name);
+    //formData.append('name', user.userInfo.name);
     formData.append('appliedTime', applyDate);
     formData.append('appliedPosition', appliedPosition);
 
@@ -137,107 +140,150 @@ function ProjectApply(props) {
       <div
         style={{
           alignItems: 'center',
-          marginLeft: 40,
-          marginRight: 40,
-          marginTop: 50,
-          marginBottom: 50,
+          marginTop: 30,
+          // marginBottom: 50,
         }}
       >
-        <div></div>
-        <Row justify="center">
-          <Title>{list.currentProject.name}</Title>
-        </Row>
+        <Card
+          style={{
+            backgroundColor: '#00BFFF',
+            borderColor: ' #00BFFF',
+            marginLeft: '20%',
+            marginRight: '20%',
+            borderRadius: '30px',
+          }}
+        >
+          <Row justify="center" style={{}}>
+            <Title
+              style={{
+                fontSize: '70px',
+                color: '#FFFF',
+                textShadow: ' 0 1px #00BFFF, 1px 0 #00BFFF',
+                marginTop: '3.5%',
+              }}
+            >
+              {list.currentProject.name}
+            </Title>
+          </Row>
+        </Card>
+        <br></br>
         <Row justify="center">
           <Title level={3}>프로젝트 지원하기</Title>
         </Row>
         <hr></hr>
-        <form>
-          <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>프로젝트 참여가능일</Title>
-            </Col>
-            <Col span={16}>
-              <DatePicker
-                showTime
-                onChange={handleAppliedTime}
-                value={appliedTime}
-              />
-            </Col>
-          </Row>
-          <br></br>
-          <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>희망 직무</Title>
-            </Col>
-            <Col span={16}>
-              <Input style={{ width: 280 }} onChange={handleAppliedPosition} />
-            </Col>
-          </Row>
-          <br></br>
-          <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>포트폴리오</Title>
-            </Col>
-            <Col span={16}>
-              <Radio.Group value={radio} onChange={handleRadio}>
-                <Space direction="vertical">
-                  <Radio value={'url'}>
-                    url
-                    {radio === 'url' ? (
-                      <Input
-                        placeholder="url을 입력 해주세요 "
-                        style={{ width: 250, marginLeft: 10 }}
-                        onChange={handlePortfolioUrl}
-                      />
-                    ) : null}
-                  </Radio>
-                  <Radio value={'file'}>
-                    pdf 업로드
-                    {radio === 'file' ? (
-                      <input
-                        style={{ width: 250, marginLeft: 10 }}
-                        type="file"
-                        onChange={(e) => {
-                          handlePortfolioFile(e.target.files[0]);
-                        }}
-                      ></input>
-                    ) : null}
-                  </Radio>
-                </Space>
-              </Radio.Group>
-            </Col>
-          </Row>
-          <br></br>
-          <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>하고싶은말</Title>
-            </Col>
-            <Col span={16}>
-              <TextArea
-                onChange={handleComments}
-                rows={4}
-                style={{ width: 290 }}
-                placeholder="100자 이내로 입력해주세요 // 글자 수 더이상 입력안되게 하기 "
-              />
-            </Col>
-          </Row>
-          <br></br>
-          <br></br>
-          <Row gutter={[10, 10]} justify="center">
-            <Col>
-              <Button type="primary" onClick={handleSubmit}>
-                지원하기
+        <Card
+          style={{
+            border: '1.5px solid ',
+            borderColor: ' #00BFFF',
+            backgroundColor: 'transparent',
+
+            marginLeft: '10%',
+            marginRight: '10%',
+          }}
+        >
+          <form>
+            <Row
+              style={{ marginTop: '2%', marginLeft: '30%', marginRight: '30%' }}
+            >
+              <Col span={10}>
+                <Title level={5}>참여가능일</Title>
+              </Col>
+              <Col span={14}>
+                <DatePicker
+                  showTime
+                  onChange={handleAppliedTime}
+                  value={appliedTime}
+                />
+              </Col>
+            </Row>
+            <br></br>
+            <Row gutter={[]} style={{ marginLeft: '30%', marginRight: '30%' }}>
+              <Col span={10}>
+                <Title level={5}>희망 직무</Title>
+              </Col>
+              <Col span={14}>
+                <Input
+                  style={{ width: '200px' }}
+                  onChange={handleAppliedPosition}
+                />
+              </Col>
+            </Row>
+            <br></br>
+            <Row gutter={[]} style={{ marginLeft: '30%', marginRight: '30%' }}>
+              <Col span={10}>
+                <Title level={5}>포트폴리오</Title>
+              </Col>
+              <Col span={14}>
+                <Radio.Group value={radio} onChange={handleRadio}>
+                  <Space direction="vertical">
+                    <Radio value={'url'}>
+                      url
+                      {radio === 'url' ? (
+                        <Input
+                          placeholder="url을 입력 해주세요 "
+                          style={{ width: 300 }}
+                          onChange={handlePortfolioUrl}
+                        />
+                      ) : null}
+                    </Radio>
+                    <Radio value={'file'}>
+                      pdf 업로드
+                      {radio === 'file' ? (
+                        <input
+                          style={{ width: 250 }}
+                          type="file"
+                          onChange={(e) => {
+                            handlePortfolioFile(e.target.files[0]);
+                          }}
+                        ></input>
+                      ) : null}
+                    </Radio>
+                  </Space>
+                </Radio.Group>
+              </Col>
+            </Row>
+
+            <br></br>
+            <Row
+              gutter={[]}
+              style={{
+                marginLeft: '30%',
+                marginRight: '30%',
+                marginBottom: '2%',
+              }}
+            >
+              <Col span={10}>
+                <Title level={5}>하고싶은말</Title>
+              </Col>
+              <Col span={14}>
+                <TextArea
+                  onChange={handleComments}
+                  rows={4}
+                  style={{ width: 290 }}
+                  placeholder="100자 이내로 입력해주세요 // 글자 수 더이상 입력안되게 하기 "
+                />
+              </Col>
+            </Row>
+          </form>
+        </Card>
+        <br></br>
+        <Row gutter={[10, 10]} justify="center">
+          <Col>
+            <Button
+              style={{ backgroundColor: '#00BFFF', color: '#FFFF' }}
+              onClick={handleSubmit}
+            >
+              지원하기
+            </Button>
+          </Col>
+          <Col>
+            <Link to={{ pathname: `/main` }}>
+              <Button type="primary" danger>
+                취소
               </Button>
-            </Col>
-            <Col>
-              <Link to={{ pathname: `/main` }}>
-                <Button type="primary" danger>
-                  취소
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-        </form>
+            </Link>
+          </Col>
+        </Row>
       </div>
     );
   } else {

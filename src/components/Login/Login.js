@@ -32,7 +32,7 @@ const LoginPresenter = (props) => {
   return (
     <Row
       justify="center"
-      style={{ width: '100%', height: '100%', backgroundColor: '#F7F7FF' }}
+      style={{ width: '100%', height: '100%', backgroundColor: '#F0F8FF' }}
     >
       <Space
         direction={'vertical'}
@@ -87,7 +87,7 @@ const LoginPresenter = (props) => {
               width: '60%',
 
               color: 'white',
-              backgroundColor: '#B8D6D9',
+              backgroundColor: '#00BFFF',
               borderRadius: '10px',
             }}
             onClick={handleSubmit}
@@ -100,7 +100,7 @@ const LoginPresenter = (props) => {
             style={{
               width: '60%',
               color: 'white',
-              backgroundColor: '#D5CCFF',
+              backgroundColor: '#6495ED	',
               borderRadius: '10px',
             }}
             onClick={() => {

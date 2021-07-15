@@ -87,6 +87,8 @@ function ProjectDetail(props) {
     return (
       <div
         style={{
+          overflowX: 'scroll',
+          minWidth: '360px',
           alignItems: 'center',
           marginLeft: 80,
           marginRight: 80,
@@ -100,12 +102,13 @@ function ProjectDetail(props) {
             borderColor: ' #00BFFF',
           }}
         >
-          <Row justify="center">
+          <Row justify="center" style={{}}>
             <Title
               style={{
                 fontSize: '70px',
                 color: '#FFFF',
                 textShadow: ' 0 1px #00BFFF, 1px 0 #00BFFF',
+                marginTop: '3.5%',
               }}
             >
               {list.currentProject.name}
@@ -135,21 +138,34 @@ function ProjectDetail(props) {
           </Col>
         </Row>
         <hr></hr>
-        <Title level={2}>Project Description </Title>
-
+        <Title level={2} style={{ marginLeft: '10%' }}>
+          Project Description{' '}
+        </Title>
+        <Paragraph style={{ marginLeft: '12%', fontSize: '25px' }}>
+          {list.currentProject.description}
+        </Paragraph>
         <Card
           style={{
             border: '1.5px solid ',
             borderColor: ' #00BFFF',
-            backgroundColor: 'transparent',
+            backgroundColor: '#ffff',
+
+            marginLeft: '10%',
+            marginRight: '10%',
           }}
         >
-          <Title level={4}>Summary</Title>
-          <Paragraph>{list.currentProject.description}</Paragraph>
-          <Paragraph style={{ marginLeft: '22%', marginRight: '22%' }}>
+          <Paragraph
+            style={{
+              marginLeft: '10%',
+              marginRight: '10%',
+              marginBottom: '2%',
+              marginTop: '4%',
+            }}
+          >
             {ReactHtmlParser(JSON.parse(list.currentProject.contents))}
           </Paragraph>
         </Card>
+
         <hr></hr>
         {writer !== null && (
           <CardGroup>
@@ -339,7 +355,11 @@ function ProjectDetail(props) {
         <br></br>
         <br></br>
         <Row justify="center">
-          <Button onClick={handleApply} type="primary" shape="round">
+          <Button
+            onClick={handleApply}
+            shape="round"
+            style={{ background: '#00BFFF', color: '#ffff' }}
+          >
             지원하기
           </Button>
         </Row>

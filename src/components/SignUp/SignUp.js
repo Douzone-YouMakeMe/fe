@@ -37,7 +37,7 @@ const SignUp = (props) => {
     } else if (password === '') {
       alert('password는 필수입니다.');
     } else if (password !== passwordConfirm) {
-      alert('password가 다릅니다.');
+      alert('password가 일치하지 않습니다.');
     } else {
       let parma = {
         email: id,
@@ -60,7 +60,7 @@ const SignUp = (props) => {
   return (
     <Row
       justify="center"
-      style={{ width: '100%', height: '100%', backgroundColor: '#F7F7FF' }}
+      style={{ width: '100%', height: '100%', backgroundColor: '#F0F8FF' }}
     >
       <Space
         direction={'vertical'}
@@ -121,7 +121,7 @@ const SignUp = (props) => {
         <Row justify="center">
           <Input
             style={{ borderRadius: '10px', width: '60%' }}
-            placeholder="paswword"
+            placeholder="paswword check"
             type="password"
             value={passwordConfirm}
             onChange={handlePasswordConfirm}
@@ -133,7 +133,7 @@ const SignUp = (props) => {
               width: '60%',
 
               color: 'white',
-              backgroundColor: '#B8D6D9',
+              backgroundColor: '#6495ED',
               borderRadius: '10px',
             }}
             onClick={handleSubmit}

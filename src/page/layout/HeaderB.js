@@ -103,6 +103,11 @@ function HeaderB(props) {
           )}
           {user.userInfo === null && (
             <Button
+              style={{
+                background: '#00BFFF',
+                color: '#FFFF',
+                fontWeight: 'bold',
+              }}
               onClick={() => {
                 props.history.push('/user/login');
               }}
