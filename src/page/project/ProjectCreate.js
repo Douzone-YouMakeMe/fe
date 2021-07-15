@@ -173,7 +173,7 @@ function ProjectCreate(props) {
       </Row>
       <hr></hr>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>Thumbnail</Title>
         </Col>
         <Col span={10}>
@@ -188,7 +188,7 @@ function ProjectCreate(props) {
       <br></br>
       <br></br>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>프로젝트명</Title>
         </Col>
         <Col span={16}>
@@ -201,7 +201,7 @@ function ProjectCreate(props) {
       </Row>
       <br></br>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>프로젝트 설명</Title>
         </Col>
         <Col span={16}>
@@ -215,7 +215,7 @@ function ProjectCreate(props) {
       <br></br>
       <Input.Group size="large">
         <Row gutter={8}>
-          <Col span={8}>
+          <Col span={8} style={{ textAlign: 'center' }}>
             <Title level={5}>구인 직군</Title>
           </Col>
           <Col span={5}>
@@ -229,7 +229,7 @@ function ProjectCreate(props) {
       </Input.Group>
       <br></br>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>프로젝트 시작일</Title>
         </Col>
         <Col span={16}>
@@ -242,7 +242,7 @@ function ProjectCreate(props) {
       </Row>
       <br></br>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>모집 마감 기한</Title>
         </Col>
         <Col span={16}>
@@ -255,7 +255,7 @@ function ProjectCreate(props) {
       </Row>
       <br></br>
       <Row gutter={[]}>
-        <Col span={8}>
+        <Col span={8} style={{ textAlign: 'center' }}>
           <Title level={5}>모집공고 내용</Title>
         </Col>
         <Col span={16}>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import {
+  RiBarChartHorizontalFill,
+  RiDashboardFill,
+  RiChat1Fill,
+} from 'react-icons/ri';
+import { AiOutlineOrderedList } from 'react-icons/ai';
+import {
   Layout,
   Menu,
   Row,
@@ -189,7 +195,7 @@ const WithSidebar = (props) => {
                     width: '100%',
                   }}
                   key="1"
-                  icon={<MailOutlined />}
+                  icon={<RiBarChartHorizontalFill></RiBarChartHorizontalFill>}
                   title="Navigation One"
                 >
                   <Link
@@ -207,7 +213,7 @@ const WithSidebar = (props) => {
                     width: '100%',
                   }}
                   key="2"
-                  icon={<AppstoreOutlined />}
+                  icon={<RiDashboardFill />}
                   title="Navigation Two"
                 >
                   <Link
@@ -226,7 +232,7 @@ const WithSidebar = (props) => {
                     width: '100%',
                   }}
                   key="3"
-                  icon={<SettingOutlined />}
+                  icon={<RiChat1Fill />}
                   title="Navigation Three"
                 >
                   <Link
@@ -242,12 +248,10 @@ const WithSidebar = (props) => {
                     width: '100%',
                   }}
                   key="4"
-                  icon={<SettingOutlined />}
+                  icon={<AiOutlineOrderedList />}
                   title="Navigation Three"
                 >
-                  <Link to={{ pathname: `/app/myproject` }}>
-                    내 프로젝트로 돌아가기
-                  </Link>
+                  <Link to={{ pathname: `/app/myproject` }}>My Project</Link>
                 </Menu.Item>
               </Menu>
             </Col>

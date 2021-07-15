@@ -66,7 +66,7 @@ function ProjectCreate(props) {
       // multipart에서는 순수 datetime 객체화 시켜야 합니다. moment() 필수
       setStartedTime(moment(project.currentProject.startedTime));
       setFinishedTime(moment(project.currentProject.finishedTime)); //
-      setContents(project.currentProject.contents);
+      setContents(JSON.parse(project.currentProject.contents));
     }
   };
   useEffect(() => {

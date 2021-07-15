@@ -194,8 +194,9 @@ const ListObject = (props) => {
             <img
               src={`${s3Bucket}${value.thumbnail}`}
               style={{
-                width: '160px',
-                height: '90px',
+                objectFit: 'cover',
+                width: '200px',
+                height: '100px',
               }}
             />
           </Col>

@@ -100,35 +100,49 @@ function ProjectApply(props) {
   // 지원 하기 버튼 함수
   const handleSubmit = async () => {
     const formData = new FormData();
+    let res = null;
     let utcFormat = 'yyyy-MM-DD HH:mm:ss';
 
     let applyDate = moment
       .utc(appliedTime, utcFormat)
       .local()
       .format(utcFormat);
-
-    formData.append('userId', user.userInfo.id);
-    formData.append('projectId', list.currentProject.id);
-    formData.append('name', user.userInfo.name);
-    formData.append('appliedTime', applyDate);
-    formData.append('appliedPosition', appliedPosition);
-
-    if (radio === 'url') {
-      formData.append('portfolioUrl', portfolioUrl);
+    if (appliedTime === null) {
+      alert('참여 가능일을 입력해주세요');
+    } else if (appliedPosition === '') {
+      alert('희망 직무를 입력해 주세요');
+    } else if (radio === 'url') {
+      if (portfolioUrl !== '') {
+        formData.append('portfolioUrl', portfolioUrl);
+        formData.append('userId', user.userInfo.id);
+        formData.append('projectId', list.currentProject.id);
+        formData.append('name', user.userInfo.name);
+        formData.append('appliedTime', applyDate);
+        formData.append('appliedPosition', appliedPosition);
+        formData.append('comments', comments);
+        res = await projectAPI.postApplyProject(formData);
+      } else {
+        alert('유알엘을 입력해 주세요');
+      }
     } else {
-      formData.append('portfolioFile', portfolioFile); //[null]
+      if (portfolioFile !== null) {
+        formData.append('portfolioFile', portfolioFile); //[null]
+        formData.append('userId', user.userInfo.id);
+        formData.append('projectId', list.currentProject.id);
+        formData.append('name', user.userInfo.name);
+        formData.append('appliedTime', applyDate);
+        formData.append('appliedPosition', appliedPosition);
+        formData.append('comments', comments);
+        res = await projectAPI.postApplyProject(formData);
+      } else {
+        alert('포트 폴리오 파일을 입력해주세요');
+      }
     }
-
-    formData.append('comments', comments);
-
-    const res = await projectAPI.postApplyProject(formData);
-    //console.log(res);
-
-    if (res.status === 201) {
+    if (res !== null && res.status === 201) {
       alert('프로젝트 지원 성공');
       props.history.push(`/app/info/user/${user.userInfo.id}`);
     } else {
-      alert('다시');
+      // alert('다시');
     }
   };
 
