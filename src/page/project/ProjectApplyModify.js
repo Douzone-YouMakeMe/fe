@@ -110,8 +110,8 @@ function ProjectApply(props) {
       .format(utcFormat);
     formData.append('id', props.record.id);
     formData.append('userId', user.userInfo.id);
-    formData.append('projectId', list.currentProject.id);
-    formData.append('name', props.record.name);
+    formData.append('projectId', props.record.projectId);
+    formData.append('name', user.userInfo.name);
     formData.append('appliedTime', applyDate);
     formData.append('appliedPosition', appliedPosition);
 
@@ -125,7 +125,9 @@ function ProjectApply(props) {
     if (res.status === 201) {
       alert('수정 지원 성공');
       props.onCancel();
-      // props.history.push(`/app/info/user/${user.userInfo.id}`);
+      // props.history.push(`/app/info/user/${user.userInfo.id}`);/
+    } else {
+      alert(JSON.stringify(res.data));
     }
   };
   const handleDelete = async () => {
@@ -158,37 +160,75 @@ function ProjectApply(props) {
         <hr></hr>
         <form>
           <br></br>
+
           <Row gutter={[]}>
-            <Col span={8}>
-              <Title level={5}>프로젝트 참여가능일</Title>
-            </Col>
-            <Col span={16}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Title level={5}>참여가능일</Title>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <DatePicker
                 showTime
+                style={{ width: '280px' }}
                 onChange={handleAppliedTime}
                 value={appliedTime}
               />
-            </Col>
+            </div>
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>희망 직무</Title>
-            </Col>
-            <Col span={16}>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <Input
                 value={appliedPosition}
                 style={{ width: 280 }}
                 onChange={handleAppliedPosition}
               />
-            </Col>
+            </div>
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>포트폴리오</Title>
-            </Col>
-            <Col span={16}>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <Radio.Group value={radio} onChange={handleRadio}>
                 <Space direction="vertical">
                   <Radio value={'url'}>
@@ -197,7 +237,7 @@ function ProjectApply(props) {
                       <Input
                         placeholder="url을 입력 해주세요 "
                         value={portfolioUrl}
-                        style={{ width: 250, marginLeft: 10 }}
+                        style={{ width: 220, marginLeft: 10 }}
                         onChange={handlePortfolioUrl}
                       />
                     ) : null}
@@ -210,7 +250,7 @@ function ProjectApply(props) {
                           {props.portfolioFile}
                         </a>
                         <input
-                          style={{ width: 250, marginLeft: 10 }}
+                          style={{ width: 220, marginLeft: 10 }}
                           type="file"
                           onChange={(e) => {
                             handlePortfolioFile(e.target.files[0]);
@@ -221,14 +261,26 @@ function ProjectApply(props) {
                   </Radio>
                 </Space>
               </Radio.Group>
-            </Col>
+            </div>
           </Row>
           <br></br>
           <Row gutter={[]}>
-            <Col span={8}>
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
               <Title level={5}>하고싶은말</Title>
-            </Col>
-            <Col span={16}>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <TextArea
                 onChange={handleComments}
                 value={comments}
@@ -236,13 +288,16 @@ function ProjectApply(props) {
                 style={{ width: 290 }}
                 placeholder="100자 이내로 입력해주세요 // 글자 수 더이상 입력안되게 하기 "
               />
-            </Col>
+            </div>
           </Row>
           <br></br>
           <br></br>
           <Row gutter={[80]} justify="center">
             <Col>
-              <Button onClick={handleSubmit} type="primary">
+              <Button
+                onClick={handleSubmit}
+                style={{ backgroundColor: '#00BFFF', color: '#ffff' }}
+              >
                 수정
               </Button>
             </Col>

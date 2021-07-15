@@ -121,7 +121,7 @@ function UserInfo(props) {
       dataIndex: 'position',
       key: 'position',
       render: (text, record) => {
-        return <div>{record.JopTitle}</div>;
+        return <div>{record.appliedPosition}</div>;
       },
     },
     {
@@ -328,9 +328,14 @@ function UserInfo(props) {
             )}
           </Panel>
           <Panel header="계정 삭제" key="5">
-            <Paragraph>
+            <Paragraph
+              style={{
+                justifyContent: 'center',
+              }}
+            >
               <pre>{del_msg}</pre>
               <Input
+                style={{ width: '85%' }}
                 value={checkPassword}
                 onChange={handleSetCheckPassword}
               ></Input>
@@ -355,7 +360,7 @@ function UserInfo(props) {
           visible={visible}
           onOk={() => setVisible(false)}
           onCancel={() => setVisible(false)}
-          width={1000}
+          width={900}
           footer={[]}
         >
           <ProjectApplyModify

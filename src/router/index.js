@@ -25,7 +25,7 @@ const CRouter = (props) => {
                   height: 'auto',
                 }}
               >
-                <ProjectListA {...props} />;
+                <ProjectListA {...props} />
               </Content>
               <Footer>Footer</Footer>
             </Layout>
@@ -47,7 +47,7 @@ const CRouter = (props) => {
                   height: 'auto',
                 }}
               >
-                <ProjectListA {...props} />;
+                <ProjectListA {...props} />
               </Content>
               <Footer>Footer</Footer>
             </Layout>
