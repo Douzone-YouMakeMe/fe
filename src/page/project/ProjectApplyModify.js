@@ -286,7 +286,7 @@ function ProjectApply(props) {
                 value={comments}
                 rows={4}
                 style={{ width: 290 }}
-                placeholder="100자 이내로 입력해주세요 // 글자 수 더이상 입력안되게 하기 "
+                placeholder="하고 싶은말을 적어주세요 "
               />
             </div>
           </Row>

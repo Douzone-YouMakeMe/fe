@@ -5,6 +5,7 @@ import WithHeader from './WithHeader';
 import { Layout } from 'antd';
 import HeaderB from '../page/layout/HeaderB';
 import ProjectListA from '../page/project/ProjectListA';
+import Logo from '../test_img/ymm_logo.png';
 const { Footer, Content } = Layout;
 const CRouter = (props) => {
   return (
@@ -29,12 +30,37 @@ const CRouter = (props) => {
               </Content>
               <Footer
                 style={{
-                  textAlign: 'center',
+                  textAlign: 'left',
                   fontSize: '20px',
                   marginTop: '1px',
+                  display: 'flex',
+                  flexDirection: 'orientation',
                 }}
               >
-                다 해드림
+                <div style={{ width: '15%' }}>
+                  <img
+                    onClick={() => {
+                      props.history.push('/');
+                    }}
+                    src={Logo}
+                    alt="서비스 로고"
+                    style={{ height: '8vh', objectFit: 'cover' }}
+                  />
+                </div>
+                <div style={{ width: '40%' }}>
+                  <div>
+                    <h6>Tel: 02-6233-6000</h6>
+                  </div>
+                  <div>
+                    <h6>주소: 서울특별시 중구 을지로1가 을지로 29</h6>
+                  </div>
+                  <div>
+                    <h6>메일: rbsghks01@gmail.com</h6>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  COPYRIGHT ⓒ 2021 YOU MAKE ME ALL RIGHTS RESERVED.
+                </div>
               </Footer>
             </Layout>
           );
@@ -59,12 +85,37 @@ const CRouter = (props) => {
               </Content>
               <Footer
                 style={{
-                  textAlign: 'center',
+                  textAlign: 'left',
                   fontSize: '20px',
                   marginTop: '1px',
+                  display: 'flex',
+                  flexDirection: 'orientation',
                 }}
               >
-                다 해드림
+                <div style={{ width: '15%' }}>
+                  <img
+                    onClick={() => {
+                      props.history.push('/');
+                    }}
+                    src={Logo}
+                    alt="서비스 로고"
+                    style={{ height: '8vh', objectFit: 'cover' }}
+                  />
+                </div>
+                <div style={{ width: '40%' }}>
+                  <div>
+                    <h6>Tel: 02-6233-6000</h6>
+                  </div>
+                  <div>
+                    <h6>주소: 서울특별시 중구 을지로1가 을지로 29</h6>
+                  </div>
+                  <div>
+                    <h6>메일: rbsghks01@gmail.com</h6>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  COPYRIGHT ⓒ 2021 YOU MAKE ME ALL RIGHTS RESERVED.
+                </div>
               </Footer>
             </Layout>
           );

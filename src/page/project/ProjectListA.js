@@ -9,7 +9,7 @@ import { Route, Link } from 'react-router-dom';
 import Pimg from '../../test_img/card_test.png';
 //import { Card, Row, Col, Avatar } from 'antd';
 import { Avatar, Divider, Typography } from 'antd';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Carousel } from 'react-bootstrap';
 //import { UserOutlined } from '@ant-design/icons';
 import { s3Bucket } from '../../util';
 import { actionCreators } from '../../redux/module/project/projectAction';
@@ -37,9 +37,11 @@ function ProjectListA(props) {
 
   return (
     <div style={{ height: '80vh', overflow: 'scroll' }}>
-      <Title style={{ marginLeft: '1%', marginTop: '1%' }} level={2}>
-        Project List
-      </Title>
+      <Row>
+        <Title style={{ marginLeft: '1%', marginTop: '1%' }} level={2}>
+          Project List
+        </Title>
+      </Row>
       <Row xs={1} md={3} className="g-1">
         {Plist.map((value, key) => (
           <Col style={{ marginTop: '2%' }}>

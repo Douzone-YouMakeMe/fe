@@ -158,7 +158,7 @@ const ProjectMember = (props) => {
       },
     },
     {
-      title: '추방 하기',
+      title: '내보내기',
       dataIndex: 'applyModify',
       key: 'applyDrop',
       render: (text, record, index) => {
@@ -174,7 +174,7 @@ const ProjectMember = (props) => {
             }}
             onClick={() => handleDrop(record)}
           >
-            추방
+            내보내기
           </Button>
         );
       },

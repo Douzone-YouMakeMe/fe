@@ -11,6 +11,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Setting from '../components/Setting/Setting';
 import MyProject from '../components/MyProject/MyProject';
 import ProjectUpdate from '../page/project/ProjectUpdate';
+import Logo from '../test_img/ymm_logo.png';
 const { Footer, Content } = Layout;
 const WithHeader = (props) => {
   return (
@@ -84,12 +85,37 @@ const WithHeader = (props) => {
         </Content>
         <Footer
           style={{
-            textAlign: 'center',
+            textAlign: 'left',
             fontSize: '20px',
             marginTop: '1px',
+            display: 'flex',
+            flexDirection: 'orientation',
           }}
         >
-          다해드림
+          <div style={{ width: '15%' }}>
+            <img
+              onClick={() => {
+                props.history.push('/');
+              }}
+              src={Logo}
+              alt="서비스 로고"
+              style={{ height: '8vh', objectFit: 'cover' }}
+            />
+          </div>
+          <div style={{ width: '40%' }}>
+            <div>
+              <h6>Tel: 02-6233-6000</h6>
+            </div>
+            <div>
+              <h6>주소: 서울특별시 중구 을지로1가 을지로 29</h6>
+            </div>
+            <div>
+              <h6>메일: rbsghks01@gmail.com</h6>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            COPYRIGHT ⓒ 2021 YOU MAKE ME ALL RIGHTS RESERVED.
+          </div>
         </Footer>
       </Layout>
     </div>

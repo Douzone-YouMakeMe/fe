@@ -96,7 +96,6 @@ const WithSidebar = (props) => {
   return (
     <Layout style={{ backgroundColor: '#F0F8FF' }}>
       <Header
-        className="routerHeader"
         style={{
           height: '10vh',
           backgroundColor: 'rgb(29, 144, 251)',
@@ -105,7 +104,7 @@ const WithSidebar = (props) => {
       >
         <Row
           justify="start"
-          style={{ height: '94%', marginLeft: '3vw', marginRight: '3vw' }}
+          style={{ height: '90%', marginLeft: '3vw', marginRight: '3vw' }}
           align="middle"
         >
           <Col xs={2} sm={2} md={1} lg={1}>
