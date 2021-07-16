@@ -12,7 +12,7 @@ import {
   Collapse,
   Typography,
 } from 'antd';
-import { SettingOutlined, DownOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 import { CgAddR } from 'react-icons/cg';
 import { s3Bucket } from '../../util';
 
@@ -179,7 +179,7 @@ const MyProject = (props) => {
 
 const ListObject = (props) => {
   const { value, history } = props;
-  console.log(value);
+
   return (
     <List.Item style={{ borderColor: 'rgba(0, 191, 255, .2)' }}>
       <Card

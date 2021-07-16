@@ -34,15 +34,12 @@ const { Title, Paragraph, Text } = Typography;
 const { Option } = Select;
 
 // 내용 접히는 부분
-function callback(key) {
-  console.log(key);
-}
+function callback(key) {}
 
 const del_msg =
   '계정을 삭제하면 더 이상 저장소에 남겨진 메시지 또는 파일에 접근할 수 없지만, 현재 팀 멤버들은 사용자님이 남긴 메시지 또는 파일에 계속해서 접근할 수 있습니다';
 
 function UserInfo(props) {
-  const [Plist, setPlist] = useState([]);
   const [record, setRecord] = useState(null);
   const [name, setName] = useState('');
   const [visible, setVisible] = useState(false);
@@ -149,7 +146,6 @@ function UserInfo(props) {
       dataIndex: 'applyModify',
       key: 'applyModify',
       render: (text, record, index) => {
-        console.log(record);
         return (
           <Button
             type="primary"
@@ -202,7 +198,6 @@ function UserInfo(props) {
     setCheckPassword(e.target.value);
   };
   const handleCheck = async () => {
-    console.log(checkPassword);
     const res = await userAPI.login({
       email: user.userInfo.email,
       password: checkPassword,

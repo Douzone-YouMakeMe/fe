@@ -18,7 +18,6 @@ import moment from 'moment';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { projectAction } from '../../redux/module/project/projectAction';
-import Constant from '../../redux/actionType';
 
 const RoadMap = (props) => {
   const [onModal, setOnModal] = useState(false);
@@ -56,9 +55,7 @@ const RoadMap = (props) => {
   const handleInit = async () => {
     await dispatch(projectAction.getProjectWork(props.match.params.id));
   };
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+
   const handleSelect = async (object) => {
     setItem(object);
     setOnModal(!onModal);

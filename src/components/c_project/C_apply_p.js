@@ -1,149 +1,102 @@
-import React ,{useState} from 'react'
-import { useForm, useFormState } from 'react-hook-form';
-import moment from "moment";
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Button,Typography , Col, Row, Form, Input , InputNumber ,DatePicker,
-        Radio,Space,Select,Upload,message
+import {
+  Button,
+  Typography,
+  Col,
+  Row,
+  Input,
+  DatePicker,
+  Radio,
+  Space,
 } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+
 import C_file_upload from './C_file_upload';
-import { Link } from 'react-router-dom'
-import {aaa} from '../../view/project/P_list'
+import { Link } from 'react-router-dom';
 
+/* eslint-enable no-template-curly-in-string */
 
-//GrView ,TiDocumentText
-const { Title , Text} = Typography;
-
-const layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 8 },
-    };
-    
-    /* eslint-disable no-template-curly-in-string */
-    const validateMessages = {
-        required: '${label}을 입력 해주세요',
-
-    };
-    /* eslint-enable no-template-curly-in-string */
-    
 /*
 포토 폴리오 
 */
-    const { Option } = Select;
-    const selectBefore = (
-        <Select defaultValue="http://" className="select-before">
-        <Option value="http://">http://</Option>
-        <Option value="https://">https://</Option>
-        </Select>
-    );
-    const selectAfter = (
-        <Select defaultValue=".com" className="select-after">
-        <Option value=".com">.com</Option>
-        <Option value=".kr">.kr</Option>
-        <Option value=".org">.org</Option>
-        </Select>
-    );
+
 /*
 포토 폴리오 파일업로드
 */
 
-function onChange(date, dateString) {
-    console.log(date, dateString);
-  }
+function onChange(date, dateString) {}
 
 function C_detail_p() {
+  const { Title } = Typography;
 
-    const {Title} = Typography;
-    const [finished,setFinished]=useState("");
-    
-    const { register, handleSubmit, control } = useForm({
-        defaultValues: {
-        uName: "",
-        aDate: "",
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      uName: '',
+      aDate: '',
+    },
+  });
 
-        }
-      });
+  return (
+    <>
+      <Row justify="center">
+        <Title>프로젝트 지원하기 </Title>
+      </Row>
+      <hr></hr>
+      <br></br>
+      <form onSubmit={handleSubmit()}>
+        <Row gutter={100} justify="center">
+          <Col span={100}>
+            <Title level={5}>이름</Title>
+          </Col>
 
-    const { dirtyFields } = useFormState({
-    control
-    });
+          <Col>
+            <input {...register('uName')} />
+          </Col>
+        </Row>
 
-    
-    const onSubmit = (data) => console.log(data);
+        <Row justify="center">
+          <Col>
+            <Title level={5}>프로젝트 참여 가능일</Title>
+          </Col>
+          <Col>
+            {/* <DatePicker format={"YYYY-MM-DD"} onChange={(e)=>{handleCaelendar(e)}}/> */}
+            <DatePicker format={'YYYY-MM-DD'} onChange={onChange} />
+          </Col>
+        </Row>
 
-    const handleCaelendar= (e)=>{
-        setFinished(e.format("YYYY-MM-DD"));
-    }
+        <Radio.Group name="radiogroup" defaultValue={1}>
+          <Space direction="vertical">
+            <Radio value={1}>
+              <input />
+            </Radio>
+            <Radio value={2}>
+              <C_file_upload />
+            </Radio>
+          </Space>
+        </Radio.Group>
 
-    return (
-       
-        <>
-            <Row justify="center" >
-                <Title>프로젝트 지원하기 </Title>    
-            </Row>        
-            <hr></hr>
-            <br></br>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Row gutter={100} justify="center" >
-                    
-                    <Col span={100}>
-                        <Title level={5}>이름</Title>
-                    </Col>
+        <Input.TextArea />
 
-                    <Col>
-                        <input {...register("uName")} />
-                    </Col>
-                </Row>
-
-                <Row justify="center">
-                    <Col>
-                        <Title level={5}>프로젝트 참여 가능일</Title>
-                    </Col>
-                    <Col>
-
-                    {/* <DatePicker format={"YYYY-MM-DD"} onChange={(e)=>{handleCaelendar(e)}}/> */}
-                    <DatePicker format={"YYYY-MM-DD"} onChange={onChange}/>
-                    </Col>
-                </Row>
-
-               
-            <Radio.Group name="radiogroup" defaultValue={1}>
-                <Space direction = "vertical">
-                    <Radio value={1}>
-                       <input />
-                    </Radio>
-                    <Radio value={2}>
-                        <C_file_upload />
-                    </Radio>
-                </Space>
-            </Radio.Group>
-
-
-                <Input.TextArea />
-
-                <Row gutter={10} justify="center">
-                    <Col>
-
-                    <Button type="primary" onClick="">
-                        지원하기
-                    </Button>
-                    <button type="submit">지원하기</button>
-                    </Col>
-                    <Col>
-                    <Link to="/card">
-                    <Button type="primary" danger>
-                    되돌아가기
-                    </Button>
-                    </Link>
-                    </Col>
-
-                </Row>
-                </form>
- 
-        </>
-    );
+        <Row gutter={10} justify="center">
+          <Col>
+            <Button type="primary" onClick="">
+              지원하기
+            </Button>
+            <button type="submit">지원하기</button>
+          </Col>
+          <Col>
+            <Link to="/card">
+              <Button type="primary" danger>
+                되돌아가기
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      </form>
+    </>
+  );
 }
-
 
 export default C_detail_p;
 

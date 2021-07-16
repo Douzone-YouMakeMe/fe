@@ -26,7 +26,6 @@ const { Title, Text } = Typography;
 
 function ProjectApply(props) {
   const user = useSelector((state) => {
-    console.log(state);
     return state.user;
   });
 
@@ -357,6 +356,16 @@ function ProjectApply(props) {
             '갑' 은 서비스의 팀 프로젝트와 참여 회원을 임의로 삭제할 수
             있습니다.
           </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              disabled={!agree}
+              onClick={() => {
+                setOnModal(false);
+              }}
+            >
+              확인
+            </Button>
+          </div>
         </Modal>
       </div>
     );
@@ -365,70 +374,3 @@ function ProjectApply(props) {
   }
 }
 export default ProjectApply;
-
-// <Row gutter={[100, 0]} align="middle" justify="center">
-//       <Col>
-//         <Title level={5}>이름</Title>
-//       </Col>
-//       <Col>
-//         <Input placeholder="Basic usage" />
-//       </Col>
-//     </Row>
-//     <br></br>
-//     <Row gutter={[100, 0]} justify="center">
-//       <Col>
-//         <Title level={5}>참여 가능일</Title>
-//       </Col>
-//       <Col>
-//         <DatePicker onChange={onChange} />
-//       </Col>
-//     </Row>
-//     <br></br>
-//     <Row gutter={[100, 0]} justify="center">
-//       <Col>
-//         <Title level={5}>지원 포지션</Title>
-//       </Col>
-//       <Col>
-//         <Select
-//           defaultValue="fe"
-//           style={{ width: 120 }}
-//           onChange={handleChange}
-//         >
-//           {/* 프로젝트 생성자가 지원 포지션 설정 한 값나 나오기 */}
-//           <Option value="fe">프론트엔드</Option>
-//           <Option value="bk">백앤드</Option>
-//         </Select>
-//       </Col>
-//     </Row>
-//     <br></br>
-//     <Row gutter={[100, 0]} justify="center">
-//       <Col>
-//         <Title level={5}>포트 폴리오</Title>
-//       </Col>
-//       <Col></Col>
-//     </Row>
-
-//  <Row justify="center">
-//         <Col>
-//           <Space direction="vertical">
-//             <Title level={5}>이름:</Title>
-//             <Title level={5}>프로젝트 참여 가능일:</Title>
-//             <Title level={5}>지원 직무:</Title>
-//             <Title level={5}>포토폴리오:</Title>
-//             <Title level={5}>하고싶은말:</Title>
-//           </Space>
-//         </Col>
-//         <Col>
-//           <Space direction="vertical">
-//             <Title level={5}>이름:</Title>
-//             <Title level={5}>프로젝트 참여 가능일:</Title>
-//             <Title level={5}>지원 직무:</Title>
-//             <Title level={5}>포토폴리오:</Title>
-//             <Title level={5}>하고싶은말:</Title>
-//           </Space>
-//         </Col>
-//       </Row>
-
-//    // for (var value of formData.values()) {
-//   console.log(value);
-// }

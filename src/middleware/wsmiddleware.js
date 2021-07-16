@@ -9,12 +9,11 @@ let topicGroupSubscribe;
 function initWsAndSubscribe(wsClient, store, url, wsUserTokenValue) {
   const groupUrl = url;
   const userId = JSON.parse(localStorage.getItem('userInfo')).id;
-  console.log(userId);
+
   wsClient.onConnect = () => {
-    console.log('CONNECT');
     userQueueReplySubscribe = wsClient.subscribe('/user/queue/reply', (res) => {
       const data = JSON.parse(res.body);
-      console.log(data);
+
       store.dispatch({
         type: Constant.SET_WS_GROUPS,
         payload: data,
@@ -23,8 +22,6 @@ function initWsAndSubscribe(wsClient, store, url, wsUserTokenValue) {
     topicNotificationSubscribe = wsClient.subscribe(
       '/topic/notification/' + userId,
       (res) => {
-        console.log('RECEIVING NOTIFICATION');
-        console.log(JSON.parse(res.body));
         updateGroupsWithLastMessageSent(store, JSON.parse(res.body), userId);
       },
     );
@@ -32,17 +29,14 @@ function initWsAndSubscribe(wsClient, store, url, wsUserTokenValue) {
       destination: '/app/message',
       body: wsUserTokenValue,
     });
-    console.log(store.getState().project.currentProject.id);
+
     store.dispatch({
       type: Constant.FETCH_GROUP_MESSAGES,
       payload: store.getState().project.currentProject.id,
     });
   };
-  wsClient.onWebSocketClose = () => {
-    console.log('ERROR DURING HANDSHAKE WITH SERVER');
-  };
+  wsClient.onWebSocketClose = () => {};
   wsClient.activate();
-  console.log(userQueueReplySubscribe);
 }
 
 const WsClientMiddleWare = () => {
@@ -84,12 +78,9 @@ const WsClientMiddleWare = () => {
           wsClient
             .deactivate()
             .then((r) => {
-              console.log(r);
               wsClient = null;
             })
-            .catch((err) => {
-              console.log(err);
-            });
+            .catch((err) => {});
         }
         break;
       case Constant.FETCH_GROUP_MESSAGES:
@@ -98,8 +89,7 @@ const WsClientMiddleWare = () => {
             '/app/group/get/' + action.payload,
             (res) => {
               const data = JSON.parse(res.body);
-              console.log(data);
-              //   console.log(data);
+
               store.dispatch({
                 type: Constant.SET_CHAT_HISTORY,
                 payload: data,
@@ -110,7 +100,7 @@ const WsClientMiddleWare = () => {
             '/topic/' + action.payload,
             (res) => {
               const data = JSON.parse(res.body);
-              console.log(data);
+
               store.dispatch({
                 type: Constant.ADD_CHAT_HISTORY,
                 payload: data,
@@ -119,36 +109,9 @@ const WsClientMiddleWare = () => {
           );
         }
         break;
-        // case Constant.FETCH_GROUP_MESSAGES:
-        //   if (wsClient !== null) {
-        //     appGroupGetSubscribe = wsClient.subscribe(
-        //       '/app/groups/get/' + action.payload.pid,
-        //       (res) => {
-        //         const data = JSON.parse(res.body);
-        //         console.log(data);
-        //         store.dispatch({
-        //           type: Constant.SET_CHAT_HISTORY,
-        //           payload: data,
-        //         });
-        //       },
-        //     );
-        //     topicGroupSubscribe = wsClient.subscribe(
-        //       '/topic/' + action.payload.pid,
-        //       (res) => {
-        //         const data = JSON.parse(res.body);
-        //         store.dispatch({
-        //           type: Constant.ADD_CHAT_HISTORY,
-        //           payload: data,
-        //         });
-        //       },
-        //     );
-        //   }
-        break;
+
       case Constant.SEND_GROUP_MESSAGE:
         if (wsClient !== null) {
-          console.log(store.getState().project.currentMember.id);
-          console.log(store.getState().project.currentProject.id);
-          console.log({ ...action.payload });
           wsClient.publish({
             destination:
               '/app/message/text/' +
@@ -182,7 +145,7 @@ const WsClientMiddleWare = () => {
               wsClient = null;
             })
             .catch((err) => {
-              console.log(err);
+              console.error(err);
             });
         }
         break;
@@ -217,20 +180,6 @@ function updateGroupsWithLastMessageSent(store, value, userId) {
   groupsArray.splice(groupToPlaceInFirstPosition, 1);
   groupsArray.unshift(item);
   store.dispatch({ type: Constant.SET_WS_GROUPS, payload: groupsArray });
-}
-
-function markMessageAsSeen(store, groupUrl) {
-  //   const groups = store.getState().ws.wsUserGroups;
-  //   const groupToUpdateIndex = groups.findIndex((elt) => elt.url === groupUrl);
-  //   if (groupToUpdateIndex === -1) {
-  //     return;
-  //   }
-  //   if (groups[groupToUpdateIndex].lastMessageSeen === false) {
-  //     return;
-  //   }
-  //   let groupsArray = [...groups];
-  //   groupsArray[groupToUpdateIndex].lastMessageSeen = false;
-  //   store.dispatch({ type: SET_WS_GROUPS, payload: groupsArray });
 }
 
 export default WsClientMiddleWare();

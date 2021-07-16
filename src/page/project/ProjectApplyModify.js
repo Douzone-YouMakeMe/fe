@@ -38,12 +38,6 @@ function ProjectApply(props) {
   });
   const dispatch = useDispatch();
 
-  // 지원한 해당프로젝트의 유저의 지원 정보를 보내주는 객체
-  const memberApplyL = list.memberList;
-  //console.log({memberApplyL});
-  memberApplyL.forEach((applyInfo) => console.log(applyInfo));
-  // memberApplyL.forEach(toUeserL =>console.log(toUeserL));
-
   // userId,      //user 아이디 리덕스에서 보내기
   //   projectId, //프로젝트 아이디 리덕스 상태에서 보내기
   //   name       //지원자 이름 리덕스에서
@@ -138,7 +132,7 @@ function ProjectApply(props) {
       props.onCancel();
     }
   };
-  //console.log(list.memberList[0].name);
+
   if (list.currentProject !== null) {
     return (
       <div

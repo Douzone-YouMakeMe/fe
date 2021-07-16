@@ -150,7 +150,6 @@ export const projectAction = {
     if (res.status !== 201) {
       alert('승인에 실패하였습니다.');
     } else {
-      console.log(res);
       return res;
     }
   },

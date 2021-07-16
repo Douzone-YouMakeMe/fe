@@ -20,7 +20,6 @@ function ProjectDetail(props) {
   });
   //const [변수명,변수값을바꾸는함수]= useState(초기값);
   const [writer, setWriter] = useState(null);
-  const [teamMember, setTeamMember] = useState(null);
 
   // 팀에 현재 소속된 맴버 정보와 아바타
 
@@ -29,12 +28,10 @@ function ProjectDetail(props) {
   const getWriter = () => {
     let temp = null;
     if (list.memberList !== null && list.currentProject !== null) {
-      // console.log(list.currentProject.userId);
       temp = list.memberList.find((element) => {
-        console.log(element.userId === list.currentProject.userId);
         return element.userId === list.currentProject.userId;
       });
-      console.log(temp);
+
       setWriter(temp);
     }
   };
@@ -75,7 +72,7 @@ function ProjectDetail(props) {
       let member = list.memberList.filter((value) => {
         return value.userId === user.userInfo.id;
       });
-      console.log(member);
+
       if (member.length !== 0) {
         alert('이미 해당 프로젝트의 멤버입니다.');
       } else {
@@ -210,7 +207,7 @@ function ProjectDetail(props) {
                         전문 분야
                       </Text>
                       <Text style={{ marginLeft: '15%', color: '#708090' }}>
-                        {writer.name}
+                        {writer.jobTitle}
                       </Text>
                     </Row>
                   </ListGroup.Item>

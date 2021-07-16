@@ -69,33 +69,12 @@ function ProjectCreate(props) {
   const [finishedTime, setFinishedTime] = useState(null); //
   const [contents, setContents] = useState('모집공고의 내용을 적어주세요.');
 
-  useEffect(() => {
-    //console.log("화면에서 나타날때": user);
-    //return () =>{console.log("화면에서 사라질때");}
-  }, []);
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
   const handleThumbnailChange = (info) => {
-    // console.log(info.file.originFileObj);
-    // if (info.file.status === 'uploading') {
-    //     setLoading(true);
-    //   //setThumbnail({ loading: true });
-    //   return;
-    // }
-    // if (info.file.status === 'done') {
-    //   // Get this url from response in real world.
-    //   //const file = new File(info.file.originFileObj, "thumbnail.jpeg");
-    //   setLoading(false);
-    //   setThumbnail(info.file.originFileObj);
     setThumbnail(info);
-    //   getBase64(info.file.originFileObj, thumbnail =>
-    //     setThumbnail({
-    //       thumbnail,
-    //       loading: false,
-    //     }),
-    //   );
   };
 
   // 이미지 업로드용 버튼. 이거 어떻게 되돌려야 십자표가 다시 나올까?
@@ -123,7 +102,6 @@ function ProjectCreate(props) {
   //제출버튼 이벤트
   const handleSubmit = async () => {
     const formData = new FormData();
-    //formData.append(name, value, filename);
 
     //timestamp-localdatetime-UTC 표준 변경!
     let utcFormat = 'yyyy-MM-DD HH:mm:ss';
@@ -137,11 +115,6 @@ function ProjectCreate(props) {
       .local()
       .format(utcFormat);
 
-    //console.log(thumbnail.thumbnail);
-    //const buffer = Buffer.from(thumbnail.thumbnail, 'base64');
-    //const blobNail =fetch(thumbnail).then(res => res.blob());
-    //const file = new File([blobNail], "thumbnail.jpeg");
-    //console.log(file);
     formData.append('userId', user.userInfo.id); //이거 전역 redux store에서 받아와야...
     formData.append('thumbnail', thumbnail);
     formData.append('name', name);
@@ -149,7 +122,7 @@ function ProjectCreate(props) {
     formData.append('total', total);
     formData.append('startedTime', startTime);
     formData.append('finishedTime', finishTime);
-    // 컨텐츠는 JSON.stringify 필요.
+
     formData.append('contents', String(JSON.stringify(contents)));
     const res = await projectAPI.postProject(formData);
     if (res.status === 201) {
@@ -259,25 +232,13 @@ function ProjectCreate(props) {
           <CKEditor
             editor={ClassicEditor}
             data={contents}
-            config={
-              {
-                //placeholder: "모집공고의 상세한 설명을 적어주세요."
-              }
-            }
-            onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              //console.log( 'Editor is ready to use!', editor );
-            }}
+            config={{}}
+            onReady={(editor) => {}}
             onChange={(event, editor) => {
-              //console.log(editor.getData())
               setContents(editor.getData());
             }}
-            onBlur={(event, editor) => {
-              //console.log( 'Blur.', editor );
-            }}
-            onFocus={(event, editor) => {
-              //console.log( 'Focus.', editor );
-            }}
+            onBlur={(event, editor) => {}}
+            onFocus={(event, editor) => {}}
           >
             <div>
               <textarea></textarea>
@@ -303,71 +264,3 @@ function ProjectCreate(props) {
   );
 }
 export default ProjectCreate;
-
-// append해도 map이나 reduce를 해서 뽑아내야만 값이 보인다.
-// 그냥 console formData 찍으면 생성자만 나옴.
-// console.log(...formData); //+formData.values+formData.keys entires
-// return formData; //제출은 projectAPI로?
-
-// {/* {contents!==""&&(
-//       <div>
-//             {ReactHtmlParser(JSON.stringify(contents))}
-//         </div>)} */}
-
-//         {/* <Row gutter={[]}>
-//           <Col span={8}>
-//             <Title level={5}>지원 직무 applied_position</Title>
-//           </Col>
-//           <Col span={16}>
-//             <Select
-//               defaultValue="Frontend"
-//               style={{ width: 120 }}
-//               onChange={handleChange}
-//             >
-//               <Option value="Frontend">Frontend</Option>
-//               <Option value="Backend">Backend</Option>
-//             </Select>
-//           </Col>
-//         </Row>
-//         <br></br> */}
-
-// 순수 base64인코딩 파일은 java에서 String 파일로 받아들인다. Blob가지고 File로 변환해서 multipart/formData로 보내야...
-// function dataURItoBlob(dataURI) {
-//     // convert base64/URLEncoded data component to raw binary data held in a string
-//     var byteString;
-//     if (dataURI.split(',')[0].indexOf('base64') >= 0)
-//         byteString = atob(dataURI.split(',')[1]);
-//     else
-//         byteString = unescape(dataURI.split(',')[1]);
-
-//     // separate out the mime component
-//     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-//     // write the bytes of the string to a typed array
-//     var ia = new Uint8Array(byteString.length);
-//     for (var i = 0; i < byteString.length; i++) {
-//         ia[i] = byteString.charCodeAt(i);
-//     }
-
-//     return new Blob([ia], {type:mimeString});
-// }
-
-// {/* <Upload
-//   name="thumbnail"
-//   listType="picture-card"
-//   className="avatar-uploader"
-//   showUploadList={true}
-//   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-//   beforeUpload={beforeUpload}
-//   onChange={handleThumbnailChange}
-// >
-//   {thumbnail ? <img src={thumbnail} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-// </Upload> */}
-
-//           {/* <Upload.Dragger action={null} style={{width:"30vh"}} name="files" getValueFromEvent={(e)=>{console.log(e)}}>
-//   <p className="ant-upload-drag-icon">
-//     <InboxOutlined />
-//   </p>
-//   <p className="ant-upload-text">Click or drag file to this area to upload</p>
-//   <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-// </Upload.Dragger> */}

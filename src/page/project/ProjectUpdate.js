@@ -57,8 +57,6 @@ function ProjectCreate(props) {
     return () => {
       handleLeave();
     };
-    //console.log("화면에서 나타날때": user);
-    //return () =>{console.log("화면에서 사라질때");}
   }, []);
   const handleLeave = () => {
     dispatch({ type: Constant.LEAVE_PROJECT });
@@ -72,7 +70,6 @@ function ProjectCreate(props) {
         setName(project.currentProject.name);
         setDescription(project.currentProject.description);
         setTotal(project.currentProject.total);
-        console.log(project.currentProject);
 
         setStartedTime(moment(project.currentProject.startedTime));
         setFinishedTime(moment(project.currentProject.finishedTime)); //
@@ -127,7 +124,7 @@ function ProjectCreate(props) {
       .format(utcFormat);
     formData.append('projectId', props.match.params.id);
     formData.append('userId', user.userInfo.id); //이거 전역 redux store에서 받아와야...
-    //console.log(user.userInfo.id+"-----입니다");
+
     if (thumbnail !== null) {
       formData.append('thumbnail', thumbnail);
     }
@@ -248,20 +245,12 @@ function ProjectCreate(props) {
           <CKEditor
             editor={ClassicEditor}
             data={contents}
-            onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              //console.log( 'Editor is ready to use!', editor );
-            }}
+            onReady={(editor) => {}}
             onChange={(event, editor) => {
-              //console.log(editor.getData())
               setContents(editor.getData());
             }}
-            onBlur={(event, editor) => {
-              //console.log( 'Blur.', editor );
-            }}
-            onFocus={(event, editor) => {
-              //console.log( 'Focus.', editor );
-            }}
+            onBlur={(event, editor) => {}}
+            onFocus={(event, editor) => {}}
           >
             <div>
               <textarea></textarea>
@@ -287,100 +276,3 @@ function ProjectCreate(props) {
   );
 }
 export default ProjectCreate;
-
-// (deprecated)이미지 업로드용 버튼. 이거 어떻게 되돌려야 십자표가 다시 나올까?
-// const uploadButton = (
-//   <div>
-//     {loading ? <LoadingOutlined /> : <PlusOutlined />}
-//     <div style={{ marginTop: 8 }}>Upload</div>
-//   </div>
-// );
-
-////deprecated
-// function getBase64(img, callback) {
-//     const reader = new FileReader();
-//     // const reader = new File();
-//     reader.addEventListener('load', () => callback(reader.result));
-//     reader.readAsDataURL(img);
-//     //reader.readAsBinaryString(img);
-//   }
-
-// function beforeUpload(file) {
-//   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-//   if (!isJpgOrPng) {
-//     message.error('You can only upload JPG/PNG file!');
-//   }
-//   const isLt5M = file.size / 1024 / 1024 < 100;
-//   if (!isLt5M) {
-//     message.error('Image must smaller than 5MB!');
-//   }
-//   return isJpgOrPng && isLt5M;
-// }
-
-// append해도 map이나 reduce를 해서 뽑아내야만 값이 보인다.
-// 그냥 console formData 찍으면 생성자만 나옴.
-// console.log(...formData); //+formData.values+formData.keys entires
-// return formData; //제출은 projectAPI로?
-
-// {/* {contents!==""&&(
-//       <div>
-//             {ReactHtmlParser(JSON.stringify(contents))}
-//         </div>)} */}
-
-//         {/* <Row gutter={[]}>
-//           <Col span={8}>
-//             <Title level={5}>지원 직무 applied_position</Title>
-//           </Col>
-//           <Col span={16}>
-//             <Select
-//               defaultValue="Frontend"
-//               style={{ width: 120 }}
-//               onChange={handleChange}
-//             >
-//               <Option value="Frontend">Frontend</Option>
-//               <Option value="Backend">Backend</Option>
-//             </Select>
-//           </Col>
-//         </Row>
-//         <br></br> */}
-
-// 순수 base64인코딩 파일은 java에서 String 파일로 받아들인다. Blob가지고 File로 변환해서 multipart/formData로 보내야...
-// function dataURItoBlob(dataURI) {
-//     // convert base64/URLEncoded data component to raw binary data held in a string
-//     var byteString;
-//     if (dataURI.split(',')[0].indexOf('base64') >= 0)
-//         byteString = atob(dataURI.split(',')[1]);
-//     else
-//         byteString = unescape(dataURI.split(',')[1]);
-
-//     // separate out the mime component
-//     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-//     // write the bytes of the string to a typed array
-//     var ia = new Uint8Array(byteString.length);
-//     for (var i = 0; i < byteString.length; i++) {
-//         ia[i] = byteString.charCodeAt(i);
-//     }
-
-//     return new Blob([ia], {type:mimeString});
-// }
-
-// {/* <Upload
-//   name="thumbnail"
-//   listType="picture-card"
-//   className="avatar-uploader"
-//   showUploadList={true}
-//   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-//   beforeUpload={beforeUpload}
-//   onChange={handleThumbnailChange}
-// >
-//   {thumbnail ? <img src={thumbnail} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-// </Upload> */}
-
-//           {/* <Upload.Dragger action={null} style={{width:"30vh"}} name="files" getValueFromEvent={(e)=>{console.log(e)}}>
-//   <p className="ant-upload-drag-icon">
-//     <InboxOutlined />
-//   </p>
-//   <p className="ant-upload-text">Click or drag file to this area to upload</p>
-//   <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-// </Upload.Dragger> */}

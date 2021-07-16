@@ -5,21 +5,19 @@
 부트 스트렙 적용
 */
 import React, { useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import Pimg from '../../test_img/card_test.png';
+import { Link } from 'react-router-dom';
+
 //import { Card, Row, Col, Avatar } from 'antd';
-import { Avatar, Divider, Typography } from 'antd';
-import { Row, Col, Card, Carousel } from 'react-bootstrap';
+import { Typography } from 'antd';
+import { Row, Col, Card } from 'react-bootstrap';
 //import { UserOutlined } from '@ant-design/icons';
 import { s3Bucket } from '../../util';
-import { actionCreators } from '../../redux/module/project/projectAction';
+
 import { projectAPI } from '../../api';
 
-//const { Meta } = Card;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 function ProjectListA(props) {
-  //변수 // 변수 바꾸는 함수 // 초기 값
   const [Plist, setPlist] = useState([]);
 
   useEffect(() => {
@@ -32,7 +30,6 @@ function ProjectListA(props) {
   const handInit = async () => {
     const data = await projectAPI.getMainProject();
     setPlist(data.data);
-    await console.log(data.data);
   };
 
   return (

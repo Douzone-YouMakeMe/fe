@@ -19,7 +19,7 @@ export const userAction = {
     if (res.status === 200) {
       const data = res.data[0];
       localStorage.setItem('userInfo', JSON.stringify(data));
-      console.log(data);
+
       batch(() => {
         dispatch({
           type: Constant.LOGIN,
@@ -47,7 +47,7 @@ export const userAction = {
     const res = await userAPI.modifyUser(param);
     if (res.status !== 200) {
       alert('수정 성공');
-      console.log(res);
+
       localStorage.setItem('userInfo', JSON.stringify(res.data[0]));
       dispatch({ type: Constant.LOGIN, payload: { userInfo: res.data[0] } });
     }
@@ -55,16 +55,3 @@ export const userAction = {
     return res;
   },
 };
-
-// const login = param => {
-//     const action = (dispatch) => {
-//         return ~~;
-//     }
-
-//     action
-//     --
-//     --
-
-//     return ~~~;
-
-// }

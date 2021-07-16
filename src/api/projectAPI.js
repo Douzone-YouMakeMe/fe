@@ -46,10 +46,9 @@ const ProjectApi = {
         },
       });
     } catch (e) {
-      console.error(e.response);
       return e.response;
     }
-    console.log(result);
+
     return result;
   },
 
@@ -102,7 +101,6 @@ const ProjectApi = {
   getAppplyListMe: async (param) => {
     let result;
     try {
-      console.log(param);
       result = await axios.get(`${serverUrl}/member/by-user/${param}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +147,6 @@ const ProjectApi = {
           },
         },
       );
-      console.log(result);
     } catch (e) {
       return e.response;
     }
@@ -177,10 +174,9 @@ const ProjectApi = {
         },
       );
     } catch (e) {
-      console.error(e.response);
       return e.response;
     }
-    console.log(result);
+
     return result;
   },
   deleteProject: async (param) => {
@@ -188,7 +184,6 @@ const ProjectApi = {
     try {
       result = await axios.delete(`${serverUrl}/project/${param}`);
     } catch (error) {
-      console.error(error);
       return error.response;
     }
     return result;

@@ -13,7 +13,6 @@ const workAPI = {
         },
       });
     } catch (e) {
-      console.log(e);
       return e.response;
     }
     return data;

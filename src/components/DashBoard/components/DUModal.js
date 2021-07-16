@@ -9,7 +9,7 @@ import {
   Menu,
   Dropdown,
 } from 'antd';
-import { generatorColor } from '../../../util/GeneratorColor';
+
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -33,7 +33,7 @@ const DUModal = (props) => {
       const item = project.tempWorkList.find((value) => {
         return value.id === props.current;
       });
-      console.log(item);
+
       if (item.status === 'waited') {
         setCurrent({ key: 'waited', value: '대기중' });
       } else if (item.status === 'finished') {

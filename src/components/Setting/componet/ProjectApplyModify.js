@@ -1,39 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import ReactHtmlParser from 'react-html-parser';
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Radio,
-  Select,
-  DatePicker,
-  Typography,
-  Space,
-} from 'antd';
-import { Link } from 'react-router-dom';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { projectAction } from '../../../redux/module/project/projectAction';
+import React, { useState } from 'react';
+
+import { Row, Col, Button, Typography } from 'antd';
+
+import { useSelector } from 'react-redux';
+
 import { projectAPI } from '../../../api';
 import moment from 'moment';
 import { s3Bucket } from '../../../util';
 
-const { Option } = Select;
-const { TextArea } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 function ProjectApply(props) {
   // usestate 는 배열 객체 안에 첫 번째 값이 변수의 이름 / 변수의 값을 변경해 주길 위한 함수 / usestate 안에 괄호는 초기 값
   const user = useSelector((state) => {
-    console.log(state);
     return state.user;
   });
   const list = useSelector((state) => {
     return state.project;
   });
-  const dispatch = useDispatch();
-  console.log(props);
+
   // userId,      //user 아이디 리덕스에서 보내기
   //   projectId, //프로젝트 아이디 리덕스 상태에서 보내기
   //   name       //지원자 이름 리덕스에서
@@ -101,7 +86,6 @@ function ProjectApply(props) {
     formData.append('comments', comments);
 
     const res = await projectAPI.postApplyProject(formData);
-    //console.log(res);
   };
   if (list.currentProject !== null) {
     return (
