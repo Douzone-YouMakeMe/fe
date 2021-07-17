@@ -59,11 +59,13 @@ function ProjectApply(props) {
     handleInit();
   }, []);
   const handleInit = () => {
-    setName(props.record.name);
-    setAppliedTime(moment(props.record.appliedTime));
-    setComments(props.record.comments);
-    setAppliedPosition(props.record.appliedPosition);
-    setPortfolioUrl(props.record.portfolioUrl);
+    if (props.record !== undefined) {
+      setName(props.record.name);
+      setAppliedTime(moment(props.record.appliedTime));
+      setComments(props.record.comments);
+      setAppliedPosition(props.record.appliedPosition);
+      setPortfolioUrl(props.record.portfolioUrl);
+    }
   };
 
   //참여 가능일
@@ -125,12 +127,7 @@ function ProjectApply(props) {
     }
   };
   const handleDelete = async () => {
-    const res = await dispatch(
-      projectAction.dropMember({ id: props.record.id, user: user.userInfo.id }),
-    );
-    if (res.status === 200) {
-      props.onCancel();
-    }
+    props.handleDelete({ id: props.record.id, userId: user.userInfo.id });
   };
 
   if (list.currentProject !== null) {

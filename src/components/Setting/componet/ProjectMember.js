@@ -164,6 +164,7 @@ const ProjectMember = (props) => {
       render: (text, record, index) => {
         return (
           <Button
+            disabled={record.status === 'pending'}
             style={{
               border: '1px soid',
               borderColor: 'black',
@@ -255,7 +256,7 @@ const ProjectMember = (props) => {
         />
       )}
       <Modal
-        title="지원 프로젝트 수정"
+        title="지원서 "
         centered
         visible={visible}
         onOk={() => setVisible(false)}

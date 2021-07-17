@@ -178,8 +178,11 @@ export const projectAction = {
     if (res.status !== 200) {
       alert(res.data);
     } else {
-      let temp = await projectAPI.getAppplyListMe(param.userId);
-      dispatch({ type: Constant.GET_MEMBERS, payload: temp.data });
+      try {
+        console.log(param.userId);
+        let temp = await projectAPI.getAppplyListMe(param.userId);
+        dispatch({ type: Constant.GET_MEMBERS, payload: temp.data });
+      } catch (error) {}
     }
     return res;
   },

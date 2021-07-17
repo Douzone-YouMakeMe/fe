@@ -335,8 +335,9 @@ function ProjectApply(props) {
 
           <div style={{ padding: '20px', background: 'rgb(240, 248, 255)' }}>
             <h5>
-              프로젝트 지원시 이용 약관 You Make Me 는 사이드 프로젝트의 지원과
-              업무를 관리할 수 있는 워크스페이스를 제공합니다.
+              프로젝트 지원시 이용 약관
+              <br></br> You Make Me 는 사이드 프로젝트의 지원과 업무를 관리할 수
+              있는 워크스페이스를 제공합니다.
             </h5>
             <br></br>
             <h5>제 1조 (목적) </h5>본 프로젝트 팀 신청 시 이용 약관은 팀 생성자

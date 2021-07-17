@@ -209,7 +209,13 @@ function UserInfo(props) {
       setCheck(false);
     }
   };
-
+  const handleDeleteApply = async (e) => {
+    const res = await dispatch(projectAction.dropMember(e));
+    if (res.status === 200) {
+      setVisible(false);
+      setRecord(null);
+    }
+  };
   if (list.currentProject != null) {
     return (
       <div
@@ -308,7 +314,7 @@ function UserInfo(props) {
             key="4"
             //style={{ border: 'solid #00BFFF', background: '#00BFFF' }}
           >
-            {list.memberList !== null && (
+            {list.memberList !== null && list.memberList !== undefined && (
               <Table
                 style={{}}
                 columns={applyListC}
@@ -359,6 +365,7 @@ function UserInfo(props) {
           footer={[]}
         >
           <ProjectApplyModify
+            handleDelete={handleDeleteApply}
             onOk={() => setVisible(false)}
             onCancel={() => setVisible(false)}
             record={record}
