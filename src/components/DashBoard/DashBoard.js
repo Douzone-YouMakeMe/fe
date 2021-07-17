@@ -166,6 +166,9 @@ const DashBoard = (props) => {
     setOnUModal(true);
     handleData();
   };
+  const deleteSubmit = (e) => {
+    dispatch(projectAction.deleteWork(e));
+  };
   return (
     <div
       style={{
@@ -253,6 +256,7 @@ const DashBoard = (props) => {
           handleClose={handleUclose}
           afterClose={handleData}
           onCancel={handleUclose}
+          deleteSubmit={deleteSubmit}
         ></DUModal>
       )}
       <DModal

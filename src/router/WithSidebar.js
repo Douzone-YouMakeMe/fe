@@ -16,6 +16,7 @@ import {
   Input,
   Divider,
   Card,
+  Dropdown,
 } from 'antd';
 import {
   MenuOutlined,
@@ -33,6 +34,7 @@ import { projectAction } from '../redux/module/project/projectAction';
 import { user } from '../redux/module';
 import Chatting from '../components/Chat/Chatting';
 import Constant from '../redux/actionType';
+import { userAction } from '../redux/module/user/userAction';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 
@@ -44,6 +46,30 @@ const WithSidebar = (props) => {
   const [menu, setMenu] = useState(1);
   const project = useSelector((state) => state.project);
   const dispatch = useDispatch();
+  const menus = (
+    <Menu>
+      <Menu.Item
+        key="logout"
+        onClick={() => {
+          handleLogout();
+        }}
+      >
+        <div> 로그아웃</div>
+      </Menu.Item>
+      <Menu.Item
+        key="goProject"
+        onClick={() => {
+          props.history.push('/app/myProject');
+        }}
+      >
+        <div>내프로잭트로 돌아가기</div>
+      </Menu.Item>
+    </Menu>
+  );
+  const handleLogout = () => {
+    dispatch(userAction.logout());
+    props.history.push('/');
+  };
   const user = useSelector((state) => {
     return state.user;
   });
@@ -116,12 +142,13 @@ const WithSidebar = (props) => {
               onClick={onCollapse}
             />
           </Col>
-          <Col xs={10} sm={14} md={16} lg={18}>
+          <Col xs={5} sm={14} md={16} lg={16}>
             <h5 style={{ color: 'white', fontSize: '2vh' }}>
               {project.currentProject.name}
             </h5>
           </Col>
-          <Col xs={2} sm={1} md={1} lg={1}>
+
+          <Col xs={0} sm={1} md={1} lg={1}>
             <UserAddOutlined
               onClick={() => {
                 setOnModal(!onModal);
@@ -132,7 +159,7 @@ const WithSidebar = (props) => {
               }}
             />
           </Col>
-          <Col xs={2} sm={1} md={1} lg={1}>
+          <Col xs={0} sm={1} md={1} lg={1}>
             <Link
               to={{
                 pathname: `/app/setting/${project.currentProject.id}/user`,
@@ -146,15 +173,21 @@ const WithSidebar = (props) => {
               />
             </Link>
           </Col>
-          <Col xs={6} sm={4} md={4} lg={2}>
+
+          <Col xs={14} sm={4} md={4} lg={4}>
             <h5 style={{ color: 'white', fontSize: '2vh' }}>
-              {user.userInfo.name}
+              {user.userInfo.email}
             </h5>
           </Col>
           <Col xs={2} sm={2} md={1} lg={1}>
-            <Avatar style={{ backgroundColor: user.userInfo.color }} size={30}>
-              {user.userInfo.name}
-            </Avatar>
+            <Dropdown overlay={menus} trigger={['click']}>
+              <Avatar
+                style={{ backgroundColor: user.userInfo.color }}
+                size={50}
+              >
+                {user.userInfo.name}
+              </Avatar>
+            </Dropdown>
           </Col>
         </Row>
       </Header>

@@ -24,6 +24,7 @@ const DUModal = (props) => {
   const [color, setColor] = useState('');
   const project = useSelector((state) => state.project);
   const [prev, setPrev] = useState('');
+  const [projectId, setProjectId] = useState('');
   useEffect(() => {
     handleCurr();
   }, [project.tempWorkList, props.current]);
@@ -33,22 +34,24 @@ const DUModal = (props) => {
       const item = project.tempWorkList.find((value) => {
         return value.id === props.current;
       });
-
-      if (item.status === 'waited') {
-        setCurrent({ key: 'waited', value: '대기중' });
-      } else if (item.status === 'finished') {
-        setCurrent({ key: 'finished', value: '완료' });
-      } else {
-        setCurrent({ key: 'proceed', value: '진행중' });
+      if (item !== undefined) {
+        if (item.status === 'waited') {
+          setCurrent({ key: 'waited', value: '대기중' });
+        } else if (item.status === 'finished') {
+          setCurrent({ key: 'finished', value: '완료' });
+        } else {
+          setCurrent({ key: 'proceed', value: '진행중' });
+        }
+        setPrev(item.status);
+        setId(item.id);
+        setColor(item.color);
+        setName(item.name);
+        setDescription(item.description);
+        setStartedAt(moment(item.startedAt));
+        setFinishedAt(moment(item.finishedAt));
+        setProjectId(item.projectId);
+        setTag(item.hashtag);
       }
-      setPrev(item.status);
-      setId(item.id);
-      setColor(item.color);
-      setName(item.name);
-      setDescription(item.description);
-      setStartedAt(moment(item.startedAt));
-      setFinishedAt(moment(item.finishedAt));
-      setTag(item.hashtag);
     }
   };
   const handleClose = () => {
@@ -83,6 +86,10 @@ const DUModal = (props) => {
   const handleTag = ({ target }) => {
     setTag(target.value);
   };
+  const handleDelete = () => {
+    props.deleteSubmit({ id: id, projectId: projectId });
+    handleClose();
+  };
   return (
     <Modal
       width={800}
@@ -99,6 +106,13 @@ const DUModal = (props) => {
           style={{ width: '100px', background: '#fadb14', color: 'white' }}
         >
           수정
+        </Button>,
+        <Button
+          key={'삭제'}
+          onClick={handleDelete}
+          style={{ width: '100px', background: 'red', color: 'white' }}
+        >
+          삭제
         </Button>,
       ]}
     >

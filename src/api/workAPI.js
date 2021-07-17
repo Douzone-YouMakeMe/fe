@@ -68,5 +68,18 @@ const workAPI = {
     }
     return data;
   },
+  deleteWorkList: async (id) => {
+    let data = null;
+    try {
+      data = await axios.delete(`${serverUrl}/work/${id}`, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Accept: '*/*',
+      });
+    } catch (e) {
+      return e.response;
+    }
+    return data;
+  },
 };
 export default workAPI;
